@@ -23,14 +23,15 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Login from './screens/LoginScreen/LoginScreen';
+import RootNavigation from '../src/navigation';
+
 
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={s.container}>
-        <Login />
+       <RootNavigation />
       </SafeAreaView>
     </>
   );

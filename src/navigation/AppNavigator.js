@@ -5,8 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Login from '../screens/LoginScreen';
 
-import DrawerContainer from './Drawer';
-import Hamburger from './Hamburger';
+// import DrawerContainer from './Drawer';
+// import Hamburger from './Hamburger';
 import * as types from './types';
 
 

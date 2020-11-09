@@ -194,7 +194,6 @@
 				BE05F76D45AC48C57A0428C8 /* Pods-towWheel-tvOSTests.debug.xcconfig */,
 				E9B2555CEE0A78ABA7654E0D /* Pods-towWheel-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
