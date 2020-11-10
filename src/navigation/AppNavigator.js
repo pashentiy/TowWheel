@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Login from '../screens/LoginScreen';
+import Home from '../screens/HomeScreen';
 
 // import DrawerContainer from './Drawer';
 // import Hamburger from './Hamburger';
@@ -19,7 +20,7 @@ const Stack = createStackNavigator();
 const AppNavigation = () => {
     return (
         <Stack.Navigator
-            initialRouteName={types.SCREEN_SIGN_IN}
+            initialRouteName={types.SCREEN_HOME}
             screenOptions={({ navigation }) => ({
                 ...FadeInOutAnimation,
                 headerStyle: {
@@ -47,9 +48,9 @@ const AppNavigation = () => {
         >
 
             <Stack.Screen
-                name={types.SCREEN_SIGN_IN}
+                name={types.SCREEN_HOME}
                 options={{ headerShown: false }}
-                component={Login}
+                component={Home}
             />
         </Stack.Navigator>
     );

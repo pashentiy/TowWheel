@@ -8,3 +8,10 @@ export const NavigateToSignin = () => {
         params: {},
     })
 }
+
+export const NavigateToHome = () => {
+    return CommonActions.navigate({
+        name: types.SCREEN_HOME,
+        params: {},
+    })
+}
