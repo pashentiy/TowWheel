@@ -24,12 +24,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import RootNavigation from '../src/navigation';
+import colors from './utilities/colors';
 
 
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={s.container}>
        <RootNavigation />
       </SafeAreaView>
@@ -38,7 +39,8 @@ const App = () => {
 };
 const s = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.$black
   }
 });
 // const styles = StyleSheet.create({

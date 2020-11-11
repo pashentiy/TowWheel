@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 
 const HomeScreen = () => {
@@ -7,10 +7,10 @@ const HomeScreen = () => {
         <View style={s.container}>
             <ScrollView contentContainerStyle={{ flex: 1 }}>
                 <View style={s.container}>
-                
+                    <Text style={{ backgroundColor: 'blue' }}>Map</Text>
                 </View>
             </ScrollView>
-        </View>
+        </View >
     );
 }
 
@@ -22,7 +22,8 @@ const s = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignSelf: 'center',
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+
     },
     balanceView: {
         marginVertical: 20

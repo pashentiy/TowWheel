@@ -15,3 +15,10 @@ export const NavigateToHome = () => {
         params: {},
     })
 }
+
+export const NavigateToAppDrawer = () => {
+    return CommonActions.navigate({
+        name: types.SCREEN_APP_DRAWER,
+        params: {},
+    })
+}

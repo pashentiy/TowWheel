@@ -5,6 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import Login from '../screens/LoginScreen';
 import Home from '../screens/HomeScreen';
+import Hamburger from './Hamburger';
+import DrawerContainer from './Drawer';
+
+
 
 // import DrawerContainer from './Drawer';
 // import Hamburger from './Hamburger';
@@ -20,12 +24,12 @@ const Stack = createStackNavigator();
 const AppNavigation = () => {
     return (
         <Stack.Navigator
-            initialRouteName={types.SCREEN_HOME}
+            initialRouteName={types.SCREEN_APP_DRAWER}
             screenOptions={({ navigation }) => ({
                 ...FadeInOutAnimation,
                 headerStyle: {
-                    backgroundColor: colors.$app_red,
-                    shadowColor: colors.$app_red,
+                    backgroundColor: colors.$black,
+                    shadowColor: colors.$black,
                     elevation: 0
                 },
                 headerTitleStyle: {
@@ -44,13 +48,19 @@ const AppNavigation = () => {
                         />
                     </TouchableOpacity>
                 )
-            })}
-        >
-
+            })}>
             <Stack.Screen
-                name={types.SCREEN_HOME}
-                options={{ headerShown: false }}
-                component={Home}
+                name={types.SCREEN_APP_DRAWER}
+                component={DrawerContainer}
+                options={() => ({
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: colors.$black,
+                        shadowColor: colors.$black,
+                        elevation: 0
+                    },
+                    headerLeft: () =>  <Hamburger/>    
+                })}
             />
         </Stack.Navigator>
     );
