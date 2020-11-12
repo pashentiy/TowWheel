@@ -5,10 +5,8 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 const HomeScreen = () => {
     return (
         <View style={s.container}>
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
-                <View style={s.container}>
-                    <Text style={{ backgroundColor: 'blue' }}>Map</Text>
-                </View>
+            <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}>
+              <Text style={{ }}>Map</Text>
             </ScrollView>
         </View >
     );
@@ -22,7 +20,6 @@ const s = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignSelf: 'center',
-        backgroundColor: 'red',
 
     },
     balanceView: {

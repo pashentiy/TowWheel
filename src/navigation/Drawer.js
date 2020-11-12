@@ -32,7 +32,7 @@ const DrawerContainer = () => {
                     options={{
                         headerShown: null,
                     }} component={HomeScreen} />
-                <Drawer.Screen name="Buy"
+                <Drawer.Screen name="Sign In"
                     options={{
                         headerShown: null,
                     }} component={LoginScreen} />
