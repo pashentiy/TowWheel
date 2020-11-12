@@ -22,3 +22,10 @@ export const NavigateToAppDrawer = () => {
         params: {},
     })
 }
+
+export const NavigateToSignup = () => {
+    return CommonActions.navigate({
+        name: types.SCREEN_SIGN_UP,
+        params: {},
+    })
+}

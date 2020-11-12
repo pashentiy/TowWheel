@@ -7,6 +7,7 @@ import Login from '../screens/LoginScreen';
 import Home from '../screens/HomeScreen';
 import Hamburger from './Hamburger';
 import DrawerContainer from './Drawer';
+import SignUp from '../screens/SignUpScreen';
 
 
 
@@ -61,6 +62,11 @@ const AppNavigation = () => {
                     },
                     headerLeft: () =>  <Hamburger/>    
                 })}
+            />
+            <Stack.Screen
+                name={types.SCREEN_SIGN_UP}
+                options={{ title: '', headerBackTitle: '' }}
+                component={SignUp}
             />
         </Stack.Navigator>
     );

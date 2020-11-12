@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, StyleSheet, Text, Image, SafeAreaView } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -12,7 +12,9 @@ import images from '../../utilities/images';
 // import { authActions } from '../../store/actions';
 // import { useNavigation } from '@react-navigation/native';
 // import { NavigateToPasswordRecovery, NavigateToSignup, NavigateToTerms } from '../../navigation/NavigationActions';
-
+import {NavigateToSignup} from '../../navigation/NavigationActions';
+import { useNavigation } from '@react-navigation/native';
+import { SCREEN_SIGN_UP } from '../../navigation/types';
 const SignupSchema = Yup.object().shape({
     email: Yup.string()
         .email('Email address must be valid')
@@ -24,10 +26,11 @@ const SignupSchema = Yup.object().shape({
 });
 
 const SigninForm = () => {
+    const navigation = useNavigation();
 
 
     const onFacebookButtonPress = () => {
-         alert("Successfuly loged-in via Facebook");
+        alert("Successfuly loged-in via Facebook");
     }
 
     const onGoogleButtonPress = () => {
@@ -39,8 +42,11 @@ const SigninForm = () => {
         alert("Successfuly loged-in via Apple");
 
     }
-
     
+    const navigateToSignup = () => {
+        navigation.dispatch(NavigateToSignup());
+    }
+
 
 
 
@@ -69,7 +75,7 @@ const SigninForm = () => {
                                 <View style={{ marginVertical: '8%' }}>
                                     <AnimatedInput
                                         buttonRight='Forgot password?'
-                                      //TODO: actionButtonRight={() => navigation.dispatch(NavigateToPasswordRecovery())} 
+                                        //TODO: actionButtonRight={() => navigation.dispatch(NavigateToPasswordRecovery())} 
                                         placeholder='Password'
                                         maxLength={12}
                                         value={values.password}
@@ -135,7 +141,7 @@ const SigninForm = () => {
                         <CText style={{ color: colors.$black_50, }}>Dont have an account?</CText>
                         <TextButton
                             title='Sign Up'
-                            // onPress={}//TODO:// navigateToSignup
+                            onPress={navigateToSignup} //TODO:// navigateToSignup
                             style={{
                                 textDecorationLine: 'underline',
                                 color: colors.$app_red,
