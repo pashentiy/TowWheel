@@ -6,7 +6,7 @@ const HomeScreen = () => {
     return (
         <View style={s.container}>
             <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}>
-              <Text style={{ }}>Map</Text>
+              <Text style={{ }}>Google Map</Text>
             </ScrollView>
         </View >
     );
