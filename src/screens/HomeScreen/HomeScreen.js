@@ -22,5 +22,10 @@ const s = StyleSheet.create({
         alignSelf: 'center',
 
     },
-
+    balanceView: {
+        marginVertical: 20
+    },
+    verificationView: {
+        marginTop: 20
+    }
 })
