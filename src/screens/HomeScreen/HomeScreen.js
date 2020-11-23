@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 
 const HomeScreen = () => {
@@ -8,15 +8,13 @@ const HomeScreen = () => {
         <View style={s.container}>
             {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
             <MapView
+                provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                 style={s.container}
                 region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.015,
-                    longitudeDelta: 0.0121,
+                    latitude: -33.86,
+                    longitude: 151.20,
                 }}
-            >
-            </MapView>
+            />
             <Text style={{}}>Google Map</Text>
             {/* </ScrollView> */}
         </View >
@@ -31,7 +29,6 @@ const s = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignSelf: 'center',
-
     },
     map: {
         ...StyleSheet.absoluteFillObject,

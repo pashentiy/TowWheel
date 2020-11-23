@@ -8,8 +8,13 @@ target 'towWheel' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+
   target 'towWheelTests' do
     inherit! :complete
+    pod 'GoogleMaps'
+    pod 'Google-Maps-iOS-Utils'
     # Pods for testing
   end
 
