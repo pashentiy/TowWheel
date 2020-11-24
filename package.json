@@ -18,6 +18,7 @@
     "cp-android": "code-push release-react CallOn-Android android -d Production"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/drawer": "^5.11.2",
     "@react-navigation/native": "^5.8.7",
@@ -30,7 +31,6 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "0.27.1",
-    "react-native-permissions": "^3.0.0-beta.2",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.13.0",
