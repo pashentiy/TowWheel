@@ -3,11 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "pods": "cd ios && pod install",
+    "android": "source ~/.bash_profile && react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "both": "react-native run-ios && react-native run-android",
+    "fd": "cd server/functions && firebase deploy --only functions",
+    "localserver": "cd server/functions && firebase serve",
+    "beta": "cd ios && bundle exec fastlane beta",
+    "release": "cd ios && bundle exec fastlane release",
+    "cp-ios": "code-push release-react CallOn ios -d Production",
+    "cp-android": "code-push release-react CallOn-Android android -d Production"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -22,6 +30,7 @@
     "react-native-gesture-handler": "^1.8.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "0.27.1",
+    "react-native-permissions": "^3.0.0-beta.2",
     "react-native-reanimated": "^1.13.1",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.13.0",
