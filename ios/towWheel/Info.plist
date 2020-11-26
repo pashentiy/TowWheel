@@ -37,8 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This permission is required for the app to know your location</string>
+  	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This permission is required for the app to know your location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
