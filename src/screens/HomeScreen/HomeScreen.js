@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { DestinationButton } from './DestinationButton';
 
 
 const HomeScreen = () => {
   return (
-    // <View style={s.container}>
-      // {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
+    <View style={s.container}>
+      {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
       <MapView
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
         style={{ flex: 1 }}
@@ -16,11 +17,11 @@ const HomeScreen = () => {
           latitudeDelta: 0.005,
           longitudeDelta: 0.0025,
         }}>
-
       </MapView>
-      // <Text style={{}}>Google Map</Text>
-      // {/* </ScrollView> */}
-    // </View >
+      <DestinationButton />
+      {/* <Text style={{}}>Google Map</Text> */}
+      {/* </ScrollView> */}
+    </View >
   );
 }
 
