@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { DestinationButton } from './DestinationButton';
+import TowMarker from './TowMarker';
 
 
 const HomeScreen = () => {
@@ -17,6 +18,7 @@ const HomeScreen = () => {
           latitudeDelta: 0.005,
           longitudeDelta: 0.0025,
         }}>
+      <TowMarker></TowMarker>
       </MapView>
       <DestinationButton />
       {/* <Text style={{}}>Google Map</Text> */}
