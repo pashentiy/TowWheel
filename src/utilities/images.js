@@ -6,6 +6,9 @@ import FacebookIcon from '../assets/images/social-icons/facebook.png';
 import AppleIcon from '../assets/images/social-icons/apple.png';
 import GoogleIcon from '../assets/images/social-icons/google.png';
 
+//Home
+import TowTruck from '../assets/images/homescreen/towTruck.png';
+
 
 
 export default {
@@ -16,5 +19,8 @@ export default {
         facebook: FacebookIcon,
         google: GoogleIcon,
     },
-    logo: TowheelText
+    logo: TowheelText,
+    homescreen:{
+        towTruck: TowTruck    
+    }
 }
