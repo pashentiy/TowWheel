@@ -1,13 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet,Dimensions,TouchableOpacity } from 'react-native';
-const WIDTH= Dimensions.get('Window').width;
 export const DeatinationButton=function(props){
     return(
         <TouchableOpacity onPress={()=>{}} style={styles.container}> 
         
-        <view style={styles.centerCol}>
-            <Text style={{frontFamily:'san=serif-thin',fontSize:21,color:'#545454'}}></Text>
-            </view> 
+        <View style={styles.centerCol}>
+            <Text style={{frontFamily:'san=serif-thin',fontSize:21,color:'#545454'}}>asfasfsafsa</Text>
+            </View> 
 
 
         </TouchableOpacity>
@@ -17,11 +16,12 @@ export const DeatinationButton=function(props){
 const styles=StyleSheet.create({
     container:{
         zIndex:9,
-        position:'absolute',
+        // position:'absolute',
         flexDirection:'row',
-        hight:60,
+        height:60,
         top:110,
-        left:120,
+        left:50,
+        width:'80%',
         borderRadius:2,
         backgroundColor:'white',
         alignItems:'center'
