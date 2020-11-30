@@ -17,7 +17,9 @@ const HomeScreen = () => {
           longitude: 35.2372,
           latitudeDelta: 0.005,
           longitudeDelta: 0.0025,
-        }}>
+        }}
+        showsUserLocation
+        loadingEnabled>
       <TowMarker></TowMarker>
       </MapView>
       <DestinationButton />
