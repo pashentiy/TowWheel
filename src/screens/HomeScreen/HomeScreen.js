@@ -7,11 +7,12 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from "react-native-geocoding";
 import Search from './Search';
 import Directions from './Directions';
+// import getPixelSize from '../../utilities/getPixelSize'; TODO:// Why can't to import it ?
 
 Geocoder.init("AIzaSyD70sNQXz0OFl8kp2yTCIS_uHDke2vo11U");
 
 
-export default class HomeScreen extends Component{
+export default class HomeScreen extends Component {
   state = {
     region: null,
     destination: null,
@@ -37,7 +38,7 @@ export default class HomeScreen extends Component{
           }
         });
       }, //success
-      () => {}, //error
+      () => { }, //error
       {
         timeout: 2000,
         enableHighAccuracy: true,
@@ -45,7 +46,7 @@ export default class HomeScreen extends Component{
       }
     );
   }
-  
+
   handleLocationSelected = (data, { geometry }) => {
     const {
       location: { lat: latitude, lng: longitude }
@@ -60,38 +61,49 @@ export default class HomeScreen extends Component{
   };
   render() {
     const { region, destination, duration, location, price } = this.state;
-  return (
-    <View style={s.container}>
-      {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
+    return (
+      <View style={s.container}>
+        {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
 
-      <MapView
-        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-        style={{ flex: 1 }}
-        region={{
-          latitude: 31.750139,
-          longitude: 35.2372,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.0025,
-        }}
-        showsUserLocation
-        loadingEnabled>
-        {destination && (
-              <Directions
-                origin={region}
-                destination={destination}
-                onReady={() => {}}/>)}
-        <TowMarker></TowMarker>
-      </MapView>
-      {/* <DestinationButton /> */}
+        <MapView
+          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          style={{ flex: 1 }}
+          // region={{
+          //   latitude: 31.750139,
+          //   longitude: 35.2372,
+          //   latitudeDelta: 0.005,
+          //   longitudeDelta: 0.0025,
+          // }}
+          region={region}
+          showsUserLocation
+          loadingEnabled
+          ref={(el) => (this.mapView = el)}
+          >
+          {destination && (
+            <Directions
+              origin={region}
+              destination={destination}
+              onReady={(result) => {
+                this.mapView.fitToCoordinates(result.coordinates, {
+                  edgePadding: {
+                    right: 50,
+                    left: 50,
+                    top: 50,
+                    bottom: 150
+                  }
+                });}} />)}
+          <TowMarker></TowMarker>
+        </MapView>
+        {/* <DestinationButton /> */}
 
 
-      <Search onLocationSelected={this.handleLocationSelected} />
+        <Search onLocationSelected={this.handleLocationSelected} />
 
-      {/* <Text style={{}}>Google Map</Text> */}
-      {/* </ScrollView> */}
-    </View >
-  );
-        }
+        {/* <Text style={{}}>Google Map</Text> */}
+        {/* </ScrollView> */}
+      </View >
+    );
+  }
 }
 
 const s = StyleSheet.create({

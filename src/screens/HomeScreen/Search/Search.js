@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Platform } from "react-native";
+
+
 export default class Search extends Component {
   state = {
     searchFocused: false
@@ -46,6 +48,7 @@ export default class Search extends Component {
             borderBottomWidth: 0,
           },
           textInput: {
+            textAlign: "right",
             height: 54,
             margin: 0,
             borderRadius: 5,
