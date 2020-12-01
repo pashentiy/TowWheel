@@ -2,18 +2,19 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, AppState, ImageBackground } from 'react-native';
 import colors from '../../utilities/colors';
 import images from '../../utilities/images';
+import Search from './Search';
 
 
 
 export const DestinationButton = function (props) {
     return (
-        <TouchableOpacity onPress={() => { }} style={styles.container}>
+        <View style={styles.container}>
 
             <View style={styles.leftContainer}>
                 <Text style={styles.leftContainerContent}>{`\u25A0`}</Text>
             </View>
             <View style={styles.centerContainer}>
-                <Text style={styles.centerContainerContent}>Where to ToWheel?</Text>
+                {/* <Search></Search> */}
             </View>
             <View style={styles.rightContainer}>
                 <ImageBackground
@@ -24,7 +25,7 @@ export const DestinationButton = function (props) {
             </View>
 
 
-        </TouchableOpacity>
+        </View>
 
     )
 }
@@ -34,12 +35,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         height: 60,
-        bottom: 50,
-        left: 50,
-        width: '80%',
+        // bottom: 50,
+        top: 10,
+        width: '90%',
         borderRadius: 2,
         backgroundColor: 'white',
-        alignItems: 'center'
+        // alignItems: 'center',
     },
     leftContainer: {
         flex: 1,
@@ -67,6 +68,4 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
 
-}
-
-)
+})
