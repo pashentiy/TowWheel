@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import React, { Component, Fragment } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { DestinationButton } from './DestinationButton';
 import TowMarker from './TowMarker';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from "react-native-geocoding";
 import Search from './Search';
 import Directions from './Directions';
+import { images } from '../../utilities';
+
 // import getPixelSize from '../../utilities/getPixelSize'; TODO:// Why can't to import it ?
 
 Geocoder.init("AIzaSyD70sNQXz0OFl8kp2yTCIS_uHDke2vo11U");
@@ -78,20 +80,32 @@ export default class HomeScreen extends Component {
           showsUserLocation
           loadingEnabled
           ref={(el) => (this.mapView = el)}
-          >
+        >
           {destination && (
-            <Directions
-              origin={region}
-              destination={destination}
-              onReady={(result) => {
-                this.mapView.fitToCoordinates(result.coordinates, {
-                  edgePadding: {
-                    right: 50,
-                    left: 50,
-                    top: 50,
-                    bottom: 150
-                  }
-                });}} />)}
+            <Fragment>
+              <Directions
+                origin={region}
+                destination={destination}
+                onReady={(result) => {
+                  this.mapView.fitToCoordinates(result.coordinates, {
+                    edgePadding: {
+                      right: 50,
+                      left: 50,
+                      top: 50,
+                      bottom: 150
+                    }
+                  });
+                }} />
+              <Marker
+                coordinate={destination}
+                anchor={{ x: 0.35, y: 0.32 }}
+
+              >
+                <Image source={images.homescreen.endOFDirectionMarker} style={{ height: 20, width: 20 }} />
+              </Marker>
+            </Fragment>
+          )}
+
           <TowMarker></TowMarker>
         </MapView>
         {/* <DestinationButton /> */}

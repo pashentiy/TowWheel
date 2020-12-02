@@ -10,7 +10,7 @@ import GoogleIcon from '../assets/images/social-icons/google.png';
 import TowTruck from '../assets/images/homescreen/towTruck.png';
 import MarkerFreeTowTruck from '../assets/images/homescreen/freeTowCarMarker.png';
 import MarkerBusyTowTruck from '../assets/images/homescreen/busyTowCarMarker.png';
-
+import EndOFDirectionMarker from '../assets/images/homescreen/endOfDirectionMarker.png'
 
 
 export default {
@@ -25,6 +25,7 @@ export default {
     homescreen:{
         towTruck: TowTruck,
         markerFreeTowTruck: MarkerFreeTowTruck,
-        markerBusyTowTruck: MarkerBusyTowTruck
+        markerBusyTowTruck: MarkerBusyTowTruck,
+        endOFDirectionMarker: EndOFDirectionMarker
     }
 }
