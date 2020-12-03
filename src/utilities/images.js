@@ -11,6 +11,10 @@ import TowTruck from '../assets/images/homescreen/towTruck.png';
 import MarkerFreeTowTruck from '../assets/images/homescreen/freeTowCarMarker.png';
 import MarkerBusyTowTruck from '../assets/images/homescreen/busyTowCarMarker.png';
 import EndOFDirectionMarker from '../assets/images/homescreen/endOfDirectionMarker.png'
+import Avatar from '../assets/images/homescreen/avatar.gif';
+import AvatarTomer from '../assets/images/homescreen/avatar_Tomer.png';
+
+import ArrowLeftBlack from '../assets/images/homescreen/arrowLeftBlack.png';
 
 
 export default {
@@ -26,6 +30,9 @@ export default {
         towTruck: TowTruck,
         markerFreeTowTruck: MarkerFreeTowTruck,
         markerBusyTowTruck: MarkerBusyTowTruck,
-        endOFDirectionMarker: EndOFDirectionMarker
+        endOFDirectionMarker: EndOFDirectionMarker,
+        avatar: Avatar,
+        avatarTomer: AvatarTomer,
+        arrowLeftBlack: ArrowLeftBlack
     }
 }

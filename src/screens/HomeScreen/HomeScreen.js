@@ -7,6 +7,8 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from "react-native-geocoding";
 import Search from './Search';
 import Directions from './Directions';
+import Details from "./Details";
+
 import { images } from '../../utilities';
 import {
   Back,
@@ -30,7 +32,7 @@ export default class HomeScreen extends Component {
     duration: null,
     location: null,
     price: null,
-    address:null
+    address: null
   };
 
   async componentDidMount() {
@@ -73,12 +75,14 @@ export default class HomeScreen extends Component {
       }
     });
   };
+  handleBack = () => {
+    this.setState({ destination: null });
+  };
+
   render() {
     const { region, destination, duration, location, address, price } = this.state;
     return (
       <View style={s.container}>
-        {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
-
         <MapView
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
           style={{ flex: 1 }}
@@ -103,7 +107,7 @@ export default class HomeScreen extends Component {
                   console.log('Coordinates', result.coordinates);
                   console.log('distance', result.distance);
                   console.log('duration', result.duration);
-                  
+
                   this.setState({ duration: Math.floor(result.duration) });
                   this.mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
@@ -129,7 +133,7 @@ export default class HomeScreen extends Component {
                     <LocationTimeText>{duration}</LocationTimeText>
                     <LocationTimeTextSmall>MIN</LocationTimeTextSmall>
                   </LocationTimeBox>
-                  <LocationText>{address}</LocationText> 
+                  <LocationText>{address}</LocationText>
                 </LocationBoxOrigin>
               </Marker>
             </Fragment>
@@ -139,11 +143,18 @@ export default class HomeScreen extends Component {
         </MapView>
         {/* <DestinationButton /> */}
 
-
-        <Search onLocationSelected={this.handleLocationSelected} />
-
-        {/* <Text style={{}}>Google Map</Text> */}
-        {/* </ScrollView> */}
+        {destination ? (
+          // <Details/>
+          <Fragment>
+            <Back onPress={this.handleBack}>
+              <Image source={images.homescreen.arrowLeftBlack} style={{ width: 30, height: 25 }} />
+            </Back>
+            <Details />
+          </Fragment>
+        ) : (
+            <Search onLocationSelected={this.handleLocationSelected} />
+          )}
+        
       </View >
     );
   }
