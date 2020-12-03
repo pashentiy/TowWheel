@@ -8,6 +8,15 @@ import Geocoder from "react-native-geocoding";
 import Search from './Search';
 import Directions from './Directions';
 import { images } from '../../utilities';
+import {
+  Back,
+  LocationBox,
+  LocationBoxOrigin,
+  LocationText,
+  LocationTimeBox,
+  LocationTimeText,
+  LocationTimeTextSmall
+} from "./styles";
 
 // import getPixelSize from '../../utilities/getPixelSize'; TODO:// Why can't to import it ?
 
@@ -20,7 +29,8 @@ export default class HomeScreen extends Component {
     destination: null,
     duration: null,
     location: null,
-    price: null
+    price: null,
+    address:null
   };
 
   async componentDidMount() {
@@ -28,9 +38,11 @@ export default class HomeScreen extends Component {
       async ({ coords: { latitude, longitude } }) => {
         const response = await Geocoder.from({ latitude, longitude });
         const address = response.results[0].formatted_address;
-        const location = address.substring(0, address.indexOf("-"));
+        const location = address.substring(0, address.indexOf("/"));
+        console.log('ADRESS2-------------', address);
         // const location = address;
         this.setState({
+          address: location,
           location,
           region: {
             latitude,
@@ -62,7 +74,7 @@ export default class HomeScreen extends Component {
     });
   };
   render() {
-    const { region, destination, duration, location, price } = this.state;
+    const { region, destination, duration, location, address, price } = this.state;
     return (
       <View style={s.container}>
         {/* <ScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems:'center' }}> */}
@@ -87,6 +99,12 @@ export default class HomeScreen extends Component {
                 origin={region}
                 destination={destination}
                 onReady={(result) => {
+                  console.log('-----', result);
+                  console.log('Coordinates', result.coordinates);
+                  console.log('distance', result.distance);
+                  console.log('duration', result.duration);
+                  
+                  this.setState({ duration: Math.floor(result.duration) });
                   this.mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
                       right: 50,
@@ -98,15 +116,26 @@ export default class HomeScreen extends Component {
                 }} />
               <Marker
                 coordinate={destination}
-                anchor={{ x: 0.35, y: 0.32 }}
-
-              >
+                anchor={{ x: 0.1, y: 0.1 }}>{/* end marker */}
                 <Image source={images.homescreen.endOFDirectionMarker} style={{ height: 20, width: 20 }} />
+                <LocationBox>
+                  <LocationText>{destination.title}</LocationText>{/* end Info place marker */}
+                </LocationBox>
+              </Marker>
+
+              <Marker coordinate={region} anchor={{ x: 0.35, y: 0.35 }}>{/* Start Info Min marker */}
+                <LocationBoxOrigin>
+                  <LocationTimeBox>
+                    <LocationTimeText>{duration}</LocationTimeText>
+                    <LocationTimeTextSmall>MIN</LocationTimeTextSmall>
+                  </LocationTimeBox>
+                  <LocationText>{address}</LocationText> 
+                </LocationBoxOrigin>
               </Marker>
             </Fragment>
           )}
 
-          <TowMarker></TowMarker>
+          {/* <TowMarker></TowMarker> */}
         </MapView>
         {/* <DestinationButton /> */}
 
