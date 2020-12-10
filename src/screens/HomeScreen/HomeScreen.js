@@ -247,9 +247,6 @@ const s = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  balanceView: {
-    marginVertical: 20
-  },
   verificationView: {
     marginTop: 20
   }
