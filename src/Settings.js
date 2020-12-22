@@ -154,7 +154,7 @@ class SettingsScreen extends React.Component {
                 fontSize: 22,
                 fontFamily: 'Cairo-SemiBold',
                 color: 'tomato',
-                paddingVertical: '3%',
+                paddingVertical: '2%',
               }}>
               Logout
             </Text>
