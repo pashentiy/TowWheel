@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "towf5857087": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
