@@ -30,7 +30,7 @@ export default class Search extends Component {
           autoCapitalize: "none",
           autoCorrect: false
         }}
-        listViewDisplayed={searchFocused}
+        listViewDisplayed={'auto'}
         fetchDetails
         enablePoweredByContainer={false}
         styles={{
