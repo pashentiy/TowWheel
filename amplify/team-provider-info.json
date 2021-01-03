@@ -10,6 +10,11 @@
       "StackName": "amplify-tow-dev-15516",
       "StackId": "arn:aws:cloudformation:us-east-1:552502246787:stack/amplify-tow-dev-15516/71a2ce00-4a31-11eb-83d3-123e22873efd",
       "AmplifyAppId": "d2a6w2b7c551ti"
+    },
+    "categories": {
+      "auth": {
+        "towd5c3facc": {}
+      }
     }
   }
 }

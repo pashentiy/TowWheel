@@ -1,1 +1,10 @@
-{}
+{
+  "auth": {
+    "towd5c3facc": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

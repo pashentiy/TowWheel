@@ -13,6 +13,8 @@ import { colors } from '../../utilities';
 import images from '../../utilities/images';
 import { NavigateToSignin, NavigateToTerms } from '../../navigation/NavigationActions';
 import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify'
+
 
 
 const SignupSchema = Yup.object().shape({
@@ -31,8 +33,26 @@ const SignupSchema = Yup.object().shape({
 const SignupForm = (props) => {
     const navigation = useNavigation();
 
-    const onSubmit = (values) => {
-        // dispatch(authActions.signUpWithCallon(values));
+    const onSubmit = async (values) => {
+        try {
+            const user = await Auth.signUp(values.email, values.password)
+            console.log(user)
+        }
+        catch (err) {
+            console.log(err.code)
+            // setLoading(false)
+            // if (err.code === 'UserNotConfirmedException') {
+            //     setError('Account not verified yet')
+            // } else if (err.code === 'PasswordResetRequiredException') {
+            //     setError('Existing user found. Please reset your password')
+            // } else if (err.code === 'NotAuthorizedException') {
+            //     setError('Forgot Password?')
+            // } else if (err.code === 'UserNotFoundException') {
+            //     setError('User does not exist!')
+            // } else {
+            //     setError(err.code)
+            // }
+        }
     }
 
 
@@ -46,7 +66,7 @@ const SignupForm = (props) => {
             <Formik
                 validationSchema={SignupSchema}
                 initialValues={{ email: '', password: '', confirmPassword: '' }}
-                onSubmit={() => {}}>
+                onSubmit={onSubmit}>
                 {({ handleChange, handleSubmit, handleBlur, values, errors, touched, ...rest }) => {
                     return (
                         <>
@@ -113,7 +133,7 @@ const SignupForm = (props) => {
                                 <CText style={{ color: colors.$black_50, }}>By creating an account, I accept CallOn's</CText>
                                 <TextButton
                                     title='Terms of Service'
-                                    onPress={() => {}}
+                                    onPress={() => { }}
                                     style={{
                                         textDecorationLine: 'underline',
                                         color: colors.$app_red,
