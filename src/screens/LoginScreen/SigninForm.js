@@ -12,9 +12,11 @@ import images from '../../utilities/images';
 // import { authActions } from '../../store/actions';
 // import { useNavigation } from '@react-navigation/native';
 // import { NavigateToPasswordRecovery, NavigateToSignup, NavigateToTerms } from '../../navigation/NavigationActions';
-import {NavigateToSignup} from '../../navigation/NavigationActions';
+import { NavigateToSignup } from '../../navigation/NavigationActions';
 import { useNavigation } from '@react-navigation/native';
 import { SCREEN_SIGN_UP } from '../../navigation/types';
+import { Auth } from 'aws-amplify'
+
 const SignupSchema = Yup.object().shape({
     email: Yup.string()
         .email('Email address must be valid')
@@ -42,11 +44,23 @@ const SigninForm = () => {
         alert("Successfuly loged-in via Apple");
 
     }
-    
+
     const navigateToSignup = () => {
         navigation.dispatch(NavigateToSignup());
     }
 
+    const towSignIn = async ({email, password}) => {
+        console.log(email, password)
+        try{
+         const user = await Auth.signIn(email, password)
+         console.log("login success -> ", user);
+
+        }
+        catch(err){
+            console.log("error SignIn -> ", err);
+
+        }
+    }
 
 
 
@@ -56,7 +70,7 @@ const SigninForm = () => {
             <Formik
                 validationSchema={SignupSchema}
                 initialValues={{ email: '', password: '' }}
-                onSubmit={{}}>
+                onSubmit={towSignIn}>
                 {({ handleChange, handleSubmit, values, errors, touched, handleBlur }) => {
                     return (
                         <View style={s.formContainer}>

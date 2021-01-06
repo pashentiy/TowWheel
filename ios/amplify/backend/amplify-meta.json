@@ -27,7 +27,7 @@
         "IdentityPoolName": "towf5857087_identitypool_f5857087__dev",
         "UserPoolName": "towf5857087_userpool_f5857087"
       },
-      "lastPushTimeStamp": "2020-12-30T00:20:16.356Z",
+      "lastPushTimeStamp": "2021-01-06T21:30:01.024Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tow-dev-21336-deployment/amplify-cfn-templates/auth/towf5857087-cloudformation-template.yml",
         "logicalId": "authtowf5857087"

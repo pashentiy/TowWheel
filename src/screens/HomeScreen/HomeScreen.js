@@ -174,19 +174,10 @@ export default HomeScreen = () => {
         )}
 
         {/* <TowMarker></TowMarker> */}
-        {/* <MapView.Marker.Animated
-            title={'Me'}
-            style={{
-              // transform: { rotate: `${angle}deg` },
-              width: 20,
-              height: 20
-            }}
-            coordinate={region}> */}
+       
         {/* <Image source={images.homescreen.markerBusyTowTruck} style={{ height: 50, width: 33 }} /> */}
 
-        {/* coordinate={firstSimulator.simLongitude, firstSimulator.simLatitude} > */}
         {/* </MapView.Marker.Animated> */}
-        {/* <AnimatedMarkers/> */}
       </MapView>
       {/* <DestinationButton /> */}
 
