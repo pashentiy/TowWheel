@@ -1,198 +1,210 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image, SafeAreaView } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import React, { useState } from 'react';
+import { View, Text, Keyboard, TextInput, StyleSheet, Image, ScrollView } from 'react-native';
 
-import LoginButton from '../../components/Button';
-import TextButton from '../../components/TextButton';
-import AnimatedInput from '../../components/AnimatedInput';
-import { isIOS, fonts, colors } from '../../utilities';
-import CText from '../../components/CText';
-import images from '../../utilities/images';
-// import { authActions } from '../../store/actions';
-// import { useNavigation } from '@react-navigation/native';
-// import { NavigateToPasswordRecovery, NavigateToSignup, NavigateToTerms } from '../../navigation/NavigationActions';
-import { NavigateToSignup } from '../../navigation/NavigationActions';
+
+import GetCodeButton from '../../components/Button';
+import CountryPicker from './CountryPicker';
+import { colors, fonts, images } from '../../utilities';
+import OTopImage from '../../components/OTopImage';
+import KeyboardShifter from '../../components/KeyboardShifter';
 import { useNavigation } from '@react-navigation/native';
-import { SCREEN_SIGN_UP } from '../../navigation/types';
-import { Auth } from 'aws-amplify'
+import { showToast } from '../../utilities/errorHanlders';
+import { NavigateToPhoneActivationStep2 } from '../../navigation/NavigationActions';
 
-const SignupSchema = Yup.object().shape({
-    email: Yup.string()
-        .email('Email address must be valid')
-        .required('Email is required'),
-    password: Yup.string()
-        .min(6, 'At least 6 characters length')
-        .max(12, 'Password must be between 6 and 12 characters length')
-        .required('Password is required'),
-});
+import { Auth } from 'aws-amplify';
+
+
+const defaultSelected = {
+    callingCode: "1",
+    code: "US",
+    name: "United States",
+}
 
 const SigninForm = () => {
     const navigation = useNavigation();
+    const [phone, setPhone] = useState('');
+    const [selected, setSelected] = useState(defaultSelected);
 
+    const onChangeText = (text) => setPhone(text);
 
-    const onFacebookButtonPress = () => {
-        alert("Successfuly loged-in via Facebook");
-    }
+    const onSubmit = () => {
 
-    const onGoogleButtonPress = () => {
-        alert("Successfuly loged-in via Google");
+        if (phone.length < 6) {
+            showToast('Sorry...', 'You must insert a valid phone number.', colors.$app_red)
+            return;
+        }
+        else {
+            
 
-    }
+            const _fullNumber = `(+${selected.callingCode}) ${phone}`;
+            const modifyNumber = phone[0] == '0' ? phone.substr(1, phone.length) : phone;
+            const _callingNumber = `+${selected.callingCode}${modifyNumber}`;
 
-    const onAppleButtonPress = () => {
-        alert("Successfuly loged-in via Apple");
-
-    }
-
-    const navigateToSignup = () => {
-        navigation.dispatch(NavigateToSignup());
-    }
-
-    const towSignIn = async ({email, password}) => {
-        console.log(email, password)
-        try{
-         const user = await Auth.signIn(email, password)
-         console.log("login success -> ", user);
+            //TODO:// Verification Screen
+            // navigation.dispatch(NavigateToPhoneActivationStep2({
+            //     callingCode: selected.callingCode,
+            //     callerNumber: phone,
+            //     fullNumber: _fullNumber
+            // }))
+            
+            //TODO:// AWS PHONE SEND VERIFYING SMS
+            signUp();
 
         }
-        catch(err){
-            console.log("error SignIn -> ", err);
+        async function signUp() {
+            try {
+                const { user } = await Auth.signUp({
+                    username: '+972526954660',
+                    password: '+972526954660',
+                    attributes: {
+                        phone_number: "+972526954660",   // optional - E.164 number convention
+                        // other custom attributes 
+                    }
+                });
+                console.log(user);
+            } catch (error) {
+                console.log('error signing up:', error);
+                showToast('Sorry...', 'This phone number is already exist.', colors.$app_red)
+            }
         }
+
+        // dispatch(appActions.verifyCallerNumber(selected.callingCode, phone));
+        Keyboard.dismiss();
     }
-
-
 
     return (
-        <SafeAreaView style={s.container}>
+        <View style={{ flex: 1, backgroundColor: colors.$white }}>
+            <KeyboardShifter>
+                <ScrollView>
+                    {/* Image */}
+                    <OTopImage
+                        source={images.login.sendCode}
+                    />
 
-            <Formik
-                validationSchema={SignupSchema}
-                initialValues={{ email: '', password: '' }}
-                onSubmit={towSignIn}>
-                {({ handleChange, handleSubmit, values, errors, touched, handleBlur }) => {
-                    return (
-                        <View style={s.formContainer}>
-                            <Image source={images.logo} style={{ flex: 1, width: '50%', height: 25, alignSelf: 'center' }} resizeMode='contain' />
+                    {/* Title */}
+                    <View style={s.titleContainer}>
+                        <Text style={s.title}>Verification</Text>
+                        <View style={s.subtitleContainer}>
+                            <Text style={s.subtitle}>Enter Your Mobile Number To</Text>
+                            <Text style={s.subtitle}>Receive A Verification Code</Text>
+                        </View>
+                    </View>
 
-                            <View style={{ flex: 2, flexDirection: 'column', justifyContent: 'center' }}>
-                                <View style={{ marginVertical: '8%' }}>
-                                    <AnimatedInput
-                                        placeholder='Email'
-                                        value={values.email}
-                                        keyboardType='email-address'
-                                        onChangeText={handleChange('email')}
-                                        errors={touched.email && errors.email}
-                                    />
-                                </View>
-                                <View style={{ marginVertical: '8%' }}>
-                                    <AnimatedInput
-                                        buttonRight='Forgot password?'
-                                        //TODO: actionButtonRight={() => navigation.dispatch(NavigateToPasswordRecovery())} 
-                                        placeholder='Password'
-                                        maxLength={12}
-                                        value={values.password}
-                                        onChangeText={handleChange('password')}
-                                        errors={touched.password && errors.password}
-                                        secureTextEntry
-                                    />
-                                </View>
-                            </View>
+                    {/* Container */}
+                    <View style={s.mainContainer}>
 
-                            <View style={{ marginTop: 25 }}>
-                                <LoginButton
-                                    title='Login'
-                                    onPress={handleSubmit}
+                        {/* Country Picker */}
+                        <View style={{ marginVertical: 30 }}>
+                            <CountryPicker
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                        </View>
+
+                        {/* Get Code View */}
+                        <View style={s.codeViewContainer}>
+                            {/* Phone Input */}
+                            <View style={s.phoneInputContainer}>
+                                {/* Handset Image */}
+                                <Image
+                                    source={images.login.handSet}
+                                    style={{ alignSelf: 'center', width: 15, height: 15 }}
+                                    resizeMode='contain'
+                                />
+                                {/* Phone Code */}
+                                <Text style={s.phoneCode}>
+                                    (+{selected.callingCode})
+                                </Text>
+                                {/* Input */}
+                                <TextInput
+                                    style={s.phoneInput}
+                                    placeholder='Phone number'
+                                    value={phone}
+                                    onChangeText={onChangeText}
+                                    keyboardType='number-pad'
                                 />
                             </View>
 
+                            {/* Get Code Button */}
+                            <View style={{ width: '80%', alignSelf: 'center' }}>
+                                <GetCodeButton
+                                    title='Get Code'
+                                    textStyle={{ fontFamily: fonts.MontserratBold, fontWeight: '600' }}
+                                    style={{ borderRadius: 40 }}
+                                    colors={[colors.$app_red, colors.$app_red]}
+                                    onPress={onSubmit}
+                                />
+                            </View>
                         </View>
-                    )
-                }}
-            </Formik>
-
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
-                <View style={{ color: 'gray', height: 2, width: '45%', backgroundColor: 'gray' }} />
-                <Text style={{ fontSize: 16, color: 'gray', marginHorizontal: 5, fontFamily: fonts.Arial }}>OR</Text>
-                <View style={{ color: 'gray', height: 2, width: '45%', backgroundColor: 'gray' }} />
-            </View>
-
-            <View style={{ flex: 1 }}>
-
-                <View style={{ marginBottom: '7%' }}>
-                    <LoginButton
-                        title='Login With Facebook'
-                        colors={['#5A7ABF', '#5274BC']}
-                        icon={images.login.facebook}
-                        onPress={onFacebookButtonPress}
-                    />
-                </View>
-
-                <View style={{ marginBottom: '7%' }}>
-                    <LoginButton
-                        title='Login With Google'
-                        icon={images.login.google}
-                        colors={['#C2C2C2', '#BDBDBD']}
-                        onPress={onGoogleButtonPress}
-                    />
-                </View>
-
-
-                {isIOS && (
-                    <View style={{ marginBottom: '7%' }}>
-                        <LoginButton
-                            title='Sign in with Apple'
-                            textStyle={{ fontSize: 20, fontFamily: fonts.Arial }}
-                            icon={images.login.apple}
-                            colors={['#000000', '#000000']}
-                            onPress={onAppleButtonPress}
-                        />
                     </View>
-                )}
-                <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'flex-end' }}>
-                    <View style={{ flexDirection: 'row', marginBottom: 10, alignItems: 'center', justifyContent: 'center' }}>
-                        <CText style={{ color: colors.$black_50, }}>Dont have an account?</CText>
-                        <TextButton
-                            title='Sign Up'
-                            onPress={navigateToSignup} //TODO:// navigateToSignup
-                            style={{
-                                textDecorationLine: 'underline',
-                                color: colors.$app_red,
-                                marginLeft: 10
-                            }}
-                        />
-                    </View>
-
-                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                        <CText style={{ color: colors.$black_50, }}>By creating an account, I accept ToWheel's</CText>
-                        <TextButton
-                            title='Terms of Service'
-                            // onPress={}//TODO:// navigateToTerms
-                            style={{
-                                textDecorationLine: 'underline',
-                                color: colors.$app_red,
-                                marginTop: 0,
-                                marginBottom: 0,
-                            }}
-                        />
-                    </View>
-                </View>
-
-            </View>
-        </SafeAreaView>
+                </ScrollView>
+            </KeyboardShifter>
+        </View>
     );
 }
 
 export default SigninForm;
 
 const s = StyleSheet.create({
-    container: {
-        flex: 1,
+    titleContainer: {
+        marginTop: 50
+    },
+    title: {
+        textAlign: 'center',
+        fontFamily: fonts.MontserratBold,
+        fontSize: 22
+    },
+    subtitleContainer: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    subtitle: {
+        fontFamily: fonts.MontserratBold,
+        fontWeight: '300',
+        marginBottom: 10
+    },
+    mainContainer: {
         width: '80%',
         alignSelf: 'center',
-        marginBottom: 10,
+        marginBottom: 30
     },
-    formContainer: {
+    codeViewContainer: {
+        height: 115,
+        width: '100%',
+        borderRadius: 10,
+        justifyContent: 'space-between'
+    },
+    phoneInputContainer: {
+        flexDirection: 'row',
+        width: '80%',
+        paddingHorizontal: 15,
+        alignSelf: 'center',
+        borderRadius: 10,
+        borderColor: colors.$app_red,
+        borderWidth: 0.5,
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        backgroundColor: 'white',
+        shadowOpacity: 0.1,
+        shadowRadius: 10, // for ios
+        elevation: 6, // for android
+    },
+    phoneCode: {
+        alignSelf: 'center',
+        color: colors.$black_50,
+        fontFamily: fonts.MontserratBold,
+        fontWeight: '400',
+        marginHorizontal: 5,
+        fontSize: 12
+    },
+    phoneInput: {
         flex: 1,
-    }
+        fontSize: 12,
+        paddingVertical: 10,
+        letterSpacing: .7,
+        fontFamily: fonts.MontserratBold,
+        fontWeight: '400'
+    },
 });
