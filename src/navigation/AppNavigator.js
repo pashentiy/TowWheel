@@ -7,7 +7,8 @@ import Login from '../screens/LoginScreen';
 import Home from '../screens/HomeScreen';
 import Hamburger from './Hamburger';
 import DrawerContainer from './Drawer';
-import SignUp from '../screens/SignUpScreen';
+import CallActivationOtpScreen from '../screens/CallActivationOtpScreen';
+
 
 
 
@@ -64,9 +65,12 @@ const AppNavigation = () => {
                 })}
             />
             <Stack.Screen
-                name={types.SCREEN_SIGN_UP}
-                options={{ title: '', headerBackTitle: '' }}
-                component={SignUp}
+                name={types.SCREEN_PHONE_ACTIVATION_STEP2}
+                component={CallActivationOtpScreen}
+                options={({ navigation }) => ({
+                    title: 'Verification',
+                    gestureEnabled: false
+                })}
             />
         </Stack.Navigator>
     );
