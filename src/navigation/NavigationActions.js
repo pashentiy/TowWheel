@@ -29,3 +29,10 @@ export const NavigateToSignup = () => {
         params: {},
     })
 }
+
+export const NavigateToPhoneActivationStep2 = (params) => {
+    return CommonActions.navigate({
+        name: types.SCREEN_PHONE_ACTIVATION_STEP2,
+        params,
+    })
+}
