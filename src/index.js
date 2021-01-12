@@ -30,10 +30,20 @@ import Amplify from '@aws-amplify/core'
 import { Authenticator } from 'aws-amplify-react-native'
 import awsconfig from '../aws-exports'
 import { Auth } from 'aws-amplify'
+import { Root } from 'popup-ui';
+
 
 
 Amplify.configure({
-  ...awsconfig,
+  // ...awsconfig,
+  Auth: {
+    region: 'us-east-2',
+    identityPoolId: 'us-east-2:4c7f6a3a-c745-4133-940f-3185e655a9f6',
+    identityPoolRegion: 'us-east-2',
+    userPoolId: 'us-east-2_jqz8JmdMT',
+    userPoolWebClientId: '7i7laj1i64t2tfmjjfiraqq0ei',
+  },
+  authenticationFlowType: 'CUSTOM_AUTH',
   Analytics: {
     disabled: true
   }
@@ -66,7 +76,10 @@ const App = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={s.container}>
 
-        <RootNavigation />
+        {/* Root */}
+        <Root>
+          <RootNavigation />
+        </Root>
         {/* <Authenticator usernameAttributes="email" signUpConfig={signUpConfig} /> */}
 
       </SafeAreaView>
