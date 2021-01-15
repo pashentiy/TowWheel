@@ -5,6 +5,11 @@ import TowheelText from '../assets/images/signup/towheel.png';
 import FacebookIcon from '../assets/images/social-icons/facebook.png';
 import AppleIcon from '../assets/images/social-icons/apple.png';
 import GoogleIcon from '../assets/images/social-icons/google.png';
+import SendCode from '../assets/images/verification/sendCode.png';
+import HandSet from '../assets/images/verification/handset.png';
+import USAFlag from '../assets/images/verification/usaFlag.png';
+import VerifyCode from '../assets/images/verification/verifyCode.png';
+
 
 //Home
 import TowTruck from '../assets/images/homescreen/towTruck.png';
@@ -24,6 +29,10 @@ export default {
         apple: AppleIcon,
         facebook: FacebookIcon,
         google: GoogleIcon,
+        sendCode: SendCode,
+        handSet: HandSet,
+        usaFlag: USAFlag,
+        verifyCode: VerifyCode,
     },
     logo: TowheelText,
     homescreen:{

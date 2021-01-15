@@ -34,7 +34,7 @@ const SigninForm = () => {
             return;
         }
         else {
-            
+
 
             const _fullNumber = `(+${selected.callingCode}) ${phone}`;
             const modifyNumber = phone[0] == '0' ? phone.substr(1, phone.length) : phone;
@@ -46,7 +46,7 @@ const SigninForm = () => {
             //     callerNumber: phone,
             //     fullNumber: _fullNumber
             // }))
-            
+
             //TODO:// AWS PHONE SEND VERIFYING SMS
             signUp();
 
@@ -64,7 +64,10 @@ const SigninForm = () => {
                 console.log(user);
             } catch (error) {
                 console.log('error signing up:', error);
-                showToast('Sorry...', 'This phone number is already exist.', colors.$app_red)
+                if (error.code === "UsernameExistsException") {
+                    showToast('Sorry...', 'This phone number is already exist.', colors.$app_red)
+                }
+
             }
         }
 
