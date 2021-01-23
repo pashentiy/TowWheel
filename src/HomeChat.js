@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {SafeAreaView, ActivityIndicator} from 'react-native';
 import {createAppContainer} from 'react-navigation';
@@ -132,7 +133,12 @@ class Home extends React.Component {
     );
   }
 }
+//componentWillMount() {}
 
+//async onSend(messages = []) {
+  //await this.setState(previousState => ({
+    //messages: GiftedChat.append(previousState.messages, messages),
+  //}));
 //Create a navigator to go to message screen from home
 const LandingNavigator = createStackNavigator(
   {
@@ -158,3 +164,4 @@ class HomeScreen extends React.Component {
 }
 
 export default HomeScreen;
+*/
