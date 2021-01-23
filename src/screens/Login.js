@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {View, SafeAreaView, Text} from 'react-native';
 import {LoginButton, AccessToken} from 'react-native-fbsdk';
@@ -28,7 +29,12 @@ class LoginScreen extends React.Component {
       }
     });
   }
+  //componentWillMount() {}
 
+  //async onSend(messages = []) {
+    //await this.setState(previousState => ({
+      //messages: GiftedChat.append(previousState.messages, messages),
+    //}));
   //reset navigation stack
   resetAction = StackActions.reset({
     index: 0,
@@ -91,3 +97,4 @@ class LoginScreen extends React.Component {
 }
 
 export default LoginScreen;
+*/

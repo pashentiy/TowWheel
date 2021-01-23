@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {View, Text, Image, Switch, TouchableOpacity} from 'react-native';
 import {
@@ -166,3 +167,4 @@ class SettingsScreen extends React.Component {
 }
 
 export default SettingsScreen;
+*/

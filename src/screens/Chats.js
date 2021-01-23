@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,7 +16,12 @@ class ChatsScreen extends React.Component {
       chats: [],
     };
   }
+  //componentWillMount() {}
 
+  //async onSend(messages = []) {
+    //await this.setState(previousState => ({
+      //messages: GiftedChat.append(previousState.messages, messages),
+    //}));
   componentDidMount() {
     //get previous messages
     this.getMessages();
@@ -211,3 +217,4 @@ class ChatsScreen extends React.Component {
 }
 
 export default ChatsScreen;
+*/

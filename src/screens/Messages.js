@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {
   View,
@@ -31,7 +32,12 @@ class Messages extends React.Component {
       messages: [],
     };
   }
+  //componentWillMount() {}
 
+  //async onSend(messages = []) {
+    //await this.setState(previousState => ({
+      //messages: GiftedChat.append(previousState.messages, messages),
+    //}));
   //styling chat bubbles
   renderBubble = props => {
     return (
@@ -346,3 +352,4 @@ class Messages extends React.Component {
 }
 
 export default Messages;
+*/
