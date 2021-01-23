@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {
   View,
@@ -245,6 +246,12 @@ class Broadcast extends React.Component {
     await this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }));
+//    componentWillMount() {}
+
+  //  async onSend(messages = []) {
+    //  await this.setState(previousState => ({
+      //  messages: GiftedChat.append(previousState.messages, messages),
+      //}));
 
     //notify new message
     this.socket.emit('newMessage', 'sent');
@@ -336,3 +343,4 @@ class Broadcast extends React.Component {
 }
 
 export default Broadcast;
+*/
