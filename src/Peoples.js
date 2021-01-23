@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import axios from 'axios';
@@ -23,7 +24,12 @@ class PeoplesScreen extends React.Component {
       userName: this.props.screenProps.userName,
       userPhoto: this.props.screenProps.userPhoto,
     });
+    //componentWillMount() {}
 
+    //async onSend(messages = []) {
+      //await this.setState(previousState => ({
+        //messages: GiftedChat.append(previousState.messages, messages),
+      //}));
     //initialize the sockets
     this.socket = io('https://frozen-citadel-48963.herokuapp.com');
     this.socket.connect();
@@ -165,3 +171,4 @@ class PeoplesScreen extends React.Component {
 }
 
 export default PeoplesScreen;
+*/
