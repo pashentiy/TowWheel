@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const fileupload = require("express-fileupload");
 
 const config = require('./config.js');
-// const routes = require('./routes');
+const routes = require('./routes');
 const http = require('http');
 const socket = require("socket.io");
 
@@ -26,9 +26,7 @@ app.use(express.static('public'))
 
 
 // importing routes
-app.use('/', (req, res) => {
-    res.send("ok");
-});
+app.use('/', routes);
 // Handle 404 not found 
 app.use((req, res)=>{
   res.status(404);
