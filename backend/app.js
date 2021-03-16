@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const fileupload = require("express-fileupload");
 
 const config = require('./config.js');
-
+// const routes = require('./routes');
+const http = require('http');
+const socket = require("socket.io");
 
 //Init DB Connection
 mongoose.connect(config.mongodb.connectionString, { auth:{authdb:"admin"}, useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true, useCreateIndex: true, useFindAndModify: false })
@@ -21,4 +23,29 @@ app.use(fileupload({
 	debug: false,
 }));
 app.use(express.static('public'))
+
+
+// importing routes
+app.use('/', (req, res) => {
+    res.send("ok");
+});
+// Handle 404 not found 
+app.use((req, res)=>{
+  res.status(404);
+  res.json({ status: 'failed', error: 'Router not found.' });
+});
+
+/*
+ * Creating socket routes
+ * Sockets are divided into namespace, used as router
+ * The namespace / socket router are imported from router/socket.js
+ * The middleware to verify token for all socket connection exists at middleware/index.js and imported to router/socket.js
+ * All socket controllers exists in controller/SocketController.js
+ */
+const server = http.createServer(app)
+const io = socket(server);
+require('./routes/socket')(io);
+
+
+module.exports = server;
 
