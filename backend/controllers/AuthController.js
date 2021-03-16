@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Config = require('../config.js')
+const { SendSms } = require('../services')
+const { Otp, User, ProfilePicture } = require('../models')
 
 
 module.exports = {
