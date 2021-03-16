@@ -3,10 +3,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fileupload = require("express-fileupload");
 
+const config = require('./config.js');
 
 
 //Init DB Connection
-mongoose.connect("", { auth:{authdb:"admin"}, useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true, useCreateIndex: true, useFindAndModify: false })
+mongoose.connect(config.mongodb.connectionString, { auth:{authdb:"admin"}, useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true, useCreateIndex: true, useFindAndModify: false })
 .then((e) => console.log('DB Connected.'))
 .catch(error => { console.log(error) });
 
