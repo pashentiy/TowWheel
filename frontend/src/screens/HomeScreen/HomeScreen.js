@@ -117,6 +117,7 @@ export default HomeScreen = () => {
 
     <View style={s.container}>
       <MapView
+        showsMyLocationButton ={true}
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
         style={{ flex: 1 }}
         // region={{
@@ -160,7 +161,7 @@ export default HomeScreen = () => {
                 <LocationText>{destination.title}</LocationText>{/* end Info place marker */}
               </LocationBox>
             </Marker>
-
+            
             <Marker coordinate={region} anchor={{ x: 0.35, y: 0.35 }}>{/* Start Info Min marker */}
               <LocationBoxOrigin>
                 <LocationTimeBox>
@@ -173,7 +174,7 @@ export default HomeScreen = () => {
           </Fragment>
         )}
 
-        {/* <TowMarker></TowMarker> */}
+        <TowMarker></TowMarker>
        
         {/* <Image source={images.homescreen.markerBusyTowTruck} style={{ height: 50, width: 33 }} /> */}
 

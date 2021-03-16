@@ -12,7 +12,7 @@ import { showToast } from '../../utilities/errorHanlders';
 import { NavigateToPhoneActivationStep2 } from '../../navigation/NavigationActions';
 
 import { Auth } from 'aws-amplify';
-
+import {sendOtp} from '../../utilities/Api';
 
 const defaultSelected = {
     callingCode: "1",
@@ -41,33 +41,22 @@ const SigninForm = () => {
             const _callingNumber = `+${selected.callingCode}${modifyNumber}`;
 
             //TODO:// Verification Screen
-            // navigation.dispatch(NavigateToPhoneActivationStep2({
-            //     callingCode: selected.callingCode,
-            //     callerNumber: phone,
-            //     fullNumber: _fullNumber
-            // }))
+            navigation.dispatch(NavigateToPhoneActivationStep2({
+                callingCode: selected.callingCode,
+                callerNumber: phone,
+                fullNumber: _fullNumber
+            }))
 
             //TODO:// AWS PHONE SEND VERIFYING SMS
-            signUp();
+            signUp(_callingNumber);
 
         }
-        async function signUp() {
+        async function signUp(_callingNumber) {
+            //TODO:// Send SMS
             try {
-                const { user } = await Auth.signUp({
-                    username: '+972526954660',
-                    password: '+972526954660',
-                    attributes: {
-                        phone_number: "+972526954660",   // optional - E.164 number convention
-                        // other custom attributes 
-                    }
-                });
-                console.log(user);
+                // sendOtp(_callingNumber)
             } catch (error) {
                 console.log('error signing up:', error);
-                if (error.code === "UsernameExistsException") {
-                    showToast('Sorry...', 'This phone number is already exist.', colors.$app_red)
-                }
-
             }
         }
 

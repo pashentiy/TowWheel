@@ -15,14 +15,14 @@ import {
 
 // const timeOver = false;
 const firstMessage = {
-    title: 'מסלולך התקבל בהצלחה!',
-    message: 'מחפשים גרר פנוי עבורך...'
+    title: 'Your route was successfully received!',
+    message: 'Looking for a avaliable tow for you ...'
 }
 const secondMessage = {
-    title: 'הגרר נמצא במרקח הנגיע ממך!',
+    title: 'The tow truck is nearby from you!',
     message: 'Tom Hardy',
-    timeToArrive: 'אצלך תוך 20 דקות',
-    price: 'סה"כ לתשלום 250 ₪ '
+    timeToArrive: 'will be in 20 minutes',
+    price: 'Total for payment 250 ₪ '
 }
 
 export default class Details extends Component {
@@ -34,12 +34,12 @@ export default class Details extends Component {
     componentDidMount() {
         setTimeout(() => {
             this.setState({ timeOver: true });
-        }, 5000);
+        }, 28000);
     };
     change = () => {
         setTimeout(() => {
             this.setState({ timeOver: true });
-        }, 5000);
+        }, 28000);
     }
     handleBack = () => {
         this.setState({ visiable: false });
@@ -57,7 +57,7 @@ export default class Details extends Component {
                 <TypeDescription>{this.state.timeOver ? secondMessage.timeToArrive : null}</TypeDescription>
                 <TypeDescription>{this.state.timeOver ? secondMessage.price : null}</TypeDescription>
                 <RequestButton onPress={this.handleBack} style={this.state.timeOver ? { backgroundColor: '#dd4d5e' } : { backgroundColor: '#9c9c9c' }}>
-                    <RequestButtonText >מאשר</RequestButtonText>
+                    <RequestButtonText >Accept</RequestButtonText>
                 </RequestButton>
             </Container >
         );
