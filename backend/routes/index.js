@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { VerifyToken, MigrateSchema } = require('../middlewares');
 
 router.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,11 +16,8 @@ router.use((req, res, next) => {
   }
 });
 
-//Import APIs
-router.use('/auth', require('./auth'));
-
-router.use('/home', require('./home'));
-
+// Middleware to migrate schema and update existing data
+router.use(MigrateSchema);
 
 //Server Test API
 router.get('/', (req, res) => {
@@ -27,7 +25,13 @@ router.get('/', (req, res) => {
   res.json({ status: 'success', message: 'API Server Running.' });
 });
 
+//Import APIs
+router.use('/auth', require('./auth'));
 
+// Protect all routes after this middleware
+router.use(VerifyToken);
+
+router.use('/home', require('./home'));
 
 
 //Global error handler
