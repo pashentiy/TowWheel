@@ -18,6 +18,9 @@ router.use((req, res, next) => {
 //Import APIs
 router.use('/auth', require('./auth'));
 
+router.use('/home', require('./home'));
+
+
 //Server Test API
 router.get('/', (req, res) => {
   res.status(200);
