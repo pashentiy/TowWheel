@@ -99,11 +99,48 @@ module.exports = {
 	},
 
 	Signup: async (req, res, next) => {
-		
+		try {
+			const { name = '', mobile = '' } = req.body
+
+			
+			// return HandleSuccess(res, user)
+
+		} catch (err) {
+			HandleServerError(res, req, err)
+		}
 	},
 
 	RefreshToken: async (req, res, next) => {
-		
+		try {
+			const { token='', mobile='' } = req.params
+			if(!token.trim() || !mobile.trim())
+				return HandleError(res, 'Invalid mobile or token.')
+			
+			const isUserExists = await IsExists({
+				model: User,
+				where: {mobile: mobile, active_session_refresh_token: token}
+			})
+
+			if(!isUserExists)
+				return HandleError(res, 'User doesn\'t exists.')
+
+			const access_token = jwt.sign({ id: isUserExists[0]._id, mobile: isUserExists[0].mobile, name: isUserExists[0].name }, Config.secret, {
+				expiresIn: Config.tokenExpiryLimit // 86400 expires in 24 hours -- It should be 1 hour in production
+			});
+
+			let updated = await FindAndUpdate({
+				model: User,
+				where: { _id: isUserExists[0]._id },
+				update: { $set: {access_token: access_token } }
+			})
+			if (!updated)
+				return HandleError(res, 'Failed to generate access token.')
+
+			return HandleSuccess(res, {access_token: access_token})
+
+		} catch (err) {
+			HandleServerError(res, req, err)
+		}
 	},
 
 	LoginByToken: async (req, res, next) => {
