@@ -8,7 +8,20 @@ const Config = require('../config.js');
  */
 
 const IsExists = async ({model, where = null, select = null}) => {
-
+	try {
+		let query = model.find(where)
+		if (select)
+			query.select(select)
+		let doc = await query.lean().exec()
+		if (doc.length > 0)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const IsExistsOne = async ({model, where = null, select = null}) => {
@@ -16,7 +29,14 @@ const IsExistsOne = async ({model, where = null, select = null}) => {
 }
 
 const Insert = async ({model, data}) => {
-	
+	try {
+		let inserted = await new model(data).save()
+		return inserted
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const Find = async ({model, where, select = null, sort = null, limit = null, skip = null, populate = null, populateField = null}) => {
@@ -28,7 +48,18 @@ const FindOne = async ({model, where=null, select = null}) => {
 }
 
 const FindAndUpdate = async ({model, where = {}, update = {}}) => {
-	
+	try {
+		let query = model.findOneAndUpdate(where, update, { new: true })
+		let doc = await query.exec()
+		if (doc)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const UpdateMany = async ({model, where, update}) => {
@@ -40,7 +71,18 @@ const Aggregate = async ({model, data}) => {
 }
 
 const Delete = async ({model, where}) => {
-	
+	try {
+		let query = model.deleteMany(where)
+		let doc = await query.exec()
+		if (doc)
+			return true
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const CompressImageAndUpload = async (image) => {
@@ -91,3 +133,43 @@ const GeneratePassword = (length = 16) => {
 	}
 	return result;
 }
+
+/*
+ * Error Handling methods below
+ *
+ */
+
+const HandleSuccess = (res, data) => {
+	res.status(200).json(data);
+	res.end();
+}
+
+const HandleError = (res, message) => {
+	res.status(202).json({
+		error: message
+	});
+	res.end();
+}
+
+const HandleServerError = (res, req, err) => {
+	/*
+	 * Can log the error data into files to recreate and fix issue.
+	 * Hiding stack stace from users.
+	 */
+	const errLog = { method: req.method, url: req.originalUrl, params: req.params, query: req.query, post: req.body, error: err }
+	// Temporary console log for debug mode
+	console.log(errLog)
+	res.status(500).json({
+		error: 'Something went wrong. Please contact support team.'
+	});
+}
+
+exports.IsExists = IsExists
+exports.Insert = Insert
+exports.FindAndUpdate = FindAndUpdate
+exports.Delete = Delete
+exports.HandleSuccess = HandleSuccess
+exports.HandleError = HandleError
+exports.HandleServerError = HandleServerError
+exports.ValidateMobile = ValidateMobile
+exports.GeneratePassword = GeneratePassword
