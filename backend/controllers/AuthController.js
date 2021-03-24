@@ -5,7 +5,7 @@ const { SendSms } = require('../services')
 const { Otp, User, ProfilePicture } = require('../models')
 
 const {
-	IsExists, Insert,  FindAndUpdate, Delete,
+	IsExists, Insert, FindAndUpdate, Delete,
 	HandleSuccess, HandleError, HandleServerError,
 	ValidateMobile, GeneratePassword
 } = require('./BaseController');
@@ -144,7 +144,37 @@ module.exports = {
 	},
 
 	LoginByToken: async (req, res, next) => {
-		
+		try {
+			const { token='', mobile='' } = req.params
+			if(!token.trim() || !mobile.trim())
+				return HandleError(res, 'Invalid mobile or token.')
+			
+			const isUserExists = await IsExists({
+				model: User,
+				where: {mobile: mobile, active_session_refresh_token: token}
+			})
+			if(!isUserExists)
+				return HandleSuccess(res, { isUserExists: false })
+
+			const access_token = jwt.sign({ id: isUserExists[0]._id, mobile: isUserExists[0].mobile, name: isUserExists[0].name }, Config.secret, {
+				expiresIn: Config.tokenExpiryLimit // 86400 expires in 24 hours -- It should be 1 hour in production
+			});
+
+			let updated = await FindAndUpdate({
+				model: User,
+				where: { _id: isUserExists[0]._id },
+				update: { $set: {access_token: access_token } }
+			})
+			if (!updated)
+				return HandleError(res, 'Failed to generate access token.')
+
+			let user = {... updated._doc}
+			user.isUserExists = true
+			return HandleSuccess(res, user)
+
+		} catch (err) {
+			HandleServerError(res, req, err)
+		}
 	},
 	
 }
