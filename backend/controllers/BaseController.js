@@ -40,7 +40,27 @@ const Insert = async ({model, data}) => {
 }
 
 const Find = async ({model, where, select = null, sort = null, limit = null, skip = null, populate = null, populateField = null}) => {
-	
+	try {
+		let query = model.find(where)
+		if (select)
+			query.select(select)
+		if (sort)
+			query.sort(sort)
+		if (skip)
+			query.skip(skip)
+		if (limit)
+			query.limit(limit)
+		if (populate && populateField)
+			query.populate(populate, populateField)
+		else if (populate)
+			query.populate(populate)
+		let doc = await query.lean().exec()
+		return doc
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const FindOne = async ({model, where=null, select = null}) => {
@@ -173,3 +193,4 @@ exports.HandleError = HandleError
 exports.HandleServerError = HandleServerError
 exports.ValidateMobile = ValidateMobile
 exports.GeneratePassword = GeneratePassword
+exports.Find = Find
