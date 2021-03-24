@@ -7,9 +7,7 @@ const { User, Mongoose, PersonalChat, RoomChat, ProfilePicture } = require('../m
 const Controllers = require('../controllers')
 
 const {
-	IsExists, Insert, Find, CompressImageAndUpload, FindAndUpdate, Delete,
-	HandleSuccess, HandleError, HandleServerError, Aggregate,
-	ValidateEmail, PasswordStrength, ValidateAlphanumeric, ValidateLength, ValidateMobile, isDataURL, GeneratePassword, FindOne
+	 Find, FindAndUpdate
 } = require('./BaseController');
 
 module.exports = {
