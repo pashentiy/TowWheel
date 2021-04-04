@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "towWheel-tvOS.app"
-               BlueprintName = "towWheel-tvOS"
-               ReferencedContainer = "container:towWheel.xcodeproj">
+               BuildableName = "TowWheel-tvOS.app"
+               BlueprintName = "TowWheel-tvOS"
+               ReferencedContainer = "container:TowWheel.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "towWheel-tvOSTests.xctest"
-               BlueprintName = "towWheel-tvOSTests"
-               ReferencedContainer = "container:towWheel.xcodeproj">
+               BuildableName = "TowWheel-tvOSTests.xctest"
+               BlueprintName = "TowWheel-tvOSTests"
+               ReferencedContainer = "container:TowWheel.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "towWheel-tvOS.app"
-            BlueprintName = "towWheel-tvOS"
-            ReferencedContainer = "container:towWheel.xcodeproj">
+            BuildableName = "TowWheel-tvOS.app"
+            BlueprintName = "TowWheel-tvOS"
+            ReferencedContainer = "container:TowWheel.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "towWheel-tvOS.app"
-            BlueprintName = "towWheel-tvOS"
-            ReferencedContainer = "container:towWheel.xcodeproj">
+            BuildableName = "TowWheel-tvOS.app"
+            BlueprintName = "TowWheel-tvOS"
+            ReferencedContainer = "container:TowWheel.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

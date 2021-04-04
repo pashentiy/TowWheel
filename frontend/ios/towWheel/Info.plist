@@ -37,14 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This permission is required for the app to know your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This permission is required for the app to know your location</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -59,5 +53,36 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>App requires access to your sound.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires access to your camera to allow you to take a photo to set as profile picture in the app.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App requires access to your location to search for vehicles to book around you and notify for the same.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App requires access to your location to search for vehicles to book around you and notify for the same.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requires access to your location to search for vehicles to book around you and notify for the same.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App requires access to your photo gallery to allow you to choose a photo to set as profile picture in the account.</string>
+	<key>UIAppFonts</key>
+	<array>
+	<string>AntDesign.ttf</string>
+	<string>Entypo.ttf</string>
+	<string>EvilIcons.ttf</string>
+	<string>Feather.ttf</string>
+	<string>FontAwesome.ttf</string>
+	<string>FontAwesome5_Brands.ttf</string>
+	<string>FontAwesome5_Regular.ttf</string>
+	<string>FontAwesome5_Solid.ttf</string>
+	<string>Foundation.ttf</string>
+	<string>Ionicons.ttf</string>
+	<string>MaterialIcons.ttf</string>
+	<string>MaterialCommunityIcons.ttf</string>
+	<string>SimpleLineIcons.ttf</string>
+	<string>Octicons.ttf</string>
+	<string>Zocial.ttf</string>
+	<string>Fontisto.ttf</string>
+	</array>
 </dict>
 </plist>
