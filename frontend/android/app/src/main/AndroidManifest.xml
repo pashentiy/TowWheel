@@ -2,6 +2,12 @@
   package="com.towwheel">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
 
     <application
       android:name=".MainApplication"
@@ -10,9 +16,13 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- You will only need to add this meta-data tag, but make sure it's a child of application -->
       <meta-data
-       android:name="com.google.android.geo.API_KEY"
-       android:value="AIzaSyCL2vHqd219X6JodYBDfTJhsQ8HVvel_v8"/>
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyD70sNQXz0OFl8kp2yTCIS_uHDke2vo11U"/>
+      
+      <!-- You will also only need to add this uses-library tag -->
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
