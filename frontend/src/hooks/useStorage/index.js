@@ -37,3 +37,10 @@ const useStorage = (key) => {
       updateStorageValue(newValue);
     }
   }
+
+  async function clearStorage() {
+    try {
+        await AsyncStorage.clear();
+    } catch (e) {
+    }
+  }
