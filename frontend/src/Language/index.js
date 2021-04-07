@@ -59,3 +59,9 @@ export const LanguageProvider = (props) => {
         setLanguage(locale)
         AsyncStorage.setItem(localeKey, JSON.stringify(locale));
     }
+
+    const translate = (text,parameter=null) => {
+        let pattern = new RegExp(".+missing.*?","g");
+        let str = I18n.t(text,parameter)
+        return pattern.test(str)?text:str
+    }
