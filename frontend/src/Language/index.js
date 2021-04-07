@@ -20,3 +20,9 @@ I18n.translations = {
     en: require("src/utils/languages/en.json"),
     he: require("src/utils/languages/he.json")
 };
+export const LanguageContext = React.createContext({
+    language: LOCALES.ENGLISH.name,
+    isRTL: false,
+    changeLanguage: () => { },
+    t: () => { }
+});
