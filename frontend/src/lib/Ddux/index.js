@@ -65,3 +65,16 @@ export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props })
         }
     }
 
+    return (
+        <DduxContext.Provider value={{
+            data: _getData,
+            cache: _getCache,
+            setData: _setData,
+            setCache: _setCache
+        }}>
+            {props.children}
+        </DduxContext.Provider>
+    )
+}
+
+
