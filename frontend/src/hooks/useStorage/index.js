@@ -14,3 +14,13 @@ const useStorage = (key) => {
       getStorageValue();
     }, []);
   
+    async function getStorageValue() {
+        let value = null;
+        try {
+          value = JSON.parse(await AsyncStorage.getItem(key)) || '';
+        } catch (e) {
+        } finally {
+          updateStorageValue(value);
+        }
+      }
+    
