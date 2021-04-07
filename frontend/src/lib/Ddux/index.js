@@ -9,7 +9,6 @@ export const DduxContext = React.createContext({
     setCache: () => { }
 });
 
-
 export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props }) => {
 
     const cacheKey = "@dduxCache"
@@ -34,6 +33,7 @@ export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props })
             await AsyncStorage.setItem(cacheKey, value);
         } catch (e) { }
     }
+
 
     const _setData = useCallback((key, value) => {
         setData(prevState => {
@@ -76,5 +76,3 @@ export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props })
         </DduxContext.Provider>
     )
 }
-
-
