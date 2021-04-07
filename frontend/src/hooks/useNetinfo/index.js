@@ -19,3 +19,9 @@ const useNetinfo = () => {
     onChange = newState => {
       setNetInfo(newState);
     };
+
+  useEffect(() => {
+    NetInfo.fetch().then(connectionInfo => {
+      setNetInfo(connectionInfo);
+    });
+  }, []);
