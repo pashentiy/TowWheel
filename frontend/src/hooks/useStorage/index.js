@@ -44,3 +44,6 @@ const useStorage = (key) => {
     } catch (e) {
     }
   }
+
+  return [storageValue, updateStorage, clearStorage];
+};
