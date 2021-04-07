@@ -12,3 +12,10 @@ const inititalState = {
     isInternetReachable: null,
     isConnected: null
   };
+  
+const useNetinfo = () => {
+    const [netInfo, setNetInfo] = useState(inititalState);
+  
+    onChange = newState => {
+      setNetInfo(newState);
+    };
