@@ -65,3 +65,15 @@ export const LanguageProvider = (props) => {
         let str = I18n.t(text,parameter)
         return pattern.test(str)?text:str
     }
+
+    return (
+        <LanguageContext.Provider value={{
+            language: language,
+            changeLanguage: changeLanguage,
+            isRTL: isRTL,
+            t: translate
+        }}>
+            {props.children}
+        </LanguageContext.Provider>
+    )
+}
