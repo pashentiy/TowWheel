@@ -20,6 +20,7 @@ I18n.translations = {
     en: require("src/utils/languages/en.json"),
     he: require("src/utils/languages/he.json")
 };
+
 export const LanguageContext = React.createContext({
     language: LOCALES.ENGLISH.name,
     isRTL: false,
@@ -50,6 +51,7 @@ export const LanguageProvider = (props) => {
         else
         setLanguage(LOCALES.ENGLISH.name)
     }
+
     const changeLanguage = (locale) => {
         I18n.locale = locale
         if (locale == 'ar') {
