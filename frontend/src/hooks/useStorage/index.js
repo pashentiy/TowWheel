@@ -6,24 +6,23 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * const [theme, changeTheme, clearAll] = useStorage("@themeIsDark", false);
  * changeTheme(null) - to remove item
  */
-
 const useStorage = (key) => {
-    const [storageValue, updateStorageValue] = useState(null);
-  
-    useEffect(() => {
-      getStorageValue();
-    }, []);
-  
-    async function getStorageValue() {
-        let value = null;
-        try {
-          value = JSON.parse(await AsyncStorage.getItem(key)) || '';
-        } catch (e) {
-        } finally {
-          updateStorageValue(value);
-        }
-      }
-    
+  const [storageValue, updateStorageValue] = useState(null);
+
+  useEffect(() => {
+    getStorageValue();
+  }, []);
+
+  async function getStorageValue() {
+    let value = null;
+    try {
+      value = JSON.parse(await AsyncStorage.getItem(key)) || '';
+    } catch (e) {
+    } finally {
+      updateStorageValue(value);
+    }
+  }
+
   async function updateStorage(newValue) {
     try {
       if (newValue == null) {
@@ -47,3 +46,6 @@ const useStorage = (key) => {
 
   return [storageValue, updateStorage, clearStorage];
 };
+
+
+export default useStorage
