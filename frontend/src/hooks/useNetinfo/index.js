@@ -8,17 +8,17 @@ import NetInfo from "@react-native-community/netinfo";
  */
 
 const inititalState = {
-    type: null,
-    isInternetReachable: null,
-    isConnected: null
-  };
-  
+  type: null,
+  isInternetReachable: null,
+  isConnected: null
+};
+
 const useNetinfo = () => {
-    const [netInfo, setNetInfo] = useState(inititalState);
-  
-    onChange = newState => {
-      setNetInfo(newState);
-    };
+  const [netInfo, setNetInfo] = useState(inititalState);
+
+  onChange = newState => {
+    setNetInfo(newState);
+  };
 
   useEffect(() => {
     NetInfo.fetch().then(connectionInfo => {
@@ -38,3 +38,4 @@ const useNetinfo = () => {
 };
 
 
+export default useNetinfo
