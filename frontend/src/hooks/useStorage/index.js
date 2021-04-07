@@ -24,3 +24,16 @@ const useStorage = (key) => {
         }
       }
     
+  async function updateStorage(newValue) {
+    try {
+      if (newValue == null) {
+        await AsyncStorage.removeItem(key);
+      } else {
+        const value = JSON.stringify(newValue);
+        await AsyncStorage.setItem(key, value);
+      }
+    } catch (e) {
+    } finally {
+      updateStorageValue(newValue);
+    }
+  }
