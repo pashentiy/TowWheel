@@ -36,3 +36,17 @@ export const LanguageProvider = (props) => {
     useEffect(() => {
         init()
     }, [])
+
+    const init = async () => {
+        const locale = JSON.parse(await AsyncStorage.getItem(localeKey))
+        if (locale){
+            I18n.locale = locale
+            setLanguage(locale)
+            if (locale == 'ar') {
+                I18nManager.allowRTL(true);
+                setisRTL(true)
+            }
+        }
+        else
+        setLanguage(LOCALES.ENGLISH.name)
+    }
