@@ -50,3 +50,12 @@ export const LanguageProvider = (props) => {
         else
         setLanguage(LOCALES.ENGLISH.name)
     }
+    const changeLanguage = (locale) => {
+        I18n.locale = locale
+        if (locale == 'ar') {
+            I18nManager.allowRTL(true);
+            setisRTL(true)
+        }
+        setLanguage(locale)
+        AsyncStorage.setItem(localeKey, JSON.stringify(locale));
+    }
