@@ -49,3 +49,19 @@ export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props })
             console.log(e)
         }
     }
+
+    const _setCache = useCallback((key, value) => {
+        setCacheData(prevState => {
+            setCache({ ...prevState, [key]: value })
+            return { ...prevState, [key]: value }
+        });
+    }, []);
+
+    const _getCache = (key) => {
+        try {
+            return cacheData[key] || null
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
