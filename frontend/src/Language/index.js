@@ -26,3 +26,13 @@ export const LanguageContext = React.createContext({
     changeLanguage: () => { },
     t: () => { }
 });
+
+export const LanguageProvider = (props) => {
+
+    const [language, setLanguage] = useState(null);
+    const localeKey = "@locale"
+    const [isRTL, setisRTL] = useState(false)
+
+    useEffect(() => {
+        init()
+    }, [])
