@@ -25,3 +25,16 @@ const useNetinfo = () => {
       setNetInfo(connectionInfo);
     });
   }, []);
+
+  useEffect(() => {
+    const unsubscriber = NetInfo.addEventListener(onChange);
+
+    return () => {
+      unsubscriber();
+    };
+  }, []);
+
+  return netInfo;
+};
+
+
