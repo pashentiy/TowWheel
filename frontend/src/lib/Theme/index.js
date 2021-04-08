@@ -33,3 +33,16 @@ export const ThemeProvider = (props) => {
             setTheme(ThemeKeys[0])
         }
     }
+    const changeTheme = (theme)=>{
+        setColors(Themes[theme])
+        setTheme(theme)
+        AsyncStorage.setItem(themeKey, JSON.stringify(theme));
+    }
+
+    return (
+        <ThemeContext.Provider value={{
+            colors: colors,
+            theme: theme ,
+            themeKeys: ThemeKeys,
+            changeTheme: changeTheme
+        }}>
