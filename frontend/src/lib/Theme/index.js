@@ -33,6 +33,7 @@ export const ThemeProvider = (props) => {
             setTheme(ThemeKeys[0])
         }
     }
+
     const changeTheme = (theme)=>{
         setColors(Themes[theme])
         setTheme(theme)
@@ -46,3 +47,7 @@ export const ThemeProvider = (props) => {
             themeKeys: ThemeKeys,
             changeTheme: changeTheme
         }}>
+            {props.children}
+        </ThemeContext.Provider>
+    )
+}
