@@ -11,3 +11,25 @@ export const ThemeContext = React.createContext({
     theme: null ,
     changeTheme: ()=>{}
 });
+
+export const ThemeProvider = (props) => {
+
+    const [theme, setTheme] = useState(null);
+    const themeKey = "@theme"
+    const [colors, setColors] = useState(Themes[ThemeKeys[0]])
+
+    useEffect(() => {
+        init()
+    }, [])
+
+    const init = async () => {
+        const value = JSON.parse(await AsyncStorage.getItem(themeKey))
+        if (value){
+            setColors(Themes[value])
+            setTheme(value)
+        }
+        else{
+            setColors(Themes[ThemeKeys[0]])
+            setTheme(ThemeKeys[0])
+        }
+    }
