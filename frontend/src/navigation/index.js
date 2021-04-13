@@ -15,7 +15,7 @@ const Router = () => {
       >
         <Stack.Screen name="Splash" component={Screen.Splash} />
         <Stack.Screen name="Login" component={Screen.Login} />
-        <Stack.Screen name="Home" >
+        <Stack.Screen name="Home">
           {props => <Drawer {...props} />}
         </Stack.Screen>
         {/*<Stack.Screen name="OnBoard" component={Screen.OnBoard} />

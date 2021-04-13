@@ -24,21 +24,21 @@ const Dashboard = () => {
     console.log(style)
     return (
         <>
-        <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
-        </View>
-        <Drawer.Navigator
-            initialRouteName="Home"
-            drawerStyle={{backgroundColor: Colors.background}}
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
-        >
-            <Drawer.Screen name="Home" component={Screen.Home} />
-            <Drawer.Screen name="Notifications" component={Screen.Home} />
-        </Drawer.Navigator>
+            <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
+            </View>
+            <Drawer.Navigator
+                initialRouteName="Home"
+                drawerStyle={{ backgroundColor: Colors.background }}
+                drawerContent={(props) => <CustomDrawerContent {...props} />}
+            >
+                <Drawer.Screen name="Home" options={{ headerShown: false }} component={Screen.Home} />
+                <Drawer.Screen name="Notifications" component={Screen.Home} />
+            </Drawer.Navigator>
         </>
     );
 }
 
-const style = ({Colors})=>(StyleSheet.create({
+const style = ({ Colors }) => (StyleSheet.create({
     statusBar: {
         backgroundColor: Colors.status_baxxxr,
     }

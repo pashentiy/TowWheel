@@ -28,7 +28,7 @@ const MyStatusBar = ()=>{
 const style = ({Colors})=>(StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: 'red'
+        backgroundColor: Colors.backgroundColor
     },
     statusBar:{
         backgroundColor: Colors.status_bar
