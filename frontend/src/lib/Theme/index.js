@@ -3,7 +3,7 @@ import {
     
 } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Themes } from 'src/styles/colors'
+import { Themes } from '../../styles/colors'
 const ThemeKeys = Object.keys(Themes)
 
 export const ThemeContext = React.createContext({

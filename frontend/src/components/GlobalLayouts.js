@@ -7,8 +7,8 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Loader, Toast, InternetConnectionPopup } from 'src/components'
-import { useDdux, useNetInfo, useTheme } from 'src/hooks'
+import { Loader, Toast, InternetConnectionPopup } from '../components'
+import { useDdux, useNetInfo, useTheme } from '../hooks'
 //import { ENVIRONMENT } from 'src/config'
 
 const icons = {

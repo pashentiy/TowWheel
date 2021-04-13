@@ -9,8 +9,8 @@ import {
     Image
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { Mixins, Typography, Spacing } from 'src/styles'
-import { useTheme } from 'src/hooks'
+import { Mixins, Typography, Spacing } from '../styles'
+import { useTheme } from '../hooks'
 
 const InternetConnectionPopup = ({ isVisible }) => {
     const [Colors, styles] = useTheme(style)

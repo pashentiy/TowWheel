@@ -6,9 +6,9 @@ import {
     TouchableOpacity,
     StyleSheet
 } from 'react-native';
-import { Mixins, Spacing, Typography } from 'src/styles'
+import { Mixins, Spacing, Typography } from '../styles'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useTheme } from 'src/hooks'
+import { useTheme } from '../hooks'
 
 const HeaderBar = ({ navigation, ...props }) => {
     const [Colors, styles] = useTheme(style)

@@ -12,9 +12,8 @@ import {
     DrawerItem
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Screen from 'src/screens';
-import { Mixins, Spacing, Typography } from 'src/styles';
-import { useTheme, useLanguage, useDdux } from 'src/hooks'
+import { Mixins, Spacing, Typography } from '../styles';
+import { useTheme, useLanguage, useDdux } from '../hooks'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

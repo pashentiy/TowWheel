@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   Image
 } from 'react-native';
-import {Spacing, Mixins } from 'src/styles'
-import { useTheme } from 'src/hooks'
+import {Spacing, Mixins } from '../styles'
+import { useTheme } from '../hooks'
 
 const Loader=()=>{
   const [Colors, styles] = useTheme(style)

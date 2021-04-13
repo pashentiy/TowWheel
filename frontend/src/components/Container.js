@@ -3,8 +3,8 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import { Mixins } from 'src/styles'
-import { useTheme } from 'src/hooks'
+import { Mixins } from '../styles'
+import { useTheme } from '../hooks'
 
 const Container = ({ isTransparentStatusBar = false, ...props }) => {
     const [Colors, styles] = useTheme(style)

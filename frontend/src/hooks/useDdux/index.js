@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { DduxContext } from 'src/lib'
+import { DduxContext } from '../../lib'
 
 /*
  * Hook for Ddux

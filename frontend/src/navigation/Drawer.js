@@ -12,15 +12,16 @@ import {
     DrawerItem
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Screen from 'src/screens';
-import { Mixins } from 'src/styles';
-import { useTheme } from 'src/hooks'
+import * as Screen from '../screens';
+import { Mixins } from '../styles';
+import { useTheme } from '../hooks'
 import CustomDrawerContent from './CustomDrawerContent'
 
 const Drawer = createDrawerNavigator();
 
 const Dashboard = () => {
     const [Colors, styles] = useTheme(style)
+    console.log(style)
     return (
         <>
         <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
@@ -39,7 +40,7 @@ const Dashboard = () => {
 
 const style = ({Colors})=>(StyleSheet.create({
     statusBar: {
-        backgroundColor: Colors.status_bar,
+        backgroundColor: Colors.status_baxxxr,
     }
 }))
 
