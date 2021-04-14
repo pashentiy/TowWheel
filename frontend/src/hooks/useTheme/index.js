@@ -6,7 +6,6 @@ import { Styles } from '../../styles'
  */
 const useTheme = (style={}) => {
   const {colors, theme, changeTheme, themeKeys} = useContext(ThemeContext);
-  console.log(ThemeContext)
   const replaceWithColor = (match, capture) => {
     return colors ? colors[capture]+'\"' : '#FFF'+'\"'
   }
