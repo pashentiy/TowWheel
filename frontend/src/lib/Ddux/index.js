@@ -6,7 +6,8 @@ export const DduxContext = React.createContext({
     data: () => { },
     cache: () => { },
     setData: () => { },
-    setCache: () => { }
+    setCache: () => { },
+    clear: ()=>{ }
 });
 
 export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props }) => {
@@ -65,12 +66,21 @@ export const DduxProvider = ({ initialState = {}, initialCache = {}, ...props })
         }
     }
 
+    const _clear = ()=>{
+        try {
+            setCacheData(initialCache)
+            AsyncStorage.removeItem(cacheKey);
+            AsyncStorage.clear()
+        } catch (e) { }
+    }
+
     return (
         <DduxContext.Provider value={{
             data: _getData,
             cache: _getCache,
             setData: _setData,
-            setCache: _setCache
+            setCache: _setCache,
+            clear: _clear,
         }}>
             {props.children}
         </DduxContext.Provider>
