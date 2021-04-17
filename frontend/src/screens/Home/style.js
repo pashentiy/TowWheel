@@ -48,6 +48,39 @@ const styles = ({ Colors }) => (StyleSheet.create({
         width: Mixins.scaleSize(280),
         marginLeft: Spacing.SCALE_10
     },
+    continueButton:{
+        flex: 1,
+        backgroundColor: Colors.black,
+        alignItems: 'center',
+        height: Mixins.scaleSize(40),
+        margin: Spacing.SCALE_10,
+        borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        paddingHorizontal: Spacing.SCALE_10
+    },
+    continueButtonIcon:{
+        marginLeft: Spacing.SCALE_10,
+        marginRight: Spacing.SCALE_10,
+        backgroundColor: Colors.secondary20,
+        width: Mixins.scaleSize(30),
+        height: Mixins.scaleSize(30),
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    continueButtonText:{
+        fontSize: Typography.FONT_SIZE_18,
+        color: Colors.white,
+        flex: 1,
+        textAlign: 'center'
+    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
