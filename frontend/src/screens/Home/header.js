@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
     Image,
-    TextInput
 } from 'react-native';
 import style from './style'
-
+import { Typography } from '../../styles'
+import Icon from 'react-native-vector-icons/Ionicons';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GOOGLE_MAP_API_KEY } from '../../config'
 import { useTheme } from '../../hooks'
 import { hamburger } from '../../assets'
 
@@ -40,7 +42,14 @@ const Header = ({ _this }) => {
                     language: 'en',
                 }}
             />}
-           
+            {
+                _this.rideDetails && <TouchableOpacity onPress={()=>_this.navigation.navigate('Home_Booking', { destination: _this.rideDetails.destination, source: _this.rideDetails.source })} style={[styles.flexRow, styles.continueButton]}>
+                <Text style={styles.continueButtonText}>In-progress Booking</Text>
+                <View style={styles.continueButtonIcon}>
+                    <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                </View>
+            </TouchableOpacity>
+            }
         </View>
     )
 }
