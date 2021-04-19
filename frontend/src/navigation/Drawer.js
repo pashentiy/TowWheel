@@ -14,7 +14,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Screen from '../screens';
 import { Mixins } from '../styles';
-import { useTheme } from '../hooks'
+import { useTheme, useDdux } from '../hooks'
 import CustomDrawerContent from './CustomDrawerContent'
 
 const Drawer = createDrawerNavigator();
