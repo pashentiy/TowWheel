@@ -48,7 +48,7 @@ const Home = ({ navigation }) => {
     /*
      * Socket Handler
      */
-    const socketHandler = async () => {
+    const socketHandler = async (currentLocation) => {
         socket = await API.SOCKET('/driver-ride-request')
         socket.on('connect', () => {
             socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation })
