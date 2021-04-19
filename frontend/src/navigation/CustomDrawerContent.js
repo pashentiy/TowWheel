@@ -12,10 +12,10 @@ import {
     DrawerItem
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Screen from '../screens';
 import { Mixins, Spacing, Typography } from '../styles';
 import { useTheme, useLanguage, useDdux } from '../hooks'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawerContent = ({ navigation, ...props }) => {
     const [Colors, styles] = useTheme(style)
@@ -35,11 +35,12 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             <DrawerItemList 
             activeTintColor={Colors.primary}
             activeBackgroundColor={Colors.secondary20}
+            navigation={navigation}
             {...props} 
             />
             <DrawerItem
                 label="Logout"
-                onPress={() => { Ddux.setCache('user',null); AsyncStorage.clear(); navigation.replace('Splash')}}
+                onPress={() => { Ddux.clear(); setTimeout(()=>navigation.replace('Splash'),500) }}
             />
             </>
             }

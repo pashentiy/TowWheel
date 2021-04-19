@@ -21,26 +21,27 @@ const Drawer = createDrawerNavigator();
 
 const Dashboard = () => {
     const [Colors, styles] = useTheme(style)
-    console.log(style)
+    const Ddux = useDdux()
+    const userDetails = Ddux.cache('user')
     return (
         <>
-            <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
-            </View>
-            <Drawer.Navigator
-                initialRouteName="Home"
-                drawerStyle={{ backgroundColor: Colors.background }}
-                drawerContent={(props) => <CustomDrawerContent {...props} />}
-            >
-                <Drawer.Screen name="Home" options={{ headerShown: false }} component={Screen.Home} />
-                <Drawer.Screen name="Notifications" component={Screen.Home} />
-            </Drawer.Navigator>
+        <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
+        </View>
+        <Drawer.Navigator
+            initialRouteName="Home"
+            drawerStyle={{backgroundColor: Colors.background}}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+        >
+            <Drawer.Screen name="Home" component={userDetails && userDetails.is_driver ? Screen.Home_Driver : Screen.Home} />
+            <Drawer.Screen name="Notifications" component={Screen.Home} />
+        </Drawer.Navigator>
         </>
     );
 }
 
-const style = ({ Colors }) => (StyleSheet.create({
+const style = ({Colors})=>(StyleSheet.create({
     statusBar: {
-        backgroundColor: Colors.status_baxxxr,
+        backgroundColor: Colors.status_bar,
     }
 }))
 
