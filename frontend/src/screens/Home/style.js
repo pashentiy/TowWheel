@@ -126,7 +126,7 @@ const styles = ({ Colors }) => (StyleSheet.create({
         height: Mixins.scaleSize(30),
         resizeMode: 'contain',
         transform: [{
-            rotate: '270deg'
+            rotate: '0deg'
         }]
     }
 })
