@@ -2,7 +2,6 @@ import { API_URL } from '../../config';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
 import Config from '../../config'
-//import mock from 'src/services/mock';
 
 export const API = axios.create({ baseURL: API_URL });
 
