@@ -1,7 +1,7 @@
 import {
     StyleSheet,
 } from 'react-native';
-import { Mixins, Spacing, Typography } from 'src/styles'
+import { Mixins, Spacing, Typography } from '../../styles'
 
 const style = ({ Colors }) => (StyleSheet.create({
     title: {
