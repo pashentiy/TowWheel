@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PermissionsAndroid } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 import Config, { GOOGLE_MAP_API_KEY } from '../../config'
 import { Container } from '../../components'
 import Header from './header'
-import { useDdux, useTheme } from '../../hooks'
+import { useDdux } from '../../hooks'
 import Geocoder from 'react-native-geocoding';
 Geocoder.init(GOOGLE_MAP_API_KEY);
 
@@ -18,6 +17,7 @@ const longitudeDelta = 0.02
 
 const Home = ({ navigation }) => {
     const Ddux = useDdux()
+    const [permissionPopup, setPermissionPopup] = useState(false)
     const map = useRef(null)
 
     /*
@@ -123,6 +123,7 @@ const Home = ({ navigation }) => {
     return (
         <Container isTransparentStatusBar={true} style={styles.fullHeightContainer}>
             <Header _this={{ navigation }} />
+            <Popup _this={{ permissionPopup, setPermissionPopup, requestLocationPermission }} />
         </Container>
     )
 }
