@@ -57,9 +57,27 @@ const styles = ({ Colors }) => (StyleSheet.create({
         fontSize: Typography.FONT_SIZE_14,
         color: Colors.primary
     },
+    popupButton: {
+        backgroundColor: Colors.primary,
+        borderRadius: 10,
+        padding: Spacing.SCALE_10,
+        marginTop: Spacing.SCALE_10
+    },
+    popupButtonText: {
+        color: Colors.background,
+        fontSize: Typography.FONT_SIZE_16
+    },
     marker: {
         //width: 20,
         //height: 20,
+    },
+    markerImage: {
+        width: Mixins.scaleSize(30),
+        height: Mixins.scaleSize(30),
+        resizeMode: 'contain',
+        transform: [{
+            rotate: '270deg'
+        }]
     },
     content:{
         backgroundColor: Colors.background,
@@ -79,10 +97,36 @@ const styles = ({ Colors }) => (StyleSheet.create({
         width: Mixins.scaleSize(150),
         height: Mixins.scaleSize(150)
     },
+    towImage:{
+        resizeMode: 'contain',
+        width: Mixins.scaleSize(60),
+        height: Mixins.scaleSize(60)
+    },
+    locationTitle:{
+        fontSize: Typography.FONT_SIZE_12,
+        color: Colors.muted_text
+    },
     location:{
         fontSize: Typography.FONT_SIZE_12,
         color: Colors.black,
         marginRight: Spacing.SCALE_10
+    },
+    vehicleName:{
+        fontSize: Typography.FONT_SIZE_12,
+        color: Colors.muted_text,
+        fontWeight: 'bold'
+    },
+    value:{
+        fontSize: Typography.FONT_SIZE_16,
+        color: Colors.black,
+    },
+    symbol:{
+        fontSize: Typography.FONT_SIZE_12,
+        color: Colors.black,
+        fontWeight: 'bold'
+    },
+    selected:{
+        backgroundColor: Colors.grey
     },
     continueButton:{
         backgroundColor: Colors.black,
@@ -100,6 +144,12 @@ const styles = ({ Colors }) => (StyleSheet.create({
         borderRadius: 100,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    continueButtonText:{
+        fontSize: Typography.FONT_SIZE_18,
+        color: Colors.white,
+        flex: 1,
+        textAlign: 'center'
     },
 })
 );

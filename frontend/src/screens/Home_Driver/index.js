@@ -1,13 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { PermissionsAndroid } from 'react-native';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import {
+    View,
+    Image,
+    Text,
+    Animated,
+    Easing,
+    PermissionsAndroid,
+} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import style from './style'
 import Geolocation from 'react-native-geolocation-service';
 import Config, { GOOGLE_MAP_API_KEY } from '../../config'
-import { Container } from '../../components'
+import { Container, Toast } from '../../components'
+import API from '../../services/api'
 import Header from './header'
-import { useDdux } from '../../hooks'
+import Body from './body'
+import Popup from './popup'
+import { useDdux, useTheme } from '../../hooks'
 import Geocoder from 'react-native-geocoding';
 Geocoder.init(GOOGLE_MAP_API_KEY);
 
+var socket = null
 var watchId = null
 
 const RADIUS = 10000;
@@ -16,17 +29,83 @@ const longitudeDelta = 0.02
 
 
 const Home = ({ navigation }) => {
+    const isFocused = useIsFocused()
     const Ddux = useDdux()
+    const userDetails = Ddux.cache('user')
+    const [Colors, styles] = useTheme(style)
     const [permissionPopup, setPermissionPopup] = useState(false)
+    const [rideRequests, setRideRequests] = useState([])
+    const [selectedRideRequest, setSelectedRideRequest] = useState(null)
+    const [isMapLoaded, setIsMapLoaded] = useState(false)
+    const [currentLocation, setCurrentLocation] = useState({
+        latitude: 31.767664,
+        longitude: 35.216522,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
+    })
     const map = useRef(null)
 
     /*
      * Socket Handler
      */
+    const socketHandler = async () => {
+        socket = await API.SOCKET('/driver-ride-request')
+        socket.on('connect', () => {
+            socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation })
+        });
+        socket.on('initial_ride_requests', (data) => {
+            setRideRequests(prev => data)
+        })
+        socket.on('disconnect', () => {
 
-    useEffect(() => {  
-      requestLocationPermission()
-    });
+        });
+    }
+
+    const processTowRequest = async () => {
+        if (selectedRideRequest.available_drivers.includes(userDetails.driver_details)) {
+            socket.emit('decline_tow_request', { ride_id: selectedRideRequest._id, driver_id: userDetails.driver_details }, (response) => {
+                if(response) {
+                    setRideRequests(prev => {
+                        return prev.map(item => {
+                            if (item._id == selectedRideRequest._id) {
+                                item.available_drivers = item.available_drivers.filter(driver=>driver!==userDetails.driver_details)
+                            }
+                            return item
+                        })
+                    })
+                }
+            });
+        }
+        else {
+            // Accept Tow Request
+            socket.emit('accept_tow_request', { ride_id: selectedRideRequest._id, driver_id: userDetails.driver_details }, (response) => {
+                if(response) {
+                    setRideRequests(prev => {
+                        return prev.map(item => {
+                            if (item._id == selectedRideRequest._id) {
+                                item.available_drivers.push(userDetails.driver_details)
+                            }
+                            return item
+                        })
+                    })
+                }
+            });
+        }
+    }
+
+
+    useEffect(() => {
+        if (isFocused && isMapLoaded) {
+            requestLocationPermission()
+        }
+
+        if (!isFocused) {
+            if (socket)
+                socket.close();
+            if (watchId)
+                Geolocation.clearWatch(watchId);
+        }
+    }, [isFocused, isMapLoaded]);
 
     const requestLocationPermission = () => {
         try {
@@ -123,6 +202,7 @@ const Home = ({ navigation }) => {
     return (
         <Container isTransparentStatusBar={true} style={styles.fullHeightContainer}>
             <Header _this={{ navigation }} />
+            <Body _this={{ map, currentLocation, navigation, setIsMapLoaded, rideRequests, selectedRideRequest, setSelectedRideRequest, processTowRequest, userDetails }} />
             <Popup _this={{ permissionPopup, setPermissionPopup, requestLocationPermission }} />
         </Container>
     )
