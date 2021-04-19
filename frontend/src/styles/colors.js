@@ -6,6 +6,7 @@ const LIGHT_THEME = {
     secondary: '#FF7171',
     secondary_very_light: '#FFCACA',
     secondary20: 'rgba(255,113,113,0.2)',
+    ascent: '#2C7ECC',
     grey: '#D7DDE2',
     black: '#141414',
     white: '#FFF',
