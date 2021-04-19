@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
-    Text
+    Text,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import style from './style'
+import { Mixins } from '../../styles'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
+import Config from '../../config'
 import { useTheme } from '../../hooks'
 
 const Popup = ({ _this }) => {
@@ -20,6 +25,14 @@ const Popup = ({ _this }) => {
             <View style={styles.modalContainer}>
                 <View style={styles.modalView}>
                     <Text style={styles.popupText}>All permissions are required. Please allow permissions. We respect your privacy.</Text>
+                    <TouchableOpacity onPress={() => {
+                        _this.setPermissionPopup(false)
+                        setTimeout(()=>{
+                        _this.requestLocationPermission()
+                        },800)
+                        }} style={styles.popupButton}>
+                        <Text style={styles.popupButtonText}>Allow Permissions</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </Modal>
