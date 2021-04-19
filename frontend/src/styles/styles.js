@@ -47,10 +47,10 @@ for(let i = 1; i <= 100; i++){
     paddings['padding'+i] = { padding: Spacing['SCALE_'+i] }
 }
 for(let i = 1; i <= 100; i++){
-    margins['paddingVertical'+i] = { paddingVertical: Spacing['SCALE_'+i] }
+    paddings['paddingVertical'+i] = { paddingVertical: Spacing['SCALE_'+i] }
 }
 for(let i = 1; i <= 100; i++){
-    margins['paddingHorizontal'+i] = { paddingHorizontal: Spacing['SCALE_'+i] }
+    paddings['paddingHorizontal'+i] = { paddingHorizontal: Spacing['SCALE_'+i] }
 }
 
 const styles = {
