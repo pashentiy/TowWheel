@@ -14,6 +14,7 @@ import Body from './body'
 import Header from './header'
 
 const Login = ({ route, navigation }) => {
+  const { destination = null, source = null } = route.params || {}
   const Ddux = useDdux()
   const [phone, setPhone] = useState('')
   const [userDetails, setUserDetails] = useState({ name: '' })
@@ -69,7 +70,10 @@ const Login = ({ route, navigation }) => {
         response.data.token_expiry = new Date().getTime() + 45 * 60000;
         Config.session = { mobile: response.data.mobile, active_session_refresh_token: response.data.active_session_refresh_token, access_token: response.data.access_token, token_expiry: response.data.token_expiry }
         Ddux.setCache('user', response.data)
-        navigation.pop()
+        if (destination)
+          navigation.replace('Home_Booking', { destination: destination, source: source })
+        else
+          navigation.pop()
       }
       else {
         setActiveScreen(3)
@@ -97,32 +101,14 @@ const Login = ({ route, navigation }) => {
       response.data.token_expiry = new Date().getTime() + 45 * 60000;
       Config.session = { mobile: response.data.mobile, active_session_refresh_token: response.data.active_session_refresh_token, access_token: response.data.access_token, token_expiry: response.data.token_expiry }
       Ddux.setCache('user', response.data)
-      navigation.pop()
+      if (destination)
+        navigation.replace('Home_Booking', { destination: destination, source: source })
+      else
+        navigation.pop()
     }
     catch (e) {
       console.error(e)
     }
-  }
-
-  const handleSubmit = async () => {
-    /*Ddux.setData('loading', true)
-    if (phone.length<10)
-      return Toast.show({ type: 'error', message: 'Invalid mobile number.' })*/
-
-    /*
-     * API Login
-     */
-    /*let mobileNumber = country.slice(1)+phone
-    let response = await API.sendOtp(mobileNumber)
-    if (!response.status) {
-      Toast.show({ type: 'error', message: response.error })
-    }
-    else {
-      Ddux.setData('signup_session',{mobile: mobileNumber, country: countryCode})
-      navigation.replace('OtpVerification',{mobile: mobileNumber, country: countryCode})
-      console.log('OTP >>> ',response.data.otp)
-    }
-    Ddux.setData('loading', false)*/
   }
 
   return (
