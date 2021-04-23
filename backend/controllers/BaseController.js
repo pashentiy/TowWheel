@@ -25,7 +25,20 @@ const IsExists = async ({model, where = null, select = null}) => {
 }
 
 const IsExistsOne = async ({model, where = null, select = null}) => {
-	
+	try {
+		let query = model.findOne(where)
+		if (select)
+			query.select(select)
+		let doc = await query.lean().exec()
+		if (doc)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const Insert = async ({model, data}) => {
@@ -64,7 +77,19 @@ const Find = async ({model, where, select = null, sort = null, limit = null, ski
 }
 
 const FindOne = async ({model, where=null, select = null}) => {
-	
+	try {
+		let query = model.findOne(where)
+		if (select)
+			query.select(select)
+		let doc = await query.lean().exec()
+		if (doc)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		return false
+	}
 }
 
 const FindAndUpdate = async ({model, where = {}, update = {}}) => {
@@ -83,11 +108,33 @@ const FindAndUpdate = async ({model, where = {}, update = {}}) => {
 }
 
 const UpdateMany = async ({model, where, update}) => {
-	
+	try {
+		let query = model.updateMany(where, update)
+		let doc = await query.exec()
+		if (doc)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const Aggregate = async ({model, data}) => {
-	
+	try {
+		let query = model.aggregate(data)
+		let doc = await query.exec()
+		if (doc)
+			return doc
+		else
+			return false
+	}
+	catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const Delete = async ({model, where}) => {
@@ -106,14 +153,39 @@ const Delete = async ({model, where}) => {
 }
 
 const CompressImageAndUpload = async (image) => {
-	
+	try {
+		let time = new Date().getTime()
+		let imagePath = Config.publicImagePath + time + '.jpg'
+		//Any error from sharp will automatically handle in catch block returning false.
+		let imageInfo = await sharp(image.data).jpeg({
+			quality: 90,
+			chromaSubsampling: '4:4:4'
+		}).toFile(imagePath)
+		return {
+			path: imagePath.replace(/public/g, ''),
+			size: imageInfo.size
+		}
+	} catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
 const DeleteFile = async (filepath) => {
-	
+	try {
+		let isDeleted = await fs.unlinkSync('public' + filepath)
+		return isDeleted
+	} catch (e) {
+		console.log(e)
+		return false
+	}
 }
 
-// Validation Methods 
+
+/*
+ * Other internal methods below
+ *
+ */
 
 const ValidateEmail = email => {
 	let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -171,6 +243,13 @@ const HandleError = (res, message) => {
 	res.end();
 }
 
+const UnauthorizedError = (res) => {
+	res.status(401).json({
+		error: 'Unauthorized API call.'
+	});
+	res.end();
+}
+
 const HandleServerError = (res, req, err) => {
 	/*
 	 * Can log the error data into files to recreate and fix issue.
@@ -184,13 +263,27 @@ const HandleServerError = (res, req, err) => {
 	});
 }
 
+
 exports.IsExists = IsExists
+exports.IsExistsOne = IsExistsOne
 exports.Insert = Insert
-exports.FindAndUpdate = FindAndUpdate
-exports.Delete = Delete
-exports.HandleSuccess = HandleSuccess
-exports.HandleError = HandleError
-exports.HandleServerError = HandleServerError
-exports.ValidateMobile = ValidateMobile
-exports.GeneratePassword = GeneratePassword
 exports.Find = Find
+exports.FindOne = FindOne
+exports.Delete = Delete
+exports.FindAndUpdate = FindAndUpdate
+exports.UpdateMany = UpdateMany
+exports.Aggregate = Aggregate
+exports.CompressImageAndUpload = CompressImageAndUpload
+exports.DeleteFile = DeleteFile
+
+exports.ValidateEmail = ValidateEmail
+exports.PasswordStrength = PasswordStrength
+exports.ValidateAlphanumeric = ValidateAlphanumeric
+exports.ValidateMobile = ValidateMobile
+exports.ValidateLength = ValidateLength
+exports.isDataURL = isDataURL
+exports.GeneratePassword = GeneratePassword
+exports.UnauthorizedError = UnauthorizedError
+exports.HandleServerError = HandleServerError
+exports.HandleError = HandleError
+exports.HandleSuccess = HandleSuccess
