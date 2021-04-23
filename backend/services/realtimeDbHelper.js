@@ -1,9 +1,10 @@
 const Config = require('../config.js');
 const socketIOClient = require('socket.io-client')
 
-// const taskChange = socketIOClient('http://localhost:'+Config.port+'/realtime-task');
-// taskChange.on('connect', socket=>{ 
-//     console.log('Realtime DB Task Table Helper Socket Connected.');
-// });
+const realtimeDbEvent = socketIOClient('http://localhost:'+Config.port+'/realtime-database-updates');
 
-// exports.taskChange = taskChange
+realtimeDbEvent.on('connect', socket=>{ 
+    console.log('Realtime DB realtimeDbEvent Socket Connected.');
+});
+
+exports.realtimeDbEvent = realtimeDbEvent
