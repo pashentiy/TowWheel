@@ -28,11 +28,11 @@ const Dashboard = () => {
         <View style={[styles.statusBar, { height: Mixins.STATUSBAR_HEIGHT }]}>
         </View>
         <Drawer.Navigator
-            initialRouteName="Home"
+            initialRouteName="Home" 
             drawerStyle={{backgroundColor: Colors.background}}
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
-            <Drawer.Screen name="Home" component={userDetails && userDetails.is_driver ? Screen.Home_Driver : Screen.Home} />
+            <Drawer.Screen name="Home" options={{ headerShown : false }} component={userDetails && userDetails.is_driver ? Screen.Home_Driver : Screen.Home} />
             <Drawer.Screen name="Notifications" component={Screen.Home} />
         </Drawer.Navigator>
         </>
