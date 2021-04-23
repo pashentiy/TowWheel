@@ -1,0 +1,13 @@
+
+# Env
+.env
+.env.local
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Migration
+schemaVersion.json

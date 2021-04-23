@@ -15,5 +15,6 @@ module.exports = {
 	publicImagePath: 'public/images/',
 	tokenExpiryLimit: 86400,
 	otpExpiryLimit: 1,
+	max_map_range: 20000, //20 KM
 	environment: process.env.ENVIRONMENT
 }
