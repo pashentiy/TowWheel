@@ -5,10 +5,11 @@ const { SendSms } = require('../services')
 const { Otp, User, ProfilePicture } = require('../models')
 
 const {
-	IsExists, Insert, FindAndUpdate, Delete,
-	HandleSuccess, HandleError, HandleServerError,
-	ValidateMobile, GeneratePassword
+	IsExists, Insert, Find, CompressImageAndUpload, FindAndUpdate, Delete,
+	HandleSuccess, HandleError, HandleServerError,Aggregate,
+	ValidateEmail, PasswordStrength, ValidateAlphanumeric, ValidateLength, ValidateMobile, GeneratePassword, IsExistsOne
 } = require('./BaseController');
+
 
 module.exports = {
 
@@ -78,11 +79,11 @@ module.exports = {
 
 			const otpValue = Math.floor(1000 + Math.random() * 9000);
 			var smsStatus = null
-			// if(Config.environment!=='DEV'){
+			if(Config.environment!=='DEV'){
 			smsStatus = await SendSms(mobile,otpValue)
 			if(!smsStatus)
 				return HandleError(res, 'Failed to send OTP. Please contact system admin.')
-			// }
+			}
 			const inserted = await Insert({
 				model: Otp,
 				data: {otp: otpValue, mobile: mobile}
@@ -102,8 +103,41 @@ module.exports = {
 		try {
 			const { name = '', mobile = '' } = req.body
 
+			let validateError = null
+			if (!ValidateAlphanumeric(name.trim()) || !ValidateLength(name.trim()))
+				validateError = 'Please enter a valid name without any special character and less than 25 character.'
+			else if (!ValidateMobile(mobile.trim()))
+				validateError = 'Please enter a valid mobile number without ISD code i.e 990xxxxx05.'
+
+			if (validateError)
+				return HandleError(res, validateError)
+
+			let data = { name, mobile }
+			data.active_session_refresh_token = GeneratePassword()
+
+			let inserted = await Insert({
+				model: User,
+				data: data
+			})
+			if (!inserted)
+				return HandleError(res, 'Failed to create account. Please contact system admin.')
+
+			inserted = { ...inserted._doc }
+			const access_token = jwt.sign({ id: inserted._id, mobile: inserted.mobile, name: inserted.name }, Config.secret, {
+				expiresIn: Config.tokenExpiryLimit // 86400 expires in 24 hours -- It should be 1 hour in production
+			});
+
+			let updated = await FindAndUpdate({
+				model: User,
+				where: {_id: inserted._id},
+				update: {$set: {access_token: access_token} }
+			})
+			if(!updated)
+				return HandleError(res, 'Failed to update access token.')
 			
-			// return HandleSuccess(res, user)
+			let user = {... updated._doc}
+			
+			return HandleSuccess(res, user)
 
 		} catch (err) {
 			HandleServerError(res, req, err)
