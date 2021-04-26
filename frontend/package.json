@@ -33,7 +33,6 @@
     "formik": "^2.2.3",
     "install": "^0.13.0",
     "lottie-ios": "3.1.8",
-    "lottie-react-native": "^3.5.0",
     "popup-ui": "^1.2.2",
     "react": "16.13.1",
     "react-native": "0.63.3",
