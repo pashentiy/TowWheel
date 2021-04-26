@@ -12,13 +12,16 @@ const VerifyToken = (req, res, next) => {
 	        jwt.verify(token, Config.secret, async(err, user) => {
 	        	if(err)
 					return UnauthorizedError(res)
-				//const isUserExists = await IsExists(User,{_id: user.id, access_token: token})
+				const isUserExists = await IsExists({
+					model: User,
+					where: {_id: user.id, access_token: token},
+				})
 				//Updating last seen column to detect idle time
-				const isUserExists = await FindAndUpdate({
+				/*const isUserExists = await FindAndUpdate({
 					model: User,
 					where: {_id: user.id, access_token: token},
 					update:{$set: {last_seen: Date.now()} }
-				})
+				})*/
 				if(!isUserExists)
 					return UnauthorizedError(res)
 				req.user_id = user.id
