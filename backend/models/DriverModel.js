@@ -11,9 +11,15 @@ const DriverSchema = new Schema({
 		coordinates: {
 			type: [Number],
 			required: true
+		},
+		heading:{
+			type: Number,
+			require: true,
+			default: 0
 		}
 	},
-    vehicles: [Schema.Types.ObjectId],
+    vehicles: [{ type: Schema.Types.ObjectId, ref: 'vehicles'}],
+	active_vehicle : { type: Schema.Types.ObjectId, ref: 'vehicles', required: true },
 	is_available: { type: Boolean, required: true },
 	profile_picture: { type: String, required: true},
     reviews: [Schema.Types.ObjectId],
