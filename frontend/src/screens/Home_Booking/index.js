@@ -27,17 +27,25 @@ const Booking = ({ route, navigation }) => {
   const [distanceTime, setDistanceTime] = useState({ distance: null, duration: null })
   const [towType, setTowType] = useState('BIKE')
   const [popupStep, setPopupStep] = useState(rideDetails != null ? 1 : 0)
+  const [selectedDriver, setSelectedDriver] = useState(null)
+  const [driverDistanceTime, setDriverDistanceTime] = useState({ distance: null, duration: null })
   const [, forceRender] = useReducer(x => x + 1, 0);
 
+
   useEffect(() => {
-    Geocoder.from(source)
-      .then(data => {
-        source.address = data.results[0].formatted_address
-        forceRender()
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    try {
+      Geocoder.from(source)
+        .then(data => {
+          source.address = data.results[0].formatted_address
+          forceRender()
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+    catch (e) {
+      //console.log('>>> useEffect Geocoder')
+    }
   }, [])
 
 
@@ -52,33 +60,81 @@ const Booking = ({ route, navigation }) => {
     }
   }, [isFocused, popupStep]);
 
+  const handleDriverSelection = () => {
+    console.log('selection >>>', selectedDriver)
+  }
+
   /*
    * Socket Handler
    */
   const socketHandler = async () => {
-    socket = await API.SOCKET('/user-ride-request')
-    socket.on('connect', () => {
-      socket.emit('initialize', { ride_id: rideDetails._id }, (response)=>{
+    try {
+      socket = await API.SOCKET('/user-ride-request')
+      socket.on('connect', () => {
+        socket.emit('initialize', { ride_id: rideDetails._id }, (response) => {
+          Ddux.setCache('ride', {
+            ...response,
+            destination: { address: response.destination.address, latitude: response.destination.coordinates[1], longitude: response.destination.coordinates[0] },
+            source: { address: response.source.address, latitude: response.source.coordinates[1], longitude: response.source.coordinates[0] }
+          })
+        })
+      });
+
+      socket.on('new_driver_update', (response) => {
+        socket.emit('initialize', { ride_id: rideDetails._id }, (response) => {
+          setSelectedDriver(prev => {
+            if (!prev)
+              return prev
+            const isSelectedDriverStillAvailable = response.available_drivers.filter(driver_id => driver_id == selectedDriver._id)
+            if (isSelectedDriverStillAvailable.length < 1)
+              return null
+            else
+              return prev
+          })
+
+          Ddux.setCache('ride', {
+            ...response,
+            destination: { address: response.destination.address, latitude: response.destination.coordinates[1], longitude: response.destination.coordinates[0] },
+            source: { address: response.source.address, latitude: response.source.coordinates[1], longitude: response.source.coordinates[0] }
+          })
+        })
+      })
+
+      socket.on('disconnect', () => {
+
+      });
+    }
+    catch (e) {
+      //console.log('>>> Socket Initialize')
+    }
+  }
+
+  const cancelRideRequest = async () => {
+    socket.emit('cancel_ride_request', { ride_id: rideDetails._id }, (response) => {
+      if (response) {
+        setPopupStep(prev => 0)
+        setSelectedDriver(null)
+        Ddux.setCache('ride', null)
+      }
+    })
+  }
+
+  const hireMe = async () => {
+    Ddux.setData('loading', true)
+
+    socket.emit('hire_driver', { active_vehicle: selectedDriver.active_vehicle, driver_id: selectedDriver._id, cost: parseFloat(selectedDriver.vehicle_details.cost_per_km * rideDetails.distance).toFixed(2) }, (response) => {
+      Ddux.setData('loading', false)
+      if (response) {
+        if (response == false)
+          return Toast.show({ type: 'error', message: 'Oops! Driver is currently unavailable. Please try another driver.' })
         Ddux.setCache('ride', {
           ...response,
           destination: { address: response.destination.address, latitude: response.destination.coordinates[1], longitude: response.destination.coordinates[0] },
           source: { address: response.source.address, latitude: response.source.coordinates[1], longitude: response.source.coordinates[0] }
         })
-      })  
-    });
-
-    socket.on('disconnect', () => {
-
-    });
-  }
-
-  const cancelRideRequest = async ()=>{
-    socket.emit('cancel_ride_request', { ride_id: rideDetails._id }, (response)=>{
-      if(response){
-      setPopupStep(prev=>0)
-      Ddux.setCache('ride', null)
+        // TODO:Navigate to the Home_InProgress
       }
-    })  
+    })
   }
 
   const createRideRequest = async () => {
@@ -110,7 +166,7 @@ const Booking = ({ route, navigation }) => {
   return (
     <Container isTransparentStatusBar={false}>
       <Header _this={{ navigation }} />
-      <Body _this={{ navigation, destination, map, setDistanceTime, source, towType, setTowType, popupStep, setPopupStep, createRideRequest, rideDetails, cancelRideRequest }} />
+      <Body _this={{ navigation, destination, map, setDistanceTime, source, towType, setTowType, popupStep, setPopupStep, createRideRequest, rideDetails, cancelRideRequest, selectedDriver, setSelectedDriver, driverDistanceTime, setDriverDistanceTime, hireMe }} />
     </Container>
   )
 }
