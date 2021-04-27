@@ -10,13 +10,13 @@ import {
 import { useIsFocused } from '@react-navigation/native';
 import style from './style'
 import Geolocation from 'react-native-geolocation-service';
-import Config, { GOOGLE_MAP_API_KEY } from 'src/config'
-import { Container, Toast } from 'src/components'
-import API from 'src/services/api'
+import Config, { GOOGLE_MAP_API_KEY } from '../../config'
+import { Container, Toast } from '../../components'
+import API from '../../services/api'
 import Header from './header'
 import Body from './body'
 import Popup from './popup'
-import { useDdux, useTheme } from 'src/hooks'
+import { useDdux, useTheme } from '../../hooks'
 import Geocoder from 'react-native-geocoding';
 Geocoder.init(GOOGLE_MAP_API_KEY);
 
