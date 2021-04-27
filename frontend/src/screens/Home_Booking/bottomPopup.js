@@ -5,7 +5,8 @@ import {
     Image,
     TouchableOpacity,
     TextInput,
-    FlatList
+    FlatList,
+    TouchableWithoutFeedback
 } from 'react-native';
 import { useTheme } from '../../hooks'
 import style from './style'
@@ -24,7 +25,7 @@ const BottomPopup = ({ _this }) => {
         <View style={styles.bottomPopup}>
             <View style={styles.curveHeader}>
             </View>
-            { _this.popupStep == 0 ? <TowSelector _this={_this} /> : _this.popupStep == 1 ? <TowSearchProgress _this={_this} /> : null }
+            { _this.popupStep == 0 ? <TowSelector _this={_this} /> : _this.popupStep == 1 ? <TowSearchProgress _this={_this} /> : null}
         </View>
     )
 }
@@ -40,7 +41,8 @@ const TowSearchProgress = ({ _this }) => {
         }
         rating = parseFloat(rating / item.reviews.length || 0).toFixed(1)
         return (
-            <View style={styles.renderItem}>
+            <TouchableWithoutFeedback onPress={()=>_this.setSelectedDriver(item)} >
+            <View style={[styles.renderItem,(_this.selectedDriver && _this.selectedDriver._id)? styles.renderSelectedItem : null ]}>
                 <Image source={{ uri: API_STORAGE + item.profile_picture }} style={styles.dp} />
                 <Text style={styles.itemName}>{item.user_details.name}</Text>
                 <Text style={styles.cost}><Text style={styles.currency}>$</Text> {parseFloat(item.vehicle_details.cost_per_km * _this.rideDetails.distance).toFixed(2)}</Text>
@@ -49,6 +51,7 @@ const TowSearchProgress = ({ _this }) => {
                     <Text style={styles.ratingValue}> {rating}</Text>
                 </View>
             </View>
+            </TouchableWithoutFeedback>
         )
     }
 
@@ -97,7 +100,7 @@ const TowSearchProgress = ({ _this }) => {
                 <Text style={styles.popupTitle}>Connecting to Tow Drivers ..... </Text>
             </View>}
 
-            <TouchableOpacity onPress={() => _this.cancelRideRequest()} style={[styles.marginBottom10, styles.flexRow, styles.continueButton]}>
+            <TouchableOpacity onPress={() => _this.cancelRideRequest()} style={[styles.marginBottom20, styles.flexRow, styles.continueButton]}>
                 <Text style={styles.continueButtonText}>Cancel Request</Text>
                 <View style={styles.continueButtonIcon}>
                     <Icon name='close' size={Typography.FONT_SIZE_25} color={Colors.primary} />
@@ -116,6 +119,10 @@ const TowSelector = ({ _this }) => {
         <View style={styles.content}>
             <Text style={styles.popupTitle}>Select Tow</Text>
             <View style={[styles.flexRow, styles.spaceBetween]}>
+                 <TouchableOpacity onPress={() => _this.setTowType('PRIVATE')} style={[styles.towImageContainer, (_this.towType == 'PRIVATE') ? styles.towImageContainerSelected : null]}>
+                    <Image source={tow_private} style={styles.towImage} />
+                    <Text style={styles.towName}>Tow Private</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={() => _this.setTowType('BIKE')} style={[styles.towImageContainer, (_this.towType == 'BIKE') ? styles.towImageContainerSelected : null]}>
                     <Image source={tow_bike} style={styles.towImage} />
                     <Text style={styles.towName}>Tow Bike</Text>
@@ -123,10 +130,6 @@ const TowSelector = ({ _this }) => {
                 <TouchableOpacity onPress={() => _this.setTowType('TRUCK')} style={[styles.towImageContainer, (_this.towType == 'TRUCK') ? styles.towImageContainerSelected : null]}>
                     <Image source={tow_truck} style={styles.towImage} />
                     <Text style={styles.towName}>Tow Truck/Bus</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => _this.setTowType('PRIVATE')} style={[styles.towImageContainer, (_this.towType == 'PRIVATE') ? styles.towImageContainerSelected : null]}>
-                    <Image source={tow_private} style={styles.towImage} />
-                    <Text style={styles.towName}>Tow Private</Text>
                 </TouchableOpacity>
             </View>
             <View style={[styles.flex1, styles.marginTop10]}>
@@ -145,7 +148,7 @@ const TowSelector = ({ _this }) => {
                     </View>
                 </View>
             </View>
-            <TouchableOpacity onPress={() => _this.createRideRequest()} style={[styles.marginBottom10, styles.flexRow, styles.continueButton]}>
+            <TouchableOpacity onPress={() => _this.createRideRequest()} style={[styles.marginBottom20, styles.flexRow, styles.continueButton]}>
                 <Text style={styles.continueButtonText}>Continue</Text>
                 <View style={styles.continueButtonIcon}>
                     <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
