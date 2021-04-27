@@ -113,6 +113,9 @@ const style = ({ Colors }) => (StyleSheet.create({
         borderRadius: 10,
         paddingVertical: Spacing.SCALE_5
     },
+    renderSelectedItem:{
+        backgroundColor: Colors.grey,
+    },
     dp:{
         width: Mixins.scaleSize(50),
         height: Mixins.scaleSize(50),
@@ -146,6 +149,34 @@ const style = ({ Colors }) => (StyleSheet.create({
     ratingValue:{
         color: Colors.primary,
         fontSize: Typography.FONT_SIZE_14
+    },
+    markerImage: {
+        width: Mixins.scaleSize(30),
+        height: Mixins.scaleSize(30),
+        resizeMode: 'contain',
+        transform: [{
+            rotate: '270deg'
+        }]
+    },
+    hireMeContainer:{
+        position: 'absolute',
+        backgroundColor: Colors.background,
+        width: Mixins.scaleSize(150),
+        alignSelf: 'center',
+        bottom: Mixins.scaleSize(300) + Spacing.SCALE_30,
+        borderColor: Colors.black,
+        borderWidth: 1,
+        borderRadius: 11
+    },
+    hireMeButton:{
+        marginHorizontal: 0,
+        borderTopRightRadius: 0,
+        borderTopLeftRadius: 0
+    },
+    hireMeText:{
+        fontSize: Typography.FONT_SIZE_16,
+        color: Colors.black,
+        margin: Spacing.SCALE_5
     }
 })
 );
