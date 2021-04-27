@@ -15,6 +15,13 @@ import { hamburger } from '../../assets'
 
 const Header = ({ _this }) => {
     const [Colors, styles] = useTheme(style)
+
+    const navigate = ()=>{
+        _this.rideDetails.ride_status == 'searching' ?
+    _this.navigation.navigate('Home_Booking', { destination: _this.rideDetails.destination, source: _this.rideDetails.source })
+    : _this.navigation.navigate('Home_InProgress')
+    }
+
     return (
         <View style={styles.header}>
             <TouchableOpacity onPress={() => _this.navigation.toggleDrawer()}>
@@ -43,7 +50,7 @@ const Header = ({ _this }) => {
                 }}
             />}
             {
-                _this.rideDetails && <TouchableOpacity onPress={()=>_this.navigation.navigate('Home_Booking', { destination: _this.rideDetails.destination, source: _this.rideDetails.source })} style={[styles.flexRow, styles.continueButton]}>
+                _this.rideDetails && <TouchableOpacity onPress={()=>navigate()} style={[styles.flexRow, styles.continueButton]}>
                 <Text style={styles.continueButtonText}>In-progress Booking</Text>
                 <View style={styles.continueButtonIcon}>
                     <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
