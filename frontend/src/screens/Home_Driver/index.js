@@ -5,6 +5,7 @@ import {
     Text,
     Animated,
     Easing,
+    SafeAreaView,
     PermissionsAndroid,
 } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
@@ -36,6 +37,7 @@ const Home = ({ navigation }) => {
     const [permissionPopup, setPermissionPopup] = useState(false)
     const [rideRequests, setRideRequests] = useState([])
     const [selectedRideRequest, setSelectedRideRequest] = useState(null)
+    const [isActiveRideExists, setIsActiveRideExists] = useState(null)
     const [isMapLoaded, setIsMapLoaded] = useState(false)
     const [currentLocation, setCurrentLocation] = useState({
         latitude: 31.767664,
@@ -51,11 +53,21 @@ const Home = ({ navigation }) => {
     const socketHandler = async (currentLocation) => {
         socket = await API.SOCKET('/driver-ride-request')
         socket.on('connect', () => {
-            socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation })
+            socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation }, (response) => {
+                setIsActiveRideExists(response.active_ride)
+                setSelectedRideRequest(null)
+                setRideRequests(prev => response.nearest_ride_requests)
+            })
         });
-        socket.on('initial_ride_requests', (data) => {
-            setRideRequests(prev => data)
+
+        socket.on('new_booking_update', (response) => {
+            socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation }, (response) => {
+                setSelectedRideRequest(null)
+                setIsActiveRideExists(response.active_ride)
+                setRideRequests(prev => response.nearest_ride_requests)
+            })
         })
+
         socket.on('disconnect', () => {
 
         });
@@ -64,12 +76,13 @@ const Home = ({ navigation }) => {
     const processTowRequest = async () => {
         if (selectedRideRequest.available_drivers.includes(userDetails.driver_details)) {
             socket.emit('decline_tow_request', { ride_id: selectedRideRequest._id, driver_id: userDetails.driver_details }, (response) => {
-                if(response) {
+                if (response) {
                     setRideRequests(prev => {
                         return prev.map(item => {
                             if (item._id == selectedRideRequest._id) {
-                                item.available_drivers = item.available_drivers.filter(driver=>driver!==userDetails.driver_details)
+                                item.available_drivers = item.available_drivers.filter(driver => driver !== userDetails.driver_details)
                             }
+                            setSelectedRideRequest(prev => item)
                             return item
                         })
                     })
@@ -79,12 +92,13 @@ const Home = ({ navigation }) => {
         else {
             // Accept Tow Request
             socket.emit('accept_tow_request', { ride_id: selectedRideRequest._id, driver_id: userDetails.driver_details }, (response) => {
-                if(response) {
+                if (response) {
                     setRideRequests(prev => {
                         return prev.map(item => {
                             if (item._id == selectedRideRequest._id) {
                                 item.available_drivers.push(userDetails.driver_details)
                             }
+                            setSelectedRideRequest(prev => item)
                             return item
                         })
                     })
@@ -191,7 +205,8 @@ const Home = ({ navigation }) => {
                     error => {
                         console.log('request permission ==>>', error)
                         setPermissionPopup(true)
-                    }
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
                 )
             }
         } catch (err) {
@@ -201,9 +216,11 @@ const Home = ({ navigation }) => {
 
     return (
         <Container isTransparentStatusBar={true} style={styles.fullHeightContainer}>
-            <Header _this={{ navigation }} />
-            <Body _this={{ map, currentLocation, navigation, setIsMapLoaded, rideRequests, selectedRideRequest, setSelectedRideRequest, processTowRequest, userDetails }} />
-            <Popup _this={{ permissionPopup, setPermissionPopup, requestLocationPermission }} />
+            <SafeAreaView style={[styles.flex1]}>
+                <Header _this={{ navigation }} />
+                <Body _this={{ map, currentLocation, navigation, setIsMapLoaded, rideRequests, selectedRideRequest, setSelectedRideRequest, processTowRequest, userDetails, isActiveRideExists }} />
+                <Popup _this={{ permissionPopup, setPermissionPopup, requestLocationPermission }} />
+            </SafeAreaView>
         </Container>
     )
 }
