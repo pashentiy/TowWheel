@@ -180,7 +180,8 @@ const Home = ({ navigation }) => {
                     error => {
                         console.log('request permission ==>>', error)
                         setPermissionPopup(true)
-                    }
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
                 )
             }
 
@@ -200,13 +201,13 @@ const Home = ({ navigation }) => {
             if (!granted)
                 setPermissionPopup(true)
             else {
-                onLocationAvailable()
                 Geolocation.getCurrentPosition(
                     info => { onLocationAvailable(info) },
                     error => {
                         console.log('request permission ==>>', error)
                         setPermissionPopup(true)
-                    }
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
                 )
             }
         } catch (err) {
