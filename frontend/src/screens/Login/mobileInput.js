@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     TextInput,
     TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import style from './style'
 import { Mixins } from '../../styles'
@@ -27,39 +28,41 @@ const MobileInput = ({ _this }) => {
     return (
         <View style={styles.flex1}>
             <KeyboardHandledView offset={20}>
-                <View style={styles.flex1, styles.alignCenter}>
-                    <Image
-                        style={styles.logo}
-                        source={login}
-                    />
-                    <Text style={styles.title}>Get Started</Text>
-                    <Text style={styles.subtitle}>Please enter mobile number to continue.</Text>
-                    <TouchableWithoutFeedback onPress={() => _this.setIsModalVisible(true)} >
-                        <View style={styles.inputContainer}>
-                            <Image source={{ uri: _this.countryData.flag }} style={styles.flag} />
-                            <Text style={styles.inputText}>{`${_this.countryData.name}  (+${_this.countryData.callingCode})`}</Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                    <View style={styles.inputContainer}>
-                        <Image source={handset} style={styles.flag} />
-                        <Text style={[styles.inputText, styles.countryCode]}>+({_this.countryData.callingCode})</Text>
-                        <TextInput
-                            ref={inputEl}
-                            style={styles.inputNumber}
-                            onChangeText={(text)=>_this.setPhone(text)}
-                            value={_this.phone}
-                            placeholder="Phone number"
-                            placeholderTextColor={Colors.muted_text}
-                            //autoFocus={true}
-                            keyboardType="numeric"
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <View style={styles.flex1, styles.alignCenter}>
+                        <Image
+                            style={styles.logo}
+                            source={login}
                         />
-                    </View>
-                    <TouchableOpacity onPress={()=>_this.getVerificationCode()}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>Get Code</Text>
+                        <Text style={styles.title}>Get Started</Text>
+                        <Text style={styles.subtitle}>Please enter mobile number to continue.</Text>
+                        <TouchableWithoutFeedback onPress={() => _this.setIsModalVisible(true)} >
+                            <View style={styles.inputContainer}>
+                                <Image source={{ uri: _this.countryData.flag }} style={styles.flag} />
+                                <Text style={styles.inputText}>{`${_this.countryData.name}  (+${_this.countryData.callingCode})`}</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        <View style={styles.inputContainer}>
+                            <Image source={handset} style={styles.flag} />
+                            <Text style={[styles.inputText, styles.countryCode]}>+({_this.countryData.callingCode})</Text>
+                            <TextInput
+                                ref={inputEl}
+                                style={styles.inputNumber}
+                                onChangeText={(text)=>_this.setPhone(text)}
+                                value={_this.phone}
+                                placeholder="Phone number"
+                                placeholderTextColor={Colors.muted_text}
+                                //autoFocus={true}
+                                keyboardType="numeric"
+                            />
                         </View>
-                    </TouchableOpacity>
-                </View>
+                        <TouchableOpacity onPress={()=>_this.getVerificationCode()}>
+                            <View style={styles.button}>
+                                <Text style={styles.buttonText}>Get Code</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableWithoutFeedback>
             </KeyboardHandledView>
             <Modal
                 style={styles.modal}
