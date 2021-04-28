@@ -132,7 +132,7 @@ const Booking = ({ route, navigation }) => {
           destination: { address: response.destination.address, latitude: response.destination.coordinates[1], longitude: response.destination.coordinates[0] },
           source: { address: response.source.address, latitude: response.source.coordinates[1], longitude: response.source.coordinates[0] }
         })
-        // TODO:Navigate to the Home_InProgress
+        navigation.replace('Home_InProgress')
       }
     })
   }
