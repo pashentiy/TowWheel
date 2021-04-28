@@ -329,7 +329,8 @@ module.exports = {
 					return
 
 				callback(true)
-				socket.to(ride_id).emit('cancel_ride_request')
+				io.of('/driver-ride-request').to(data.driver_id + '').emit('new_booking_update', true)
+				socket.to(ride_id).emit('cancel_ride_request',true)
 
 			});
 
