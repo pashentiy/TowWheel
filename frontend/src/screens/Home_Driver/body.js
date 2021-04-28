@@ -50,7 +50,7 @@ const Body = ({ _this }) => {
                 </MapView>
             </View>
             <View style={[styles.flex1, styles.centerAll, styles.content]}>
-                {_this.rideRequests.length > 0 && (
+                {_this.rideRequests.length > 0 && !_this.isActiveRideExists && (
                     <>
                         <FlatList
                             contentContainerStyle={styles.flatlist}
@@ -68,21 +68,30 @@ const Body = ({ _this }) => {
                             ListFooterComponent={null}
                             ListHeaderComponent={null}
                         />
-                        {_this.selectedRideRequest && 
-                        <TouchableOpacity onPress={() => _this.processTowRequest()} style={[styles.marginBottom10, styles.flexRow, styles.continueButton]}>
-                            <Text style={styles.continueButtonText}>{isRideAccepted ? 'Decline Tow Request' : 'Accept Tow Request'}</Text>
-                            <View style={styles.continueButtonIcon}>
-                                <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
-                            </View>
-                        </TouchableOpacity>
+                        {_this.selectedRideRequest &&
+                            <TouchableOpacity onPress={() => _this.processTowRequest()} style={[styles.marginBottom25, styles.flexRow, styles.continueButton]}>
+                                <Text style={styles.continueButtonText}>{isRideAccepted ? 'Decline Tow Request' : 'Accept Tow Request'}</Text>
+                                <View style={styles.continueButtonIcon}>
+                                    <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                                </View>
+                            </TouchableOpacity>
                         }
                     </>
                 )
                 }
-                {_this.rideRequests.length < 1 && <>
+                {_this.rideRequests.length < 1 && !_this.isActiveRideExists && <>
                     <Image source={avatarGif} style={styles.avatarGif} />
                     <Text style={styles.popupTitle}>Waiting for ride request ..... </Text>
                 </>}
+                {
+                    _this.isActiveRideExists &&
+                    <TouchableOpacity onPress={() => _this.navigation.navigate('Home_Driver_InProgress',{ride_details: _this.isActiveRideExists})} style={[styles.marginBottom10, styles.flexRow, styles.continueButton]}>
+                        <Text style={styles.continueButtonText}>Tow In-progress</Text>
+                        <View style={styles.continueButtonIcon}>
+                            <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                        </View>
+                    </TouchableOpacity>
+                }
             </View>
         </>
     )
@@ -116,7 +125,7 @@ const RideRequest = ({ _this, item }) => {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.centerAll}>
+                    <View style={[styles.centerAll, styles.marginLeft20]}>
                         <Text style={styles.value}>{parseFloat(item.distance).toFixed(1)}<Text style={styles.symbol}> km</Text></Text>
                         <Text style={styles.value}><Text style={styles.symbol}>$ </Text>{parseFloat(220.00).toFixed(2)}</Text>
                     </View>
