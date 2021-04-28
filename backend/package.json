@@ -1,26 +1,43 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "TowWheel",
   "main": "app.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "apidoc": {
+    "title": "TowWheel API docs",
+    "url": "http://localhost:3001"
   },
-  "keywords": [],
-  "author": "",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon server.js",
+    "apidoc": "apidoc -i controllers/ -o public/apidoc/"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pashentiy/TowWheel.git"
+  },
+  "author": "pashentiy",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pashentiy/TowWheel/issues"
+  },
+  "homepage": "https://github.com/pashentiy/TowWheel/blob/main/README.md",
   "dependencies": {
-    "aws-sdk": "^2.865.0",
+    "aws-sdk": "^2.863.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
+    "express-fileupload": "^1.1.7-alpha.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.0",
+    "mongoose": "^5.9.18",
     "node-fetch": "^2.6.1",
-    "sharp": "^0.27.2",
-    "socket.io": "^4.0.0"
-  }
+    "sharp": "^0.25.4",
+    "socket.io": "^3.1.1",
+    "socket.io-client": "^3.1.1"
+  },
+  "devDependencies": {}
 }
