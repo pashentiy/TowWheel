@@ -26,7 +26,7 @@ const EDGE_PADDING = {
 const Body = ({ _this }) => {
     const [Colors, styles] = useTheme(style)
     const onMapReadyHandler = useCallback(() => {
-        _this.map.current.fitToSuppliedMarkers(['source', 'destination', 'driver'],{ edgePadding: EDGE_PADDING, animated: true })
+        _this.map.current.fitToSuppliedMarkers(['source', 'destination', 'driver'], { edgePadding: EDGE_PADDING, animated: true })
     }, [_this.map, _this.selectedDriver])
 
     return (
@@ -43,7 +43,7 @@ const Body = ({ _this }) => {
                 //onUserLocationChange={_this.onUserLocationChange}
                 rotateEnabled={false}
                 //showsMyLocationButton={true}
-                initialRegion={{..._this.source,latitudeDelta: 0.02,longitudeDelta: 0.02,}}
+                initialRegion={{ ..._this.source, latitudeDelta: 0.02, longitudeDelta: 0.02, }}
             >
                 <Marker
                     identifier='source'
@@ -104,9 +104,12 @@ const Body = ({ _this }) => {
             <BottomPopup _this={_this} />
             {_this.selectedDriver &&
                 <View style={styles.hireMeContainer}>
+                    <TouchableOpacity onPress={()=> _this.setSelectedDriver(null)}>
+                        <Text style={{ textAlign: "right", paddingRight: 10, paddingTop: 5 }}>X</Text>
+                    </TouchableOpacity>
                     <Text style={styles.hireMeText}><Icon name='location' size={Typography.FONT_SIZE_18} color={Colors.black} /> {parseFloat(_this.driverDistanceTime.distance).toFixed(1)} km</Text>
                     <Text style={styles.hireMeText}><Icon name='time' size={Typography.FONT_SIZE_18} color={Colors.black} /> {parseFloat(_this.driverDistanceTime.duration / 60).toFixed(1)} hr</Text>
-                    <TouchableOpacity onPress={() => _this.hireMe()} style={[styles.flexRow, styles.continueButton,styles.hireMeButton]}>
+                    <TouchableOpacity onPress={() => _this.hireMe()} style={[styles.flexRow, styles.continueButton, styles.hireMeButton]}>
                         <Text style={styles.continueButtonText}>Hire Me</Text>
                         <View style={styles.continueButtonIcon}>
                             <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
