@@ -25,7 +25,7 @@ const Booking = ({ route, navigation }) => {
   const userDetails = Ddux.cache('user')
   const map = useRef(null)
   const [distanceTime, setDistanceTime] = useState({ distance: null, duration: null })
-  const [towType, setTowType] = useState('BIKE')
+  const [towType, setTowType] = useState('PRIVATE')
   const [popupStep, setPopupStep] = useState(rideDetails != null ? 1 : 0)
   const [selectedDriver, setSelectedDriver] = useState(null)
   const [driverDistanceTime, setDriverDistanceTime] = useState({ distance: null, duration: null })
