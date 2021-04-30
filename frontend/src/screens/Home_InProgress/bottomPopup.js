@@ -33,7 +33,7 @@ const BottomPopup = ({ _this }) => {
 
 const TowSearchProgress = ({ _this }) => {
     const [Colors, styles] = useTheme(style)
-    
+
 
     return _this.rideDetails && (
         <View style={styles.content}>
@@ -45,7 +45,7 @@ const TowSearchProgress = ({ _this }) => {
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
                     <Icon name='time' size={Typography.FONT_SIZE_22} color={Colors.black} />
-                    <Text style={styles.distance}>{parseFloat(_this.rideDetails.time / 60).toFixed(1)} hr</Text>
+                    <Text style={styles.distance}>{parseInt(_this.rideDetails.time / 60)} hr {parseInt(_this.rideDetails.time % 60)} min</Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
                     <Icon2 name='usd' size={Typography.FONT_SIZE_20} color={Colors.black} />
@@ -55,6 +55,7 @@ const TowSearchProgress = ({ _this }) => {
 
             <View style={[styles.flexRow, styles.alignCenter, styles.spaceBetween, styles.marginTop10]}>
                 <View style={[styles.flexRow, styles.alignCenter]}>
+                    {/* <Image source={{ uri: API_STORAGE + item.profile_picture }} style={styles.dp} /> */}
                     <Icon name='person' size={Typography.FONT_SIZE_22} color={Colors.black} />
                     <Text style={styles.distance}>  {_this.driverVehicleDetails && _this.driverVehicleDetails.driver_details.name}</Text>
                 </View>

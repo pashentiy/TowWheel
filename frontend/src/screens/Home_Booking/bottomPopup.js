@@ -66,7 +66,7 @@ const TowSearchProgress = ({ _this }) => {
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
                     <Icon name='time' size={Typography.FONT_SIZE_22} color={Colors.black} />
-                    <Text style={styles.distance}>{parseFloat(_this.rideDetails.time / 60).toFixed(1)} hr</Text>
+                    <Text style={styles.distance}>{parseInt(_this.rideDetails.time / 60)} hr {parseInt(_this.rideDetails.time % 60)} min </Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
                     <Icon2 name='toggle-on' size={Typography.FONT_SIZE_25} color={Colors.primary} />
