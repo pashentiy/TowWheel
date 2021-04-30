@@ -3,7 +3,8 @@ import {
     Keyboard,
     Text,
     View,
-    StyleSheet
+    StyleSheet,
+    Alert
 } from 'react-native';
 import {
     createDrawerNavigator,
@@ -22,6 +23,25 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
     const language = useLanguage()
     const Ddux = useDdux()
     const user = Ddux.cache('user')
+    const showAlert = () => {
+        Alert.alert(
+            "Logout",
+            "Are you sure?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "OK", onPress: () => {
+                        Ddux.clear();
+                        setTimeout(() => navigation.replace('Splash'), 500)
+                    }
+                }
+            ]
+        );
+    }
     return (
         <DrawerContentScrollView
             contentContainerStyle={{
@@ -30,41 +50,41 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             {...props}
         >
             <Header user={user} language={language} />
-            {(user && Object.keys(user).length > 0) && 
-            <>
-            <DrawerItemList 
-            activeTintColor={Colors.primary}
-            activeBackgroundColor={Colors.secondary20}
-            navigation={navigation}
-            {...props} 
-            />
-            <DrawerItem
-                label="Logout"
-                onPress={() => { Ddux.clear(); setTimeout(()=>navigation.replace('Splash'),500) }}
-            />
-            </>
+            {(user && Object.keys(user).length > 0) &&
+                <>
+                    <DrawerItemList
+                        activeTintColor={Colors.primary}
+                        activeBackgroundColor={Colors.secondary20}
+                        navigation={navigation}
+                        {...props}
+                    />
+                    <DrawerItem
+                        label="Logout"
+                        onPress={showAlert}
+                    />
+                </>
             }
-            {(!user || Object.keys(user).length == 0) && <TouchableOpacity onPress={()=>{navigation.toggleDrawer();navigation.push('Login')}}>
-            <View style={styles.button}>
-                <View style={styles.buttonIconWrapper}>
-                    <Icon name='sign-in' color={Colors.white} size={Typography.FONT_SIZE_22} />
+            {(!user || Object.keys(user).length == 0) && <TouchableOpacity onPress={() => { navigation.toggleDrawer(); navigation.push('Login') }}>
+                <View style={styles.button}>
+                    <View style={styles.buttonIconWrapper}>
+                        <Icon name='sign-in' color={Colors.white} size={Typography.FONT_SIZE_22} />
+                    </View>
+                    <Text style={styles.buttonText}>{language.t('sign_in')}</Text>
                 </View>
-                <Text style={styles.buttonText}>{language.t('sign_in')}</Text>
-            </View>
             </TouchableOpacity>}
             <View style={styles.seperator}></View>
             <DrawerItem
-                icon = {({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
+                icon={({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
                 label="Help"
                 onPress={() => Linking.openURL('https://mywebsite.com/help')}
             />
             <DrawerItem
-                icon = {({ focused, color, size }) => <Icon color={color} size={size} name={'folder'} />}
+                icon={({ focused, color, size }) => <Icon color={color} size={size} name={'folder'} />}
                 label="FAQ"
                 onPress={() => Linking.openURL('https://mywebsite.com/help')}
             />
             <DrawerItem
-                icon = {({ focused, color, size }) => <Icon color={color} size={size} name={'save'} />}
+                icon={({ focused, color, size }) => <Icon color={color} size={size} name={'save'} />}
                 label="Privacy Policy"
                 onPress={() => Linking.openURL('https://mywebsite.com/help')}
             />
@@ -72,29 +92,29 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
     );
 }
 
-const Header = ({user,language}) => {
+const Header = ({ user, language }) => {
     const [Colors, styles] = useTheme(style)
-    const toggleLanguage = (locale)=>{
+    const toggleLanguage = (locale) => {
         language.changeLanguage(locale)
     }
 
     return (
         <View style={styles.header}>
-            <View style={[styles.flex1,styles.justifyEnd,styles.paddingBottom10,styles.paddingLeft10]}>
+            <View style={[styles.flex1, styles.justifyEnd, styles.paddingBottom10, styles.paddingLeft10]}>
                 <View style={styles.profilePicture}>
-                    <Text style={styles.profilePictureAltText}>{(user && user.name)?user.name.charAt(0).toUpperCase():'G'}</Text>
+                    <Text style={styles.profilePictureAltText}>{(user && user.name) ? user.name.charAt(0).toUpperCase() : 'G'}</Text>
                 </View>
-                <Text style={styles.name}>{(user && user.name)?user.name:'Guest User'}</Text>
-                <Text style={styles.number}>{(user && user.mobile)?'+'+user.mobile:'Please sign in.'}</Text>
+                <Text style={styles.name}>{(user && user.name) ? user.name : 'Guest User'}</Text>
+                <Text style={styles.number}>{(user && user.mobile) ? '+' + user.mobile : 'Please sign in.'}</Text>
             </View>
             <View style={styles.languageToggle}>
-                <TouchableOpacity onPress={()=>toggleLanguage('en')} style={[styles.marginBottom10]}>
-                    <View style={[styles.languageButton,language.language=='en'?styles.languageButtonActive:null]}>
+                <TouchableOpacity onPress={() => toggleLanguage('en')} style={[styles.marginBottom10]}>
+                    <View style={[styles.languageButton, language.language == 'en' ? styles.languageButtonActive : null]}>
                         <Text style={styles.languageOption}>🇺🇸</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>toggleLanguage('he')}>
-                    <View style={[styles.languageButton,language.language=='he'?styles.languageButtonActive:null]}>
+                <TouchableOpacity onPress={() => toggleLanguage('he')}>
+                    <View style={[styles.languageButton, language.language == 'he' ? styles.languageButtonActive : null]}>
                         <Text style={styles.languageOption}>🇮🇱</Text>
                     </View>
                 </TouchableOpacity>
@@ -135,7 +155,7 @@ const style = ({ Colors }) => (StyleSheet.create({
         alignItems: 'center',
         borderRadius: 50
     },
-    seperator:{
+    seperator: {
         width: '90%',
         alignSelf: 'center',
         height: 1,
@@ -157,13 +177,13 @@ const style = ({ Colors }) => (StyleSheet.create({
         height: Mixins.scaleSize(40),
         borderRadius: 50,
     },
-    languageButtonActive:{
+    languageButtonActive: {
         backgroundColor: Colors.primary_light,
     },
     languageOption: {
         fontSize: Typography.FONT_SIZE_25
     },
-    profilePicture:{
+    profilePicture: {
         backgroundColor: Colors.primary_dark,
         width: Mixins.scaleSize(60),
         height: Mixins.scaleSize(60),
@@ -172,15 +192,15 @@ const style = ({ Colors }) => (StyleSheet.create({
         alignItems: 'center',
         marginBottom: Spacing.SCALE_8
     },
-    profilePictureAltText:{
+    profilePictureAltText: {
         fontSize: Typography.FONT_SIZE_30,
         color: Colors.secondary
     },
-    name:{
+    name: {
         fontSize: Typography.FONT_SIZE_16,
         color: Colors.white
     },
-    number:{
+    number: {
         fontSize: Typography.FONT_SIZE_12,
         color: Colors.secondary_very_light
     }
