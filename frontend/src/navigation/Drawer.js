@@ -33,7 +33,7 @@ const Dashboard = () => {
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Drawer.Screen name="Home" options={{ headerShown : false }} component={userDetails && userDetails.is_driver ? Screen.Home_Driver : Screen.Home} />
-            <Drawer.Screen name="Notifications" component={Screen.Home} />
+            <Drawer.Screen name="Notifications" options={{ headerShown : false }} component={Screen.Home} />
         </Drawer.Navigator>
         </>
     );
