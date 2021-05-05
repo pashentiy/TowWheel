@@ -40,15 +40,15 @@ const TowSearchProgress = ({ _this }) => {
 
             <View style={[styles.flexRow, styles.alignCenter, styles.spaceBetween, styles.headerDistanceTime]}>
                 <View style={[styles.flexRow, styles.alignCenter]}>
-                    <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.black} />
+                    <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.primary} />
                     <Text style={styles.distance}>{parseFloat(_this.rideDetails.distance).toFixed(1)} km</Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
-                    <Icon name='time' size={Typography.FONT_SIZE_22} color={Colors.black} />
+                    <Icon name='time' size={Typography.FONT_SIZE_22} color={Colors.primary} />
                     <Text style={styles.distance}>{parseInt(_this.rideDetails.time / 60)} hr {parseInt(_this.rideDetails.time % 60)} min</Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
-                    <Icon2 name='usd' size={Typography.FONT_SIZE_20} color={Colors.black} />
+                    <Icon2 name='usd' size={Typography.FONT_SIZE_20} color={Colors.primary} />
                     <Text style={styles.distance}> {parseFloat(_this.rideDetails.payment_details.cost).toFixed(2)}</Text>
                 </View>
             </View>
