@@ -90,7 +90,7 @@ const InProgress = ({ route, navigation }) => {
   }
 
   const callDriver = () => {
-    let phoneNumber = `tel:${driverVehicleDetails.driver_details.mobile}`;
+    let phoneNumber = `tel:+${driverVehicleDetails.driver_details.mobile}`;
     Linking.openURL(phoneNumber);
   };
 

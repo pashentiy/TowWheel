@@ -117,7 +117,7 @@ const InProgress = ({ route, navigation }) => {
   }
 
   const callUser = () => {
-    let phoneNumber = `tel:${rideDetails.user.mobile}`
+    let phoneNumber = `tel:+${rideDetails.user.mobile}`
     Linking.openURL(phoneNumber);
   };
 
