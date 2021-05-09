@@ -6,8 +6,7 @@ import {
     TouchableOpacity,
     TextInput,
     FlatList,
-    TouchableWithoutFeedback,
-    Switch
+    TouchableWithoutFeedback
 } from 'react-native';
 import { useTheme } from '../../hooks'
 import style from './style'
@@ -35,9 +34,6 @@ const BottomPopup = ({ _this }) => {
 const TowSearchProgress = ({ _this }) => {
     const [Colors, styles] = useTheme(style)
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
     const renderItem = ({ item, index }) => {
         let rating = 0
         for (let i = 0; i < item.reviews.length; i++) {
@@ -46,15 +42,15 @@ const TowSearchProgress = ({ _this }) => {
         rating = parseFloat(rating / item.reviews.length || 0).toFixed(1)
         return (
             <TouchableWithoutFeedback onPress={() => _this.setSelectedDriver(item)} >
-                <View style={[styles.renderItem, (_this.selectedDriver && _this.selectedDriver._id) ? styles.renderSelectedItem : null]}>
-                    <Image source={{ uri: API_STORAGE + item.profile_picture }} style={styles.dp} />
-                    <Text style={styles.itemName}>{item.user_details.name}</Text>
-                    <Text style={styles.cost}><Text style={styles.currency}>$</Text> {parseFloat(item.vehicle_details.cost_per_km * _this.rideDetails.distance).toFixed(2)}</Text>
-                    <View style={styles.rating}>
-                        <Icon2 name='star' size={Typography.FONT_SIZE_16} color={Colors.primary} />
-                        <Text style={styles.ratingValue}> {rating}</Text>
-                    </View>
+            <View style={[styles.renderItem, (_this.selectedDriver && _this.selectedDriver._id) ? styles.renderSelectedItem : null]}>
+                <Image source={{ uri: API_STORAGE + item.profile_picture }} style={styles.dp} />
+                <Text style={styles.itemName}>{item.user_details.name}</Text>
+                <Text style={styles.cost}><Text style={styles.currency}>$</Text> {parseFloat(item.vehicle_details.cost_per_km * _this.rideDetails.distance).toFixed(2)}</Text>
+                <View style={styles.rating}>
+                    <Icon2 name='star' size={Typography.FONT_SIZE_16} color={Colors.primary} />
+                    <Text style={styles.ratingValue}> {rating}</Text>
                 </View>
+            </View>
             </TouchableWithoutFeedback>
         )
     }
@@ -65,31 +61,24 @@ const TowSearchProgress = ({ _this }) => {
 
             <View style={[styles.flexRow, styles.alignCenter, styles.spaceBetween, styles.headerDistanceTime]}>
                 <View style={[styles.flexRow, styles.alignCenter]}>
-                    <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.primary} />
+                <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.primary} />
                     <Text style={styles.distance}>{parseFloat(_this.rideDetails.distance).toFixed(1)} km</Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
                     <Icon name='time' size={Typography.FONT_SIZE_22} color={Colors.primary} />
                     <Text style={styles.distance}>{parseInt(_this.rideDetails.time / 60)} hr {parseInt(_this.rideDetails.time % 60)} min </Text>
                 </View>
-                <View style={[styles.flexRow, styles.alignCenter]}>
-                    <Switch style={{}}
-                        trackColor={{ false: "#ffffff", true: "#000000" }}
-                        thumbColor={isEnabled ? "#ffffff" : "#ffffff"}
-                        ios_backgroundColor={Colors.primary}
-                        onValueChange={toggleSwitch}
-                        value={isEnabled}
-                    />
-                    {/* <Icon2 name='toggle-on' size={Typography.FONT_SIZE_25} color={Colors.primary} /> */}
-                    <Text style={styles.distance}> Popularity</Text>
-                </View>
+                <TouchableOpacity onPress={()=>_this.setIsSortTypeCost(!_this.isSortTypeCost)} style={[styles.flexRow, styles.alignCenter,styles.toggle_button]}>
+                    <Icon2 name={_this.isSortTypeCost ? 'toggle-on': 'toggle-off'} size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                    <Text style={styles.distance}> By {_this.isSortTypeCost ? 'Cost':'Popularity'}</Text>
+                </TouchableOpacity>
             </View>
 
-            {_this.rideDetails.available_drivers.length > 0 &&
+            {_this.driverList && _this.driverList.length > 0 &&
                 <>
                     <FlatList
                         //contentContainerStyle={styles.flatlist}
-                        data={_this.rideDetails.available_drivers}
+                        data={_this.driverList}
                         renderItem={renderItem}
                         style={[styles.fullWidth]}
                         ItemSeparatorComponent={null}
@@ -130,7 +119,7 @@ const TowSelector = ({ _this }) => {
         <View style={styles.content}>
             <Text style={styles.popupTitle}>Select Tow</Text>
             <View style={[styles.flexRow, styles.spaceBetween]}>
-                <TouchableOpacity onPress={() => _this.setTowType('PRIVATE')} style={[styles.towImageContainer, (_this.towType == 'PRIVATE') ? styles.towImageContainerSelected : null]}>
+            <TouchableOpacity onPress={() => _this.setTowType('PRIVATE')} style={[styles.towImageContainer, (_this.towType == 'PRIVATE') ? styles.towImageContainerSelected : null]}>
                     <Image source={tow_private} style={styles.towImage} />
                     <Text style={styles.towName}>Tow Private</Text>
                 </TouchableOpacity>
