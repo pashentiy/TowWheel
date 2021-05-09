@@ -177,6 +177,9 @@ const style = ({ Colors }) => (StyleSheet.create({
         fontSize: Typography.FONT_SIZE_16,
         color: Colors.black,
         margin: Spacing.SCALE_5
+    },
+    toggle_button: {
+        width: Mixins.scaleSize(110)
     }
 })
 );
