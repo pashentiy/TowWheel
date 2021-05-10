@@ -1,6 +1,6 @@
 import moment from 'moment';
 moment.locale('en');
-import Config from 'src/config'
+import Config from '../config'
 
 export const ChatTimeFormat = date => {
     const diff = moment(new Date()).diff(new Date(date), 'days')
