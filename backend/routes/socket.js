@@ -12,5 +12,6 @@ module.exports = (io) => {
     io.of('/user-ride-request').on('connection',(socket)=>Socket.UserRideRequest(socket,io));
     io.of('/user-driver-inprogress').on('connection',(socket)=>Socket.UserDriverInprogress(socket,io));
     io.of('/realtime-database-updates').on('connection',(socket)=>Socket.RealtimeDatabaseUpdates(socket,io));
+    io.of('/live-chat').on('connection',(socket)=>Socket.LiveChat(socket,io));
 };
 
