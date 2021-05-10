@@ -1,26 +1,8 @@
-import React from 'react';
-
-import { Container } from '../../components'
-import { useDdux } from '../../hooks'
-import Body from './body'
-import Header from './header'
-
-var socket = null
-
-const Chat = ({ route, navigation }) => {
-  const Ddux = useDdux()
-
-  /*
-   * TODO:// Socket Handler
-   */
-  
-  return (
-    <Container isTransparentStatusBar={false}>
-      <Header _this={{ }} />
-      <Body _this={{ }} />
-    </Container>
-  )
-}
-
-export default Chat
-
+export { default as Splash } from './Splash'
+export { default as Home } from './Home'
+export { default as Login } from './Login'
+export { default as Home_Booking } from './Home_Booking'
+export { default as Home_InProgress } from './Home_InProgress'
+export { default as Home_Driver } from './Home_Driver'
+export { default as Home_Driver_InProgress } from './Home_Driver_InProgress'
+export { default as Chat } from './Chat'
