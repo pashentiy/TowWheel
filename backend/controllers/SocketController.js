@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const Config = require('../config.js');
 const fs = require('fs');
 const { RealtimeListener } = require('../services')
-const { User, ProfilePicture, Driver, Vehicle, Ride, Mongoose } = require('../models')
+const { User, ProfilePicture, Driver, Vehicle, Ride, Chat, Mongoose } = require('../models')
 const Controllers = require('../controllers')
 
 const {
 	IsExists, Insert, Find, CompressImageAndUpload, FindAndUpdate, Delete,
 	HandleSuccess, HandleError, HandleServerError, Aggregate,
-	ValidateEmail, PasswordStrength, ValidateAlphanumeric, ValidateLength, ValidateMobile, isDataURL, GeneratePassword, FindOne
+	ValidateEmail, PasswordStrength, ValidateAlphanumeric, ValidateLength, ValidateMobile, isDataURL, GeneratePassword, FindOne, UpdateMany
 } = require('./BaseController');
 
 var online_drivers = []
@@ -108,8 +108,8 @@ module.exports = {
 					callback(true)
 
 					/*
-						   *	Trigger Realtime update event
-						   */
+					 *	Trigger Realtime update event
+					 */
 
 					RealtimeListener.realtimeDbEvent.emit('new_driver_update', data.ride_id)
 				}
@@ -190,9 +190,9 @@ module.exports = {
 
 				callback(true)
 
-				  /*
-				   *	Trigger Realtime update event
-				   */
+				/*
+				 *	Trigger Realtime update event
+				 */
 
 				RealtimeListener.realtimeDbEvent.emit('new_booking_update', rideLocation.source.coordinates)
 
@@ -223,10 +223,10 @@ module.exports = {
 
 					if (isUpdated && driverChangeAvailability){
 						callback(isUpdated)
-						
+
 						/*
-				   		 *	Trigger Realtime update event
-				   		 */
+								 *	Trigger Realtime update event
+								 */
 
 						RealtimeListener.realtimeDbEvent.emit('hire_driver_update', data.driver_id)
 					}
@@ -265,12 +265,31 @@ module.exports = {
 					.lean()
 					.exec()
 				if (ride_data) {
-					const user_details = await FindOne({
+					const driver_details = await FindOne({
 						model: User,
-						where: { driver_details: ride_data.assigned_driver },
-						select: 'name mobile'
+						where: { driver_details: ride_data.assigned_driver._id },
+						select: '_id name mobile'
 					})
-					ride_data.driver_details = user_details
+					ride_data.driver_details = driver_details
+
+					const unread_chat_count = await Aggregate({
+						model: Chat,
+						data: [
+							{
+								$match: {
+									$and: [
+										{ members: ride_data.user },
+										{ members: driver_details._id }
+									],
+									chats: { $elemMatch: { seen : false, sender: driver_details._id } }
+								}
+							},
+							{ $unwind : "$chats" },
+							{ $match: { "chats.seen" : false, "chats.sender": driver_details._id } },
+							{ $group : { _id : "$_id", chats : { $addToSet : "$chats" } }}
+						]
+					})
+					ride_data.unread_chat_count = unread_chat_count[0]?unread_chat_count[0].chats.length:0
 					callback(ride_data)
 				}
 			});
@@ -286,9 +305,33 @@ module.exports = {
 					populate: 'user',
 					populateField: 'name mobile'
 				})
+				if (ride_data.length > 0) {
+					const driver_details = await FindOne({
+						model: User,
+						where: { driver_details: ride_data[0].assigned_driver },
+						select: '_id name mobile'
+					})
+					const unread_chat_count = await Aggregate({
+						model: Chat,
+						data: [
+							{
+								$match: {
+									$and: [
+										{ members: ride_data[0].user._id },
+										{ members: driver_details._id }
+									],
+									chats: { $elemMatch: { seen : false, sender: ride_data[0].user._id } }
+								}
+							},
+							{ $unwind : "$chats" },
+							{ $match: { "chats.seen" : false, "chats.sender": ride_data[0].user._id } },
+							{ $group : { _id : "$_id", chats : { $addToSet : "$chats" } }}
+						]
+					})
 
-				if (ride_data.length > 0)
+					ride_data[0].unread_chat_count = unread_chat_count[0]?unread_chat_count[0].chats.length:0
 					callback(ride_data[0])
+				}
 			});
 
 			socket.on('update_driver_location', async (data) => {
@@ -407,7 +450,7 @@ module.exports = {
 			socket.on('hire_driver_update', async driver_id => {
 
 				if (online_drivers.filter(d => d == driver_id).length > 0)
-						io.of('/driver-ride-request').to(driver_id + '').emit('new_booking_update', true)
+					io.of('/driver-ride-request').to(driver_id + '').emit('new_booking_update', true)
 
 			});
 
@@ -448,146 +491,7 @@ module.exports = {
 	},
 
 
-	/*RoomChat: async (socket, io) => {
-		try {
-			let room_id = null
-			let user = null
 
-			socket.on('enter', async (room_name, user_details) => {
-				room_id = room_name
-				user = user_details
-				socket.join(room_id);
-				//User entry in database
-				await FindAndUpdate({
-					model: RoomChat,
-					where: { _id: room_id },
-					update: { $push: { online_users: user._id } }
-				});
-				let chatList = await RoomChat.find({ _id: room_id })
-					.select({ chats: 1, online_users: 1 })
-					.sort({ 'chats.createdAt': -1 })
-					.populate({
-						path: 'online_users',
-						select: '_id name gender profile_picture_id',
-						sort: { _id: -1 },
-						populate: {
-							path: 'profile_picture_id',
-							model: 'profile_pictures',
-							select: 'picture'
-						}
-					})
-					.populate({
-						path: 'chats.sender',
-						select: '_id name profile_picture_id',
-						populate: {
-							path: 'profile_picture_id',
-							model: 'profile_pictures',
-							select: 'picture'
-						}
-					})
-					.lean().exec()
-				socket.emit('chat_history', chatList[0]);
-				socket.broadcast.to(room_id).emit('new_user_entry', user);
-			});
-
-			socket.on('disconnect', async function () {
-				//User exit in database
-				await FindAndUpdate({
-					model: RoomChat,
-					where: { _id: room_id },
-					update: { $pull: { online_users: user._id } }
-				});
-				socket.broadcast.to(room_id).emit('user_exit', user);
-			});
-
-			socket.on('send_message', async ({ content, type, _id }) => {
-				let data = {
-					sender: user._id,
-					type: type,
-					content: content
-				}
-				const where = { _id: room_id }
-				const query = {
-					$push: {
-						chats: {
-							$each: [data],
-							$slice: Config.room_chat_count_limit * -1
-						}
-					}
-				}
-
-				let updated = await FindAndUpdate({
-					model: RoomChat,
-					where: where,
-					update: query
-				})
-				if (updated) {
-					socket.emit('message_delivered', { _id: updated.chats[updated.chats.length - 1]._id, message_temp_id: _id });
-
-					data = {
-						sender_id: user._id,
-						sender_name: user.name,
-						profile_picture: user.profile_picture,
-						_id: updated.chats[updated.chats.length - 1]._id,
-						type: updated.chats[updated.chats.length - 1].type,
-						content: updated.chats[updated.chats.length - 1].content,
-						createdAt: updated.chats[updated.chats.length - 1].createdAt
-					}
-
-					socket.broadcast.to(room_id).emit('new_message', data);
-				}
-			});
-
-		} catch (err) {
-			console.log(err)
-		}
-	},
-
-	PictureComment: async (socket, io) => {
-		try {
-			socket.on('startcomment', async function (profile_picture_id) {
-				const room_name = profile_picture_id;
-				socket.join(room_name);
-				let commentList = await Find({
-					model: ProfilePicture,
-					where: { _id: profile_picture_id },
-					select: { comments: { $slice: [0, 50] } },
-					sort: { 'comments.createdAt': -1 }
-				});
-				socket.emit('commenthistory', commentList[0].comments);
-			});
-
-			socket.on('send_comment', async ({ profile_picture_id, commenter_id, commenter_name, commenter_profile_picture, comment }) => {
-				const room_name = profile_picture_id;
-				let data = {
-					commenter_id: commenter_id,
-					commenter_name: commenter_name,
-					commenter_profile_picture: commenter_profile_picture,
-					comment: comment
-				}
-				// console.log(io.of("/picture-comment").adapter.rooms.get(room_name).size)
-				const room_length = io.of("/picture-comment").adapter.rooms.get(room_name).size
-
-				const where = { _id: profile_picture_id }
-				const query = { $push: { comments: data } }
-
-				let updated = await FindAndUpdate({
-					model: ProfilePicture,
-					where: where,
-					update: query
-				})
-				if (updated) {
-					if (room_length > 1)
-						socket.broadcast.to(room_name).emit('comment', data);
-					else {
-						// notification
-					}
-				}
-			});
-		} catch (err) {
-			console.log(err)
-		}
-	}*/
 }
 
 
