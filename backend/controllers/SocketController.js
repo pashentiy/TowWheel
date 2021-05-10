@@ -431,6 +431,116 @@ module.exports = {
 		}
 	},
 
+	LiveChat: async (socket, io) => {
+		try {
+			let chat_id = null
+			let user_id = null
+			let partner_id = null
+			let ride_id = null
+			socket.on('initialize_chat', async (data, callback) => {
+				user_id = data.user_id
+				partner_id = data.partner_id
+				ride_id = data.ride_id
+				let chats = await FindOne({
+					model: Chat,
+					where: {
+						$and: [
+							{ members: user_id },
+							{ members: partner_id }
+						]
+					}
+				})
+
+				if (chats) {
+					chat_id = chats._id + ''
+					socket.join(chat_id)
+					chats = await Chat.findOneAndUpdate(
+						{ _id: chat_id, 'chats.receiver': user_id },
+						{
+							$set: { 'chats.$[chat].seen': true }
+						},
+						{
+							arrayFilters: [
+								{ "chat.receiver": user_id },
+							],
+							new: true
+						}
+					).exec()
+					socket.broadcast.to(chat_id).emit('bulk_seen', chats.chats)
+					callback(chats.chats)
+				}
+				else {
+					const inserted = await Insert({
+						model: Chat,
+						data: {
+							members: [user_id, partner_id]
+						}
+					})
+					chat_id = inserted._id + ''
+					socket.join(chat_id)
+					callback([])
+				}
+			})
+
+			socket.on('new_message', async (message, callback) => {
+				let data = {
+					sender: user_id,
+					receiver: partner_id,
+					message: message
+				}
+				//if(io.of("/live-chat").adapter.rooms.get(chat_id).size > 1)
+
+				if (chat_id) {
+					const chats = await FindAndUpdate({
+						model: Chat,
+						where: { _id: chat_id },
+						update: {
+							$push: {
+								chats: {
+									$each: [data],
+									$slice: -50
+								}
+							}
+						}
+					})
+
+					const inserted = chats.chats.slice(-1)[0]
+					callback(inserted)
+
+					if (io.of("/live-chat").adapter.rooms.get(chat_id).size > 1)
+						socket.broadcast.to(chat_id).emit('new_message', inserted)
+					else {
+						//push alert
+						io.of('/user-driver-inprogress').to(ride_id + '').emit('new_message', inserted)
+					}
+
+				}
+			})
+
+			socket.on('message_seen', async (message_id) => {
+
+				const seen = await FindAndUpdate({
+					model: Chat,
+					where: { _id: chat_id, 'chats._id': message_id },
+					update: {
+						$set: { 'chats.$.seen': true }
+					}
+				})
+
+				socket.broadcast.to(chat_id).emit('message_seen', message_id)
+
+			})
+
+			socket.on('disconnect', async function () {
+				socket.leave(chat_id)
+			});
+
+
+		} catch (err) {
+			console.log(err)
+		}
+	},
+
 
 	/*
 	 *	Realtime Data updates
