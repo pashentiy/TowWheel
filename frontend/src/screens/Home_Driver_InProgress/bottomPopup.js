@@ -61,9 +61,10 @@ const TowSearchProgress = ({ _this }) => {
                             <Icon name='ios-call' size={Typography.FONT_SIZE_25} color={Colors.primary} />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => null} style={[styles.flexRow, styles.callChatButton]}>
+                    <TouchableOpacity onPress={() => {_this.setNewMessageCount(0); _this.navigation.navigate('Chat',{name: _this.rideDetails.user.name, partner_id: _this.rideDetails.user._id, ride_id: _this.rideDetails._id})} } style={[styles.flexRow, styles.callChatButton]}>
                         <View style={styles.callChatButtonIcon}>
                             <Icon name='chatbubbles-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                            {_this.newMessageCount > 0 && <View style={styles.badge}><Text style={styles.badgeText}>{_this.newMessageCount}</Text></View>}
                         </View>
                     </TouchableOpacity>
                 </View>
