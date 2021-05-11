@@ -111,6 +111,23 @@ const style = ({ Colors }) => (StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: Spacing.SCALE_8,
     },
+    badge:{
+        backgroundColor: Colors.black,
+        borderWidth: 2,
+        borderColor: Colors.primary,
+        borderRadius: Spacing.SCALE_30,
+        width: Mixins.scaleSize(25),
+        height: Mixins.scaleSize(25),
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        right: -15,
+        top: -15
+    },
+    badgeText:{
+        color: Colors.white,
+        fontSize: Typography.FONT_SIZE_14
+    },
     callChatButtonIcon:{
         backgroundColor: Colors.secondary20,
         width: Mixins.scaleSize(40),
