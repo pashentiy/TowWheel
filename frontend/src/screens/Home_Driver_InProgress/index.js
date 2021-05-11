@@ -29,6 +29,7 @@ const InProgress = ({ route, navigation }) => {
   const map = useRef(null)
   const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
+  const [newMessageCount, setNewMessageCount] = useState(0)
   const [, forceRender] = useReducer(x => x + 1, 0);
 
 
@@ -56,12 +57,20 @@ const InProgress = ({ route, navigation }) => {
     socket = await API.SOCKET('/user-driver-inprogress')
     socket.on('connect', () => {
       socket.emit('initialize_driver', { ride_id: rideDetails._id }, (response) => {
+        setNewMessageCount(response.unread_chat_count)
         setRideDetails(prev => response)
       })
     });
 
     socket.on('cancel_ride_request', (response) => {
       navigation.pop()
+    })
+
+    socket.on('new_message', (data) => {
+      if(data.sender !== userDetails._id){
+      setNewMessageCount(prev=>prev+1)
+      Toast.show({ type: 'info', message: 'New Message : '+data.message })
+      }
     })
 
     socket.on('disconnect', () => {
@@ -133,7 +142,7 @@ const InProgress = ({ route, navigation }) => {
   return (
     <Container isTransparentStatusBar={false}>
       <Header _this={{ navigation }} />
-      <Body _this={{ navigation, map, rideDetails, currentLocation, navigationMode, callUser, startTowRide, completeTowRide }} />
+      <Body _this={{ navigation, map, rideDetails, currentLocation, navigationMode, callUser, startTowRide, completeTowRide, newMessageCount, setNewMessageCount }} />
     </Container>
   )
 }
