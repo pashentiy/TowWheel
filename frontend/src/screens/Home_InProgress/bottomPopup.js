@@ -59,18 +59,19 @@ const TowSearchProgress = ({ _this }) => {
                     <Icon name='person' size={Typography.FONT_SIZE_22} color={Colors.black} />
                     <Text style={styles.distance}>  {_this.driverVehicleDetails && _this.driverVehicleDetails.driver_details.name}</Text>
                 </View>
-                <View style={[styles.flexRow, styles.alignCenter]}>
+                {_this.driverVehicleDetails && <View style={[styles.flexRow, styles.alignCenter]}>
                     <TouchableOpacity onPress={() => _this.callDriver()} style={[styles.flexRow, styles.callChatButton]}>
                         <View style={styles.callChatButtonIcon}>
                             <Icon name='ios-call' size={Typography.FONT_SIZE_25} color={Colors.primary} />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => null} style={[styles.flexRow, styles.callChatButton]}>
+                    <TouchableOpacity onPress={() => {_this.setNewMessageCount(0); _this.navigation.navigate('Chat',{ name: _this.driverVehicleDetails.driver_details.name, partner_id: _this.driverVehicleDetails.driver_details._id, ride_id: _this.rideDetails._id })} } style={[styles.flexRow, styles.callChatButton]}>
                         <View style={styles.callChatButtonIcon}>
                             <Icon name='chatbubbles-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                            {_this.newMessageCount > 0 && <View style={styles.badge}><Text style={styles.badgeText}>{_this.newMessageCount}</Text></View>}
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View>}
             </View>
 
             <View style={[styles.flex1, styles.centerAll]}>
