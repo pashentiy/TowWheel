@@ -27,9 +27,10 @@ You can find how to install [here](https://github.com/pashentiy/TowWheel/wiki/Us
 
 ## Deployment
 
-|AWS|EC2|SNS|MongoDB|MongoDB Compass|
-|:----:|:---------:|:--------:|:--------:|:--------:|
-|![ToWheel Icon](https://i.ibb.co/5xtP9m8/awsDep.png)|![ToWheel Icon](https://i.ibb.co/0QwLtnF/aws-EC2-Dep.png)|![ToWheel Icon](https://i.ibb.co/Bwdp6HM/aws-SNSDep.png)|![ToWheel Icon](https://i.ibb.co/HDnNJZs/mongo-Db-Dep.png)|![ToWheel Icon](https://i.ibb.co/0CmZC4y/mongo-Db-Compass-Dep.png)|
+|AWS|EC2|SNS|MongoDB|MongoDB Compass|Google Maps API|
+|:----:|:---------:|:--------:|:--------:|:--------:|:-------:|
+|![ToWheel Icon](https://i.ibb.co/5xtP9m8/awsDep.png)|![ToWheel Icon](https://i.ibb.co/0QwLtnF/aws-EC2-Dep.png)|![ToWheel Icon](https://i.ibb.co/Bwdp6HM/aws-SNSDep.png)|![ToWheel Icon](https://i.ibb.co/HDnNJZs/mongo-Db-Dep.png)|![ToWheel Icon](https://i.ibb.co/0CmZC4y/mongo-Db-Compass-Dep.png)|![ToWheel Icon](https://i.ibb.co/ZBvg3Q6/Google-Maps-API.png)|
+
 
 ## Version Control
 
