@@ -38,10 +38,7 @@ You can find how to install [here](https://github.com/pashentiy/TowWheel/wiki/Us
 |:----:|
 |![ToWheel Icon](https://i.ibb.co/MSMnBnz/New-Project-87.png)|
 
-## User Architecture
-
-
-## Driver Architecture
-
-
-## Use case
+## Architecture
+![ToWheel Icon](https://i.ibb.co/3fm0BFg/app-architecture-showing-the-Google-Maps-API-and-the-connection-with-the-databases-1.png)
+## App flow or How to Use it
+![ToWheel Icon](https://i.ibb.co/yh5hDZk/To-Wheel-Flow.png)
