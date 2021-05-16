@@ -19,3 +19,28 @@ In order to test the app in iOS or Android you need to get a permission by maili
 ## How To Install
 You can find how to install [here](https://github.com/pashentiy/TowWheel/wiki/User-Manual#how-to-install).
 
+## Tools
+
+|React Native|xCode|Android|iOS|Android Studio|Visual Studio Code|
+|:----:|:---------:|:--------:|:--------:|:--------:|:--------:|
+|![ToWheel Icon](https://i.ibb.co/TbnrfM9/rnTools.png)|![ToWheel Icon](https://i.ibb.co/5kp0CmV/x-Code-Tools.png)|![ToWheel Icon](https://i.ibb.co/6wqmLXp/android-Tools.png)|![ToWheel Icon](https://i.ibb.co/txh2W83/iosTools.png)|![ToWheel Icon](https://i.ibb.co/f16YpYP/android-Studio-Tools.png)|![ToWheel Icon](https://i.ibb.co/xjShX07/New-Project-87.png)|
+
+## Deployment
+
+|AWS|EC2|SNS|MongoDB|MongoDB Compass|
+|:----:|:---------:|:--------:|:--------:|:--------:|
+|![ToWheel Icon](https://i.ibb.co/5xtP9m8/awsDep.png)|![ToWheel Icon](https://i.ibb.co/0QwLtnF/aws-EC2-Dep.png)|![ToWheel Icon](https://i.ibb.co/Bwdp6HM/aws-SNSDep.png)|![ToWheel Icon](https://i.ibb.co/HDnNJZs/mongo-Db-Dep.png)|![ToWheel Icon](https://i.ibb.co/0CmZC4y/mongo-Db-Compass-Dep.png)|
+
+## Version Control
+
+|Git|
+|:----:|
+|![ToWheel Icon](https://i.ibb.co/MSMnBnz/New-Project-87.png)|
+
+## User Architecture
+
+
+## Driver Architecture
+
+
+## Use case
