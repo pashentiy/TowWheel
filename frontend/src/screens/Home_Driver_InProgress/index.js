@@ -131,7 +131,7 @@ const InProgress = ({ route, navigation }) => {
   };
 
   const navigationMode = ({ lat, lng }) => {
-    const scheme = Platform.select({ ios: `maps://app?saddr=${currentLocation.latitude}+${currentLocation.longitude}&daddr=`, android: 'google.navigation:q=' });
+    const scheme = Platform.select({ ios: `https://www.waze.com/ul?ll=${lat}%2C${lng}&navigate=yes&zoom=17`, android: `https://www.waze.com/ul?ll=${lat}%2C${lng}&navigate=yes&zoom=17` });
     const url = Platform.select({
       ios: `${scheme}${lat}+${lng}`,
       android: `${scheme}${lat}+${lng}`
