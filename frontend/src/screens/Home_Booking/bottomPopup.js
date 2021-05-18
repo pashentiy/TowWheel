@@ -42,7 +42,7 @@ const TowSearchProgress = ({ _this }) => {
         rating = parseFloat(rating / item.reviews.length || 0).toFixed(1)
         return (
             <TouchableWithoutFeedback onPress={() => _this.setSelectedDriver(item)} >
-            <View style={[styles.renderItem, (_this.selectedDriver && _this.selectedDriver._id) ? styles.renderSelectedItem : null]}>
+            <View style={[styles.renderItem, (_this.selectedDriver && _this.selectedDriver._id == item._id)? styles.renderSelectedItem : null ]}>
                 <Image source={{ uri: API_STORAGE + item.profile_picture }} style={styles.dp} />
                 <Text style={styles.itemName}>{item.user_details.name}</Text>
                 <Text style={styles.cost}><Text style={styles.currency}>$</Text> {parseFloat(item.vehicle_details.cost_per_km * _this.rideDetails.distance).toFixed(2)}</Text>
@@ -61,7 +61,7 @@ const TowSearchProgress = ({ _this }) => {
 
             <View style={[styles.flexRow, styles.alignCenter, styles.spaceBetween, styles.headerDistanceTime]}>
                 <View style={[styles.flexRow, styles.alignCenter]}>
-                <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.primary} />
+                    <Icon name='location' size={Typography.FONT_SIZE_22} color={Colors.primary} />
                     <Text style={styles.distance}>{parseFloat(_this.rideDetails.distance).toFixed(1)} km</Text>
                 </View>
                 <View style={[styles.flexRow, styles.alignCenter]}>
