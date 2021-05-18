@@ -34,7 +34,8 @@ const Booking = ({ route, navigation }) => {
   const [driverList, setDriverList] = useState(null)
 
   useEffect(() => {
-    driver_sorting()
+    if(rideDetails && rideDetails.available_drivers)
+      driver_sorting()
   }, [rideDetails,isSortTypeCost])
 
   useEffect(() => {
@@ -65,12 +66,8 @@ const Booking = ({ route, navigation }) => {
     }
   }, [isFocused, popupStep]);
 
-  const handleDriverSelection = () => {
-    console.log('selection >>>', selectedDriver)
-  }
-
   const driver_sorting=async()=>{
-    let driver_list = rideDetails.available_drivers
+    let driver_list = [...rideDetails.available_drivers]
     for(let i=0;i<driver_list.length;i++)
     {
       let rating = 0
@@ -81,7 +78,7 @@ const Booking = ({ route, navigation }) => {
     }
     if(isSortTypeCost)
       await driver_list.sort((a, b) => (a.vehicle_details.cost_per_km > b.vehicle_details.cost_per_km) ? 1 : -1)
-    else await driver_list.sort((a, b) => (a.average_rating > b.average_rating) ? 1 : -1)
+    else await driver_list.sort((a, b) => a.average_rating < b.average_rating ? 1 : -1)
     setDriverList(driver_list)
   }
 
@@ -106,7 +103,7 @@ const Booking = ({ route, navigation }) => {
           setSelectedDriver(prev => {
             if (!prev)
               return prev
-            const isSelectedDriverStillAvailable = response.available_drivers.filter(driver_id => driver_id == selectedDriver._id)
+            const isSelectedDriverStillAvailable = response.available_drivers.filter(driver_id => driver_id == selectedDriver?._id)
             if (isSelectedDriverStillAvailable.length < 1)
               return null
             else
@@ -143,7 +140,7 @@ const Booking = ({ route, navigation }) => {
   const hireMe = async () => {
     Ddux.setData('loading', true)
 
-    socket.emit('hire_driver', { active_vehicle: selectedDriver.active_vehicle, driver_id: selectedDriver._id, cost: parseFloat(selectedDriver.vehicle_details.cost_per_km * rideDetails.distance).toFixed(2) }, (response) => {
+    socket.emit('hire_driver', { active_vehicle: selectedDriver.active_vehicle, driver_id: selectedDriver._id, cost: parseFloat(selectedDriver.vehicle_details.cost_per_km * rideDetails.distance).toFixed(2), ride_id: rideDetails._id }, (response) => {
       Ddux.setData('loading', false)
       if (response) {
         if (response == false)
