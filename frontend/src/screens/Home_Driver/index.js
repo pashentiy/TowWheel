@@ -39,6 +39,7 @@ const Home = ({ navigation }) => {
     const [selectedRideRequest, setSelectedRideRequest] = useState(null)
     const [isActiveRideExists, setIsActiveRideExists] = useState(null)
     const [isMapLoaded, setIsMapLoaded] = useState(false)
+    const [vehiclesData, setVehiclesData] = useState(null)
     const [currentLocation, setCurrentLocation] = useState({
         latitude: 31.767664,
         longitude: 35.216522,
@@ -54,6 +55,8 @@ const Home = ({ navigation }) => {
         socket = await API.SOCKET('/driver-ride-request')
         socket.on('connect', () => {
             socket.emit('initialize', { _id: userDetails.driver_details, location: currentLocation }, (response) => {
+                console.log("response!!!!! ", response.vehicles_data)
+                setVehiclesData(response.vehicles_data)
                 setIsActiveRideExists(response.active_ride)
                 setSelectedRideRequest(null)
                 setRideRequests(prev => response.nearest_ride_requests)
@@ -71,6 +74,15 @@ const Home = ({ navigation }) => {
         socket.on('disconnect', () => {
 
         });
+    }
+
+    const getVehicleCost = (type,distance)=>{
+        let vehicles = vehiclesData
+        console.log("-----------", vehicles)
+        let result = vehicles.filter(item => item.type == type);
+        result.sort((a, b) => (a.cost_per_km > b.cost_per_km) ? 1 : -1)
+
+        return (result[0].cost_per_km * distance).toFixed(2)
     }
 
     const processTowRequest = async () => {
@@ -110,6 +122,7 @@ const Home = ({ navigation }) => {
 
     useEffect(() => {
         if (isFocused && isMapLoaded) {
+            setIsActiveRideExists(null)
             requestLocationPermission()
         }
 
@@ -218,7 +231,7 @@ const Home = ({ navigation }) => {
         <Container isTransparentStatusBar={true} style={styles.fullHeightContainer}>
             <SafeAreaView style={[styles.flex1]}>
                 <Header _this={{ navigation }} />
-                <Body _this={{ map, currentLocation, navigation, setIsMapLoaded, rideRequests, selectedRideRequest, setSelectedRideRequest, processTowRequest, userDetails, isActiveRideExists }} />
+                <Body _this={{ map, currentLocation, navigation, setIsMapLoaded, rideRequests, getVehicleCost, selectedRideRequest, setSelectedRideRequest, processTowRequest, userDetails, isActiveRideExists }} />
                 <Popup _this={{ permissionPopup, setPermissionPopup, requestLocationPermission }} />
             </SafeAreaView>
         </Container>
