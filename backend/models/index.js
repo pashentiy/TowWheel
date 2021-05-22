@@ -7,4 +7,5 @@ exports.Vehicle = require('./VehicleModel');
 exports.Ride = require('./RideModel');
 exports.Review = require('./ReviewModel');
 exports.Chat = require('./ChatModel');
+exports.Garage = require('./GarageModel');
 exports.Mongoose = mongoose;
