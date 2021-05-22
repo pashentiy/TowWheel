@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Config = require('../config.js');
 const fs = require('fs');
 const { RealtimeListener } = require('../services')
-const { User, ProfilePicture, Driver, Vehicle, Ride, Chat, Mongoose } = require('../models')
+const { User, ProfilePicture, Driver, Vehicle, Ride, Chat, Garage, Mongoose } = require('../models')
 const Controllers = require('../controllers')
 
 const {
@@ -78,7 +78,7 @@ module.exports = {
 					populateField: 'name mobile'
 				})
 
-				callback({ nearest_ride_requests, active_ride: active_ride.length > 0 ? active_ride[0] : null });
+				callback({ nearest_ride_requests, vehicles_data: driver_vehicles_data[0].vehicles, active_ride: active_ride.length > 0 ? active_ride[0] : null });
 			});
 
 			socket.on('accept_tow_request', async (data, callback) => {
@@ -149,8 +149,16 @@ module.exports = {
 
 				ride_data = ride_data.length > 0 ? ride_data[0] : null
 				if (ride_data) {
+					var available_drivers = []
 					for (let i = 0; i < ride_data.available_drivers.length; i++) {
 						let item = ride_data.available_drivers[i]
+						const is_driver_available = await FindOne({
+							model: Driver,
+							where: { _id: item._id, is_available: true },
+						})
+						if(!is_driver_available)
+							continue
+
 						const user_details = await Find({
 							model: User,
 							where: { driver_details: item._id },
@@ -162,8 +170,9 @@ module.exports = {
 							where: { _id: item.active_vehicle, is_approved: true }
 						})
 						item.vehicle_details = vehicle_details.length > 0 ? vehicle_details[0] : null
-						ride_data.available_drivers[i] = item
+						available_drivers.push(item)
 					}
+					ride_data.available_drivers = available_drivers
 
 					callback(ride_data)
 				}
@@ -208,7 +217,7 @@ module.exports = {
 				if (isDriverAvailable) {
 					const isUpdated = await FindAndUpdate({
 						model: Ride,
-						where: { _id: ride_id, ride_status: 'searching' },
+						where: { _id: data.ride_id, ride_status: 'searching' },
 						update: {
 							$set: { ride_status: 'accepted', assigned_driver: data.driver_id, assigned_vehicle: data.active_vehicle, available_drivers: [], 'payment_details.cost': data.cost }
 						}
@@ -224,11 +233,22 @@ module.exports = {
 					if (isUpdated && driverChangeAvailability){
 						callback(isUpdated)
 
+						const driver_other_rides = await Find({
+							model: Ride,
+							where: {
+								available_drivers: {"$in": [data.driver_id]}
+							},
+						})
+
 						/*
-								 *	Trigger Realtime update event
-								 */
+						 *	Trigger Realtime update event
+						 */
 
 						RealtimeListener.realtimeDbEvent.emit('hire_driver_update', data.driver_id)
+						RealtimeListener.realtimeDbEvent.emit('new_booking_update', isUpdated.source.coordinates)
+						driver_other_rides.forEach(item=>{
+							RealtimeListener.realtimeDbEvent.emit('new_driver_update', item._id)
+						})
 					}
 				}
 
@@ -373,8 +393,18 @@ module.exports = {
 
 				callback(true)
 				io.of('/driver-ride-request').to(data.driver_id + '').emit('new_booking_update', true)
-				socket.to(ride_id).emit('cancel_ride_request',true)
-
+				socket.to(ride_id).emit('cancel_ride_request', true)
+				
+				const driver_other_rides = await Find({
+					model: Ride,
+					where: {
+						available_drivers: {"$in": [data.driver_id]}
+					},
+				})
+				driver_other_rides.forEach(item=>{
+					RealtimeListener.realtimeDbEvent.emit('new_driver_update', item._id)
+				})
+				
 			});
 
 			socket.on('start_tow_ride', async (data, callback) => {
@@ -421,6 +451,8 @@ module.exports = {
 				}
 			});
 
+			//TODO:// garage socket change destination to new garage
+			
 			socket.on('disconnect', async function () {
 
 			});
