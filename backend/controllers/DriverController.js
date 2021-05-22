@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Config = require('../config.js');
 const fs = require('fs');
-const { User, ProfilePicture, Driver, Vehicle, Ride, Mongoose } = require('../models')
+const { User, ProfilePicture, Driver, Vehicle, Ride, Garage, Mongoose } = require('../models')
 
 const {
 	IsExists, IsExistsOne, Insert, Find, FindOne, CompressImageAndUpload, FindAndUpdate, Delete,
@@ -11,7 +11,7 @@ const {
 } = require('./BaseController');
 
 module.exports = {
-
+	
 	getNearestRideRequest: async (req, res, next) => {
 		try {
 			let { latitude, longitude } = req.query

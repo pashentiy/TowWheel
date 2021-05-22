@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { RealtimeListener } = require('../services')
 const Config = require('../config.js');
 const fs = require('fs');
-const { User, ProfilePicture, Driver, Vehicle, Ride, Mongoose } = require('../models')
+const { User, ProfilePicture, Driver, Vehicle, Garage, Ride, Mongoose } = require('../models')
 
 const {
 	IsExists, IsExistsOne, Insert, Find, FindOne, CompressImageAndUpload, FindAndUpdate, Delete,
@@ -122,6 +122,33 @@ module.exports = {
 			return HandleSuccess(res, ride_data)
 
 		} catch (err) {
+			HandleServerError(res, req, err)
+		}
+	},
+	getNearestGarages: async (req, res, next) => {
+		try {
+			let { latitude, longitude } = req.query
+			const data = await Find({
+				model: Garage,
+				where: {
+					location: {
+						$near: {
+							$geometry: {
+								type: "Point",
+								coordinates: [longitude, latitude]
+							},
+							$maxDistance: Config.max_map_range,
+						}
+					}
+				}
+			})
+			if (!data)
+				return HandleError(res, 'Failed to fetch data.')
+
+			return HandleSuccess(res, data)
+
+		} catch (err) {
+			console.log('Node error >>',err)
 			HandleServerError(res, req, err)
 		}
 	},
