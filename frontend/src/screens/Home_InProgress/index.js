@@ -27,6 +27,7 @@ const InProgress = ({ route, navigation }) => {
   const [driverVehicleDetails, setDriverVehicleDetails] = useState(null)
   const [arrivingIn, setArrivingIn] = useState('0')
   const [newMessageCount, setNewMessageCount] = useState(0)
+  const [nearestGarage, setNearestGarage] = useState([])
   const [, forceRender] = useReducer(x => x + 1, 0);
 
 
@@ -40,6 +41,10 @@ const InProgress = ({ route, navigation }) => {
         socket.close();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    getNearestGarages()
+  }, [])
 
   /*
    * Socket Handler
@@ -56,9 +61,9 @@ const InProgress = ({ route, navigation }) => {
         setDriverVehicleDetails((prev)=>({driver_details: {...response.assigned_driver,...response.driver_details}, vehicle_details: response.assigned_vehicle}))
       })
     });
-    
+
     socket.on('driver_location_changed',(response) => {
-      
+
       setDriverVehicleDetails((prev)=>{
         let temp = {...prev}
         temp.driver_details.location.heading = response.heading
@@ -70,8 +75,8 @@ const InProgress = ({ route, navigation }) => {
 
     socket.on('new_message', (data) => {
       if(data.sender !== userDetails._id){
-      setNewMessageCount(prev=>prev+1)
-      Toast.show({ type: 'info', message: 'New Message : '+data.message })
+        setNewMessageCount(prev=>prev+1)
+        Toast.show({ type: 'info', message: 'New Message : '+data.message })
       }
     })
 
@@ -103,11 +108,32 @@ const InProgress = ({ route, navigation }) => {
     Linking.openURL(phoneNumber);
   };
 
-  
+  const getNearestGarages = async () => {
+    /*
+     * API GetNearestGarages
+     */
+    const location = rideDetails.destination
+    let response = await API.getNearestGarages(location.latitude, location.longitude)
+    console.log("RESPONSE GARAGE ", response)
+    if (!response.status) {
+      return Toast.show({ type: 'error', message: response.error })
+    }
+    setNearestGarage(response.data)
+  }
+
+  const changeDestination = (item)=>{
+    socket.emit('change_destination', { address: item.address, longitude: item.location.coordinates[0], latitude: item.location.coordinates[1] }, (response) => {
+      const temp = {...rideDetails}
+      temp.destination = {address: item.address, latitude: item.location.coordinates[1], longitude: item.location.coordinates[0]}
+      Ddux.setCache('ride',temp)
+    })
+  }
+
+
   return (
     <Container isTransparentStatusBar={false}>
       <Header _this={{ navigation }} />
-      <Body _this={{ navigation, map, rideDetails, driverVehicleDetails, arrivingIn, setArrivingIn, cancelRideRequest, callDriver, newMessageCount, setNewMessageCount }} />
+      <Body _this={{ navigation, map, rideDetails, driverVehicleDetails, arrivingIn, setArrivingIn, cancelRideRequest, callDriver, newMessageCount, setNewMessageCount, nearestGarage, changeDestination }} />
     </Container>
   )
 }
