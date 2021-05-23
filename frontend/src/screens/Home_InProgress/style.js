@@ -147,7 +147,51 @@ const style = ({ Colors }) => (StyleSheet.create({
         width: Mixins.scaleSize(35),
         height: Mixins.scaleSize(20),
         resizeMode: 'stretch'
-    }
+    },
+    distanceGrey:{
+        fontSize: Typography.FONT_SIZE_12,
+        color: Colors.muted_text,
+    },
+    garageContainer:{
+        alignItems: 'center',
+        //justifyContent: 'center',
+        width: Mixins.scaleSize(170),
+        borderWidth: 0.5,
+        borderColor: Colors.grey,
+        borderRadius: 10,
+        overflow: 'hidden'
+        //paddingVertical: Spacing.SCALE_5
+    },
+    dp:{
+        width: Mixins.scaleSize(170),
+        height: Mixins.scaleSize(60),
+        backgroundColor: Colors.grey
+    },
+    itemName:{
+        fontSize: Typography.FONT_SIZE_14,
+        color: Colors.black,
+        marginTop: Spacing.SCALE_5
+    },
+    address:{
+        fontSize: Typography.FONT_SIZE_12,
+        color: Colors.muted_text,
+        textAlign: 'center'
+    },
+    rating:{
+        position:'absolute',
+        right: Spacing.SCALE_5,
+        top: Spacing.SCALE_5,
+        padding: Spacing.SCALE_4,
+        backgroundColor: Colors.secondary_very_light,
+        borderRadius: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    ratingValue:{
+        color: Colors.primary,
+        fontSize: Typography.FONT_SIZE_14
+    },
 })
 );
 
