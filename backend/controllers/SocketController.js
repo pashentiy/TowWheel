@@ -451,8 +451,25 @@ module.exports = {
 				}
 			});
 
-			//TODO:// garage socket change destination to new garage
-			
+			socket.on('change_destination', async (data, callback) => {
+				const updated = await FindAndUpdate({
+					model: Ride,
+					where: {
+						_id: ride_id,
+					},
+					update: {
+						$set: {
+							'destination.coordinates': [data.longitude,data.latitude],
+							'destination.address': data.address
+						}
+					}
+				})
+				if (updated) {
+					callback(true)
+					socket.to(ride_id).emit('change_destination', data)
+				}
+			});
+
 			socket.on('disconnect', async function () {
 
 			});
