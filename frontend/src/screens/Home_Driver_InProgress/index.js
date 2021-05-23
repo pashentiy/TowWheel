@@ -27,7 +27,6 @@ const InProgress = ({ route, navigation }) => {
   const userDetails = Ddux.cache('user')
   const [rideDetails, setRideDetails] = useState(ride_details)
   const map = useRef(null)
-  const [isMapLoaded, setIsMapLoaded] = useState(false)
   const [currentLocation, setCurrentLocation] = useState(null)
   const [newMessageCount, setNewMessageCount] = useState(0)
   const [, forceRender] = useReducer(x => x + 1, 0);
@@ -71,6 +70,15 @@ const InProgress = ({ route, navigation }) => {
       setNewMessageCount(prev=>prev+1)
       Toast.show({ type: 'info', message: 'New Message : '+data.message })
       }
+    })
+
+    socket.on('change_destination', (data) => {
+      setRideDetails(prev=>{
+        const temp = {...prev}
+        temp.destination.coordinates = [data.longitude, data.latitude]
+        temp.destination.address = data.address
+        return temp
+      })
     })
 
     socket.on('disconnect', () => {
