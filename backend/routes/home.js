@@ -13,5 +13,6 @@ router.get('/get-nearest-tows',Home.getNearestTows);
 router.use(VerifyToken);
 router.get('/get-my-ride-request',Home.getMyRideRequest);
 router.post('/create-ride-request',Home.createRideRequest);
+router.get('/get-nearest-garages',Home.getNearestGarages);
 
 module.exports = router;
