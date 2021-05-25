@@ -16,6 +16,7 @@ export default config
 export const BASE_WIDTH = 360
 export const BASE_HEIGHT = 640
 export const API_URL = ENVDATA.API_URL
+console.log('Backend URL >>',API_URL)
 export const API_STORAGE = ENVDATA.API_STORAGE
 export const GOOGLE_MAP_API_KEY = ENVDATA.GOOGLE_MAP_API_KEY
 export const LOCALES = {
