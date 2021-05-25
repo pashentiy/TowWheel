@@ -415,13 +415,13 @@ module.exports = {
 					},
 					update: {
 						$set: {
-							ride_status: 'started'
+							ride_status: 'started' 
 						}
 					}
 				})
 				if (rideStarted) {
 					callback(true)
-					socket.to(ride_id).emit('start_tow_ride', true)
+					socket.to(ride_id).emit('start_tow_ride', rideStarted.destination)
 				}
 			});
 
@@ -471,7 +471,7 @@ module.exports = {
 			});
 
 			socket.on('disconnect', async function () {
-
+				socket.leave(ride_id)
 			});
 
 
