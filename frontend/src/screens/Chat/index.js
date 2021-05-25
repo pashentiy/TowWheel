@@ -76,6 +76,8 @@ const Chat = ({ route, navigation }) => {
   }
 
   const sendMessage = async (message,setMessage)=>{
+    if(message.length < 1)
+    return Toast.show({ type: 'error', message: 'Message can not be empty.' }) 
     setMessage('')
     socket.emit('new_message', message, response=>{
       setChatData(prev => {
