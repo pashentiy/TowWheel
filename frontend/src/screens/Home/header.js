@@ -30,7 +30,7 @@ const Header = ({ _this }) => {
                     source={hamburger}
                 />
             </TouchableOpacity>
-            {!_this.rideDetails && <GooglePlacesAutocomplete
+            {!_this.rideDetails && <GooglePlacesAutocomplete 
                 fetchDetails={true}
                 minLength={4}
                 enablePoweredByContainer={false}
@@ -41,6 +41,7 @@ const Header = ({ _this }) => {
                     row: styles.searchResultContainer
                 }}
                 placeholder='Destination Place ...'
+                placeholderTextColor="#000000"
                 onPress={(data, details = null) => {
                     _this.onDestinationSet({ name: details.name, address: details.formatted_address, location: details.geometry.location });
                 }}

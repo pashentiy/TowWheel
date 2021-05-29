@@ -5,11 +5,13 @@ import {
     Text
 } from 'react-native';
 import style from './style'
-import { logo } from '../../assets'
+import { logo, anime } from '../../assets'
 import Config from '../../config'
 import { useDdux, useTheme } from '../../hooks'
 import API from '../../services/api'
 import { Container, Toast } from '../../components'
+import LottieView from 'lottie-react-native';
+
 
 var initialLoading = false
 
@@ -18,16 +20,23 @@ const Splash = ({ navigation }) => {
     const Ddux = useDdux()
     const userDetails = Ddux.cache('user')
 
-    useEffect(()=>{
-        initialLoading = false
-    },[])
-
     useEffect(() => {
-        if (userDetails !== null && !initialLoading){
-            initialLoading = true 
-            verifyLoginSession()
+        initialLoading = false
+    }, [])
+
+    // useEffect(() => {
+    //     if (userDetails !== null && !initialLoading) {
+    //         initialLoading = true
+    //         verifyLoginSession()
+    //     }
+    // }, [userDetails])
+
+    const onAnimationFinish = () => {
+        if (userDetails !== null && !initialLoading) {
+                initialLoading = true
+                verifyLoginSession()
         }
-    }, [userDetails])
+    }
 
     const verifyLoginSession = async () => {
         if (Object.keys(userDetails).length == 0)
@@ -55,12 +64,13 @@ const Splash = ({ navigation }) => {
         }
     }
     return (
-        <Container style={styles.centerAll} isTransparentStatusBar={false}>
-            <View style={styles.flex1, styles.centerAll}>
-                <Image
+        <Container style={styles.spalshContainer} isTransparentStatusBar={false}>
+            <View style={styles.flex1, styles.spalshContainer}>
+                <LottieView style={styles.logo} source={anime} autoPlay loop={false} onAnimationFinish={onAnimationFinish}/>
+                {/* <Image
                     style={styles.logo}
                     source={logo}
-                />
+                /> */}
             </View>
         </Container>
     )
