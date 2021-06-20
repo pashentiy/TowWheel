@@ -5,6 +5,8 @@ Welcome to the TowWheel App!
 
 App that provides Tow Services in one click.
 
+![ Alt text](https://i.ibb.co/FbKkMWw/To-Wheel-Logo-2-Ways.gif.gif)
+
 ![ToWheel Icon](https://i.ibb.co/BGk2yB4/Icon-1024-no-ALPHA.png)
 
 ## Links
