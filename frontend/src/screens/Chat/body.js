@@ -62,8 +62,8 @@ const SendBubble = ({ _this, item, index }) => {
                 <Text style={styles.sendText}>{item.message}</Text>
             </View>
             <View style={styles.chatTimeContainer}>
-            <Text style={styles.chatTime}>{ChatTimeFormat(item.createdAt)}   </Text>
-            <Icon name={item.seen?'check-double':'check'} style={styles.chatDeliveryIcon} />
+                <Text style={styles.chatTime}>{ChatTimeFormat(item.createdAt)}   </Text>
+                <Icon name={item.seen ? 'check-double' : 'check'} style={styles.chatDeliveryIcon} />
             </View>
         </View>
     )
@@ -72,12 +72,12 @@ const SendBubble = ({ _this, item, index }) => {
 const RecievedBubble = ({ _this, item, index }) => {
     const [Colors, styles] = useTheme(style)
     return (
-        <View style={[styles.receiveContainer]}>
-            <View style={[styles.receiveBubble]}>
-                <Text style={styles.receiveText}>{item.message}</Text>
+            <View style={[styles.receiveContainer]}>
+                <View style={[styles.receiveBubble]}>
+                    <Text style={styles.receiveText}>{item.message}</Text>
+                </View>
+                <Text style={styles.chatTime}>{ChatTimeFormat(item.createdAt)}</Text>
             </View>
-            <Text style={styles.chatTime}>{ChatTimeFormat(item.createdAt)}</Text>
-        </View>
     )
 }
 
