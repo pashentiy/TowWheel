@@ -21,6 +21,15 @@ const style = ({ Colors }) => (StyleSheet.create({
         alignItems: 'flex-end',
         backgroundColor: 'rgba(0,0,0,0)'
     },
+    commentInputContainerOpenKeyboard:{
+        width: '100%',
+        padding: Spacing.SCALE_16,
+        paddingTop: Spacing.SCALE_5,
+        marginBottom: '70%',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
     inputBoxWrapper:{
         flex: 1,
         overflow: 'hidden',

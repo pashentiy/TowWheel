@@ -43,6 +43,7 @@ const styles = ({ Colors }) => (StyleSheet.create({
     searchInput: {
         flex: 1,
         fontSize: Typography.FONT_SIZE_18,
+        textAlign: 'right'
     },
     searchResultContainer: {
         width: Mixins.scaleSize(280),

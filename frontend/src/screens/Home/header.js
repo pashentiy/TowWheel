@@ -18,8 +18,8 @@ const Header = ({ _this }) => {
 
     const navigate = ()=>{
         _this.rideDetails.ride_status == 'searching' ?
-    _this.navigation.navigate('Home_Booking', { destination: _this.rideDetails.destination, source: _this.rideDetails.source })
-    : _this.navigation.navigate('Home_InProgress')
+            _this.navigation.navigate('Home_Booking', { destination: _this.rideDetails.destination, source: _this.rideDetails.source })
+            : _this.navigation.navigate('Home_InProgress')
     }
 
     return (
@@ -40,7 +40,8 @@ const Header = ({ _this }) => {
                     textInput: styles.searchInput,
                     row: styles.searchResultContainer
                 }}
-                placeholder='Destination Place ...'
+                placeholder='לאן לגרור ?'
+                textInputProps={{ placeholderTextColor: '#33333335' }}
                 onPress={(data, details = null) => {
                     _this.onDestinationSet({ name: details.name, address: details.formatted_address, location: details.geometry.location });
                 }}
@@ -51,11 +52,11 @@ const Header = ({ _this }) => {
             />}
             {
                 _this.rideDetails && <TouchableOpacity onPress={()=>navigate()} style={[styles.flexRow, styles.continueButton]}>
-                <Text style={styles.continueButtonText}>In-progress Booking</Text>
-                <View style={styles.continueButtonIcon}>
-                    <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
-                </View>
-            </TouchableOpacity>
+                    <Text style={styles.continueButtonText}>In-progress Booking</Text>
+                    <View style={styles.continueButtonIcon}>
+                        <Icon name='ios-arrow-forward-sharp' size={Typography.FONT_SIZE_25} color={Colors.primary} />
+                    </View>
+                </TouchableOpacity>
             }
         </View>
     )

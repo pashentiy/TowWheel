@@ -515,8 +515,10 @@ module.exports = {
 							new: true
 						}
 					).exec()
+					if(chats){
 					socket.broadcast.to(chat_id).emit('bulk_seen', chats.chats)
 					callback(chats.chats)
+					}
 				}
 				else {
 					const inserted = await Insert({

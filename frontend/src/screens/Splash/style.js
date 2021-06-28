@@ -4,10 +4,14 @@ import {
 import { Mixins, Spacing, Typography } from '../../styles'
 
 const styles = StyleSheet.create({
+    spalshContainer:{
+        backgroundColor: '#000000',
+        justifyContent: 'center',
+        alignItems:'center'
+    },
     logo:{
-        resizeMode: 'contain',
-        width: Mixins.scaleSize(250),
-        height: Mixins.scaleSize(70),
+        width: Mixins.scaleSize(341),
+        height: Mixins.scaleSize(93),
     }
 });
 

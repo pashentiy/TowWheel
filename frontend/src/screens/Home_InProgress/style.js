@@ -153,6 +153,7 @@ const style = ({ Colors }) => (StyleSheet.create({
         color: Colors.muted_text,
     },
     garageContainer:{
+        marginRight:3,
         alignItems: 'center',
         //justifyContent: 'center',
         width: Mixins.scaleSize(170),
