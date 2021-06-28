@@ -32,6 +32,7 @@ router.use('/home', require('./home'));
 // Protect all routes after this middleware
 router.use(VerifyToken);
 router.use('/driver', require('./driver'));
+router.use('/payment', require('./payment'));
 
 
 
