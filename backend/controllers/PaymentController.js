@@ -11,10 +11,10 @@ const {
 
 module.exports = {
     mollieCheckoutSuccess: async (req, res) => {
-        try {
+        try{
 
         }
-        catch (err) {
+        catch(err){
             HandleServerError(res, req, err)
         }
     },
@@ -32,8 +32,8 @@ module.exports = {
                 webhookUrl: ``
             })
             return HandleSuccess(res, payment.getCheckoutUrl())
-        } catch (error) {
-            console.log('Mollie Checkout Error', error)
+        } catch (err) {
+            console.log('Mollie Checkout Error', err)
             HandleServerError(res, req, err)
         }
 
