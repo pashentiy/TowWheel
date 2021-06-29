@@ -20,11 +20,12 @@ module.exports = {
     },
 
     beginTransaction: async (req, res) => {
+        console.log('Body ----> ', req.body)
         try {
             const price = req.body.price
             const payment = await mollieClient.payments.create({
                 amount: {
-                    value: price.toString(),
+                    value: price.toFixed(2),
                     currency: 'USD'
                 },
                 description: `You're going to pay ${price} USD`,
