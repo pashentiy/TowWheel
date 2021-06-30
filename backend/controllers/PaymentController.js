@@ -28,7 +28,7 @@ module.exports = {
                     value: price.toFixed(2),
                     currency: 'USD'
                 },
-                description: `You're going to pay ${price} USD`,
+                description: `ש''ח ${price} התשלום עבור שירותי גרירה`,
                 redirectUrl: 'https://purchase/success',
                 method: ['applepay','creditcard', 'paypal'],
                 webhookUrl: ``
