@@ -25,7 +25,7 @@ module.exports = {
             const price = req.body.price
             const payment = await mollieClient.payments.create({
                 amount: {
-                    value: price.toFixed(2),
+                    value: parseFloat(price).toFixed(2),
                     currency: 'ILS'
                 },
                 description: `ש''ח ${price} התשלום עבור שירותי גרירה`,
