@@ -30,6 +30,7 @@ module.exports = {
                 },
                 description: `You're going to pay ${price} USD`,
                 redirectUrl: 'https://purchase/success',
+                method: ['applepay','creditcard', 'paypal'],
                 webhookUrl: ``
             })
             return HandleSuccess(res, payment.getCheckoutUrl())
