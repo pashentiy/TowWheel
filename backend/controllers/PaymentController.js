@@ -26,7 +26,7 @@ module.exports = {
             const payment = await mollieClient.payments.create({
                 amount: {
                     value: price.toFixed(2),
-                    currency: 'USD'
+                    currency: 'NIS'
                 },
                 description: `ש''ח ${price} התשלום עבור שירותי גרירה`,
                 redirectUrl: 'https://purchase/success',
