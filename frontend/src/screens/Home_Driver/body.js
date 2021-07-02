@@ -127,7 +127,7 @@ const RideRequest = ({ _this, item }) => {
                     </View>
                     <View style={[styles.centerAll, styles.marginLeft20]}>
                         <Text style={styles.value}>{parseFloat(item.distance).toFixed(1)}<Text style={styles.symbol}> km</Text></Text>
-                        <Text style={styles.value}><Text style={styles.symbol}>$ </Text>{_this.getVehicleCost(item.required_vehicle_type,item.distance)}</Text>
+                        <Text style={styles.value}><Text style={styles.symbol}>₪ </Text>{_this.getVehicleCost(item.required_vehicle_type,item.distance)}</Text>
                     </View>
                 </View>
             </View>

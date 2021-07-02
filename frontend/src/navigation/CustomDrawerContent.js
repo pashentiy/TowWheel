@@ -25,16 +25,16 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
     const user = Ddux.cache('user')
     const showAlert = () => {
         Alert.alert(
-            "Logout",
-            "Are you sure?",
+            "להתנתק",
+            "האם ברצונך להתנתק?",
             [
                 {
-                    text: "Cancel",
+                    text: "ביטול",
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
                 {
-                    text: "OK", onPress: () => {
+                    text: "כן", onPress: () => {
                         Ddux.clear();
                         setTimeout(() => navigation.replace('Splash'), 500)
                     }
@@ -75,12 +75,7 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             <View style={styles.seperator}></View>
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
-                label="Help"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
-            />
-            <DrawerItem
-                icon={({ focused, color, size }) => <Icon color={color} size={size} name={'folder'} />}
-                label="FAQ"
+                label="About Us"
                 onPress={() => Linking.openURL('https://mywebsite.com/help')}
             />
             <DrawerItem

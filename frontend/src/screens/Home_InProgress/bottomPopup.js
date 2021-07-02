@@ -87,7 +87,7 @@ const TowSearchProgress = ({ _this }) => {
                     _this.nearestGarage.length > 0 && _this.rideDetails.ride_status == 'accepted' ?
                         <GarageList _this={_this} />
                         :
-                        <Text style={styles.popupTitle}>{_this.rideDetails.ride_status == 'accepted' ? `Tow arriving in ${parseInt(_this.arrivingIn)} min .....` : 'Tow ride started ...\n Please complete payment by cash.'} </Text>
+                        <Text style={styles.popupTitle}>{_this.rideDetails.ride_status == 'accepted' ? `Tow arriving in ${parseInt(_this.arrivingIn)} min .....` : 'הגרירה התחילה\nתהנו מהשירות!'} </Text>
 
                 }
 
@@ -110,15 +110,15 @@ const GarageList = ({ _this }) => {
 
     const confirmChange = (item) => {
         Alert.alert(
-            "Change destination to selected Garage ?",
-            `Would you like to change your initial drop-off point from ${_this.rideDetails.destination.address} to ${item.address}`,
+            "האם ברצונך לשנות את היעד המבוקש למיקום של המוסך הנבחר?",
+            `האם ברצונך לשנות את נקודת ההורדה הראשונית שלך מ- ${_this.rideDetails.destination.address} ל- ${item.address}`,
             [
                 {
-                    text: "Cancel",
+                    text: "ביטול",
                     onPress: () => null,
                     style: "cancel"
                 },
-                { text: "OK", onPress: () => _this.changeDestination(item) }
+                { text: "כן", onPress: () => _this.changeDestination(item) }
             ],
             { cancelable: false }
         );
