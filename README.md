@@ -43,4 +43,4 @@ You can find how to install [here](https://github.com/pashentiy/TowWheel/wiki/Us
 ## Architecture
 ![ToWheel Icon](https://i.ibb.co/str8FTG/app-architecture-showing-the-Google-Maps-API-and-the-connection-with-the-databases.png)
 ## App flow or How to Use it
-![ToWheel Icon](https://i.imgur.com/CfCQMzi.jpeg)
+![ToWheel Icon](https://i.imgur.com/DqVfB0h.jpg)
