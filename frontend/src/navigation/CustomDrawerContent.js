@@ -4,7 +4,8 @@ import {
     Text,
     View,
     StyleSheet,
-    Alert
+    Alert,
+    Linking
 } from 'react-native';
 import {
     createDrawerNavigator,
@@ -76,12 +77,12 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
                 label="About Us"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                onPress={() => Linking.openURL('https://sites.google.com/view/towheel/home?authuser=0')}
             />
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'save'} />}
                 label="Privacy Policy"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                onPress={() => Linking.openURL('https://sites.google.com/view/towheel/policy?authuser=0')}
             />
         </DrawerContentScrollView>
     );
