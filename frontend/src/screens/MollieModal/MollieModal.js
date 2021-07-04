@@ -5,6 +5,11 @@ import { WebView } from 'react-native-webview';
 
 import { colors, fonts } from '../../utilities';
 
+const INJECTED_JAVASCRIPT = `(function() {
+    $("a.disclaimer__link").removeAttr('href')
+    $("button").remove(".button--link");
+})();`;
+
 const MollieModal = ({ visible, hideModal, paymenturl, setPaymentstatus }) => {
     const webviewRef = useRef(null);
 
@@ -45,6 +50,8 @@ const MollieModal = ({ visible, hideModal, paymenturl, setPaymentstatus }) => {
                             const { nativeEvent } = syntheticEvent;
                             const url = nativeEvent.url;
                         }}
+                        injectedJavaScript={INJECTED_JAVASCRIPT}
+                        onMessage={() => { }}
                         style={s.webView}
                         showsVerticalScrollIndicator={false}
                         source={{ uri: paymenturl }}
