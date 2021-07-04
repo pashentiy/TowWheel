@@ -77,12 +77,12 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
                 label="About Us"
-                onPress={() => Linking.openURL('https://sites.google.com/view/towheel/home?authuser=0')}
+                onPress={() => Linking.openURL('https://www.towheel.app/home')}
             />
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'save'} />}
                 label="Privacy Policy"
-                onPress={() => Linking.openURL('https://sites.google.com/view/towheel/policy?authuser=0')}
+                onPress={() => Linking.openURL('https://www.towheel.app/policy')}
             />
         </DrawerContentScrollView>
     );
