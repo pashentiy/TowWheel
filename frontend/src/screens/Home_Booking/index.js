@@ -14,6 +14,7 @@ import Geocoder from 'react-native-geocoding';
 import { useDdux } from '../../hooks'
 import Body from './body'
 import Header from './header'
+import MollieModal from '../MollieModal'
 
 var socket = null
 
@@ -32,6 +33,9 @@ const Booking = ({ route, navigation }) => {
   const [, forceRender] = useReducer(x => x + 1, 0);
   const [isSortTypeCost, setIsSortTypeCost] = useState(false)
   const [driverList, setDriverList] = useState(null)
+  const [paymentModalVisibility, setPaymentModalVisibility] = useState(false)
+  const [paymenturl, setPaymenturl] = useState(null)
+  const [paymentStatus, setPaymentstatus] = useState(false)
 
   useEffect(() => {
     if(rideDetails && rideDetails.available_drivers)
@@ -65,6 +69,14 @@ const Booking = ({ route, navigation }) => {
         socket.close();
     }
   }, [isFocused, popupStep]);
+
+
+  useEffect(() => {
+    if (paymentStatus == true) {
+      Toast.show({ type: 'success', message: 'Payment successful.' })
+      hireMe()
+    }
+  }, [paymentStatus])
 
   const driver_sorting=async()=>{
     let driver_list = [...rideDetails.available_drivers]
@@ -137,6 +149,19 @@ const Booking = ({ route, navigation }) => {
     })
   }
 
+  const initiatePayment = () => {
+    const paymentCost = parseFloat(selectedDriver.vehicle_details.cost_per_km * rideDetails.distance).toFixed(2)
+    console.log('new cost is -> ', paymentCost)
+    API.getPayment(paymentCost).then((url) => {
+      console.log("url.data ", url.data)
+      if (url.data != null) {
+        console.log("It's OK!")
+        setPaymenturl(url.data)
+        setPaymentModalVisibility(true)
+      }
+    })
+  }
+
   const hireMe = async () => {
     Ddux.setData('loading', true)
 
@@ -182,10 +207,13 @@ const Booking = ({ route, navigation }) => {
   }
 
   return (
-    <Container isTransparentStatusBar={false}>
-      <Header _this={{ navigation }} />
-      <Body _this={{ navigation, destination, map, setDistanceTime, source, towType, setTowType, popupStep, setPopupStep, createRideRequest, rideDetails, cancelRideRequest, selectedDriver, setSelectedDriver, driverDistanceTime, setDriverDistanceTime, hireMe, isSortTypeCost, setIsSortTypeCost, driverList }} />
-    </Container>
+    <>
+      <Container isTransparentStatusBar={false}>
+        <Header _this={{ navigation }} />
+        <Body _this={{ navigation, destination, map, setDistanceTime, source, towType, setTowType, popupStep, setPopupStep, createRideRequest, rideDetails, cancelRideRequest, selectedDriver, setSelectedDriver, driverDistanceTime, setDriverDistanceTime, hireMe: initiatePayment, isSortTypeCost, setIsSortTypeCost, driverList }} />
+      </Container>
+      {paymenturl && <MollieModal visible={paymentModalVisibility} hideModal={() => setPaymentModalVisibility(false)} paymenturl={paymenturl} setPaymentstatus={() => setPaymentstatus(true)} />}
+    </>
   )
 }
 

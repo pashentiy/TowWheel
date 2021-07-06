@@ -4,7 +4,8 @@ import {
     Text,
     View,
     StyleSheet,
-    Alert
+    Alert,
+    Linking
 } from 'react-native';
 import {
     createDrawerNavigator,
@@ -25,16 +26,16 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
     const user = Ddux.cache('user')
     const showAlert = () => {
         Alert.alert(
-            "Logout",
-            "Are you sure?",
+            "להתנתק",
+            "האם ברצונך להתנתק?",
             [
                 {
-                    text: "Cancel",
+                    text: "ביטול",
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
                 {
-                    text: "OK", onPress: () => {
+                    text: "כן", onPress: () => {
                         Ddux.clear();
                         setTimeout(() => navigation.replace('Splash'), 500)
                     }
@@ -75,18 +76,13 @@ const CustomDrawerContent = ({ navigation, ...props }) => {
             <View style={styles.seperator}></View>
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'book'} />}
-                label="Help"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
-            />
-            <DrawerItem
-                icon={({ focused, color, size }) => <Icon color={color} size={size} name={'folder'} />}
-                label="FAQ"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                label="About Us"
+                onPress={() => Linking.openURL('https://www.towheel.app/home')}
             />
             <DrawerItem
                 icon={({ focused, color, size }) => <Icon color={color} size={size} name={'save'} />}
                 label="Privacy Policy"
-                onPress={() => Linking.openURL('https://mywebsite.com/help')}
+                onPress={() => Linking.openURL('https://www.towheel.app/policy')}
             />
         </DrawerContentScrollView>
     );
